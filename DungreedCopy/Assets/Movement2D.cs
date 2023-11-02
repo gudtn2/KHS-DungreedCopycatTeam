@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //김형SUuuuuuuuuuuuiiiiiiiiiii
+//짜이모
 public class Movement2D : MonoBehaviour
 {
 
