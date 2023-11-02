@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// 승석아 이 시발려나
 public class ChangeCursor : MonoBehaviour
 {
     [SerializeField]
