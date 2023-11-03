@@ -11,13 +11,20 @@ public class PlayerController : MonoBehaviour
     public PlayerState     playerState;
 
     private Movement2D      movement;
-    private SpriteRenderer  spriteRenderer; 
+    private SpriteRenderer  spriteRenderer;
+    private Animator        ani;
+    
 
     private void Awake()
     {
         movement        = GetComponent<Movement2D>();
         spriteRenderer  = GetComponent<SpriteRenderer>();
-        ChangeState(PlayerState.Idle);
+        ani             = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        ChangeStateAndAnimation(PlayerState.Idle);
     }
 
     private void Update()
@@ -25,6 +32,11 @@ public class PlayerController : MonoBehaviour
         UpdateMove();
         UpdateJump();
         UpdateSight();
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            ChangeStateAndAnimation(PlayerState.Die);
+        }
     }
 
     //======================================================================================
@@ -55,7 +67,7 @@ public class PlayerController : MonoBehaviour
     public void UpdateSight()
     {
         Vector2 mousPos = Input.mousePosition;
-        Vector3 target = Camera.main.ScreenToWorldPoint(mousPos);
+        Vector2 target  = Camera.main.ScreenToWorldPoint(mousPos);
 
         if (target.x < transform.position.x)
             spriteRenderer.flipX = true;
@@ -66,8 +78,26 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 상태 변경
     //======================================================================================
-    public void ChangeState(PlayerState newState)
+    public void ChangeStateAndAnimation(PlayerState newState)
     {
         playerState = newState;
+
+        switch (newState)
+        {
+            case PlayerState.Idle:
+                ani.SetBool("IsWalk", false);
+                ani.SetBool("IsJump", false);
+                break;
+            case PlayerState.Walk:
+                ani.SetBool("IsWalk", true);
+                break;
+            case PlayerState.Jump:
+                ani.SetBool("IsJump", true);
+                break;
+            case PlayerState.Die:
+                ani.SetBool("IsDie", true);
+                break;
+
+        }
     }
 }

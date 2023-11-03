@@ -56,7 +56,12 @@ public class Movement2D : MonoBehaviour
         
         if(isGrounded == true && rigidbody.velocity.y <= 0)
         {
-           if(haveDoubleJump == true)
+            if(playerState != PlayerState.Die)
+            {
+                playerController.ChangeStateAndAnimation(PlayerState.Idle);
+            }
+
+            if (haveDoubleJump == true)
             {
                 curJumpCount = haveDoubleJump_MaxJumpCount;
             }
@@ -82,7 +87,8 @@ public class Movement2D : MonoBehaviour
         
         if(rigidbody.velocity.x != 0 && isGrounded == true)
         {
-            playerController.ChangeState(PlayerState.Walk);
+            playerController.ChangeStateAndAnimation(PlayerState.Walk);
+
         }
     }
 
@@ -92,7 +98,7 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
             curJumpCount--;
-
+            playerController.ChangeStateAndAnimation(PlayerState.Jump);
             return true;
         }
         return false;
