@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//±èÇüSUuuuuuuuuuuuiiiiiiiiiii
-//Â¥ÀÌ¸ð
+
+
 public class Movement2D : MonoBehaviour
 {
 
@@ -34,12 +34,16 @@ public class Movement2D : MonoBehaviour
     public bool isLongJump { set; get; } = false;
 
     private Rigidbody2D         rigidbody;
-    private BoxCollider2D       boxCollider2D;    
+    private BoxCollider2D       boxCollider2D;
+    private PlayerController    playerController;
+
+    private PlayerState         playerState;
 
     private void Awake()
     {
-        rigidbody       = GetComponent<Rigidbody2D>();
-        boxCollider2D   = GetComponent<BoxCollider2D>();
+        rigidbody           = GetComponent<Rigidbody2D>();
+        boxCollider2D       = GetComponent<BoxCollider2D>();
+        playerController    = GetComponent<PlayerController>();
     }
 
     private void FixedUpdate()
@@ -75,6 +79,11 @@ public class Movement2D : MonoBehaviour
     public void MoveTo(float x)
     {
         rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
+        
+        if(rigidbody.velocity.x != 0 && isGrounded == true)
+        {
+            playerController.ChangeState(PlayerState.Walk);
+        }
     }
 
     public bool JumpTo()
@@ -83,6 +92,7 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
             curJumpCount--;
+
             return true;
         }
         return false;

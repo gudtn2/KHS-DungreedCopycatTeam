@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//김형수
+
+public enum PlayerState {Idle = 0 , Walk, Jump, Die }   // YS: 플레이어 상태 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private KeyCode         jumpKey = KeyCode.Space;
-    
+
+    public PlayerState     playerState;
+
     private Movement2D      movement;
     private SpriteRenderer  spriteRenderer; 
 
@@ -14,6 +17,7 @@ public class PlayerController : MonoBehaviour
     {
         movement        = GetComponent<Movement2D>();
         spriteRenderer  = GetComponent<SpriteRenderer>();
+        ChangeState(PlayerState.Idle);
     }
 
     private void Update()
@@ -22,6 +26,10 @@ public class PlayerController : MonoBehaviour
         UpdateJump();
         UpdateSight();
     }
+
+    //======================================================================================
+    // YS: 플레이어 움직임
+    //======================================================================================
 
     public void UpdateMove()
     {
@@ -34,11 +42,6 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(jumpKey))
         {
             bool isJump = movement.JumpTo();
-
-            if(isJump == true)
-            {
-                // 점프 성공시 To Do
-            }
         }
         else if (Input.GetKey(jumpKey))
         {
@@ -52,10 +55,19 @@ public class PlayerController : MonoBehaviour
     public void UpdateSight()
     {
         Vector2 mousPos = Input.mousePosition;
+        Vector3 target = Camera.main.ScreenToWorldPoint(mousPos);
 
-        if (mousPos.x < transform.position.x)
+        if (target.x < transform.position.x)
             spriteRenderer.flipX = true;
         else
             spriteRenderer.flipX = false;
+    }
+
+    //======================================================================================
+    // YS: 플레이어 상태 변경
+    //======================================================================================
+    public void ChangeState(PlayerState newState)
+    {
+        playerState = newState;
     }
 }
