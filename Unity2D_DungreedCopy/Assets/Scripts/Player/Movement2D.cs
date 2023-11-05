@@ -15,6 +15,10 @@ public class Movement2D : MonoBehaviour
     private float               lowGravity = 2.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]
     private float               highGravity = 5.0f; // 일반적으로 적용되는 점프 
+    [HideInInspector]
+    public bool                 isJump = false;     // Jump상태 채크
+    public bool                 isWalk = false;     // Walk상태 채크
+
 
     [Header("더블 점프")]
     public bool                 haveDoubleJump;
@@ -27,15 +31,23 @@ public class Movement2D : MonoBehaviour
     
     [Header(" 땅 채크")]
     [SerializeField]
-    private LayerMask       collisionLayer;
-    private bool            isGrounded;
-    private Vector3         footPos;
+    private LayerMask           collisionLayer;
+    [HideInInspector]
+    public bool                 isGrounded;
+    private Vector3             footPos;
+
+    [Header("먼지 이펙트")]
+    [SerializeField]
+    private GameObject          dustEffectPrefab;
+    [SerializeField]
+    private Transform           dustEffectPrefab_SpawnPoint;
 
     public bool isLongJump { set; get; } = false;
 
-    private Rigidbody2D         rigidbody;
+    public  Rigidbody2D         rigidbody;
     private BoxCollider2D       boxCollider2D;
     private PlayerController    playerController;
+    private MemoryPool          dustPool;
 
     private PlayerState         playerState;
 
@@ -44,6 +56,12 @@ public class Movement2D : MonoBehaviour
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
         playerController    = GetComponent<PlayerController>();
+        dustPool            = new MemoryPool(dustEffectPrefab, dustEffectPrefab_SpawnPoint);
+    }
+
+    private void OnApplicationQuit()
+    {
+        dustPool.DestroyObjects();
     }
 
     private void FixedUpdate()
@@ -56,10 +74,7 @@ public class Movement2D : MonoBehaviour
         
         if(isGrounded == true && rigidbody.velocity.y <= 0)
         {
-            if(playerState != PlayerState.Die)
-            {
-                playerController.ChangeStateAndAnimation(PlayerState.Idle);
-            }
+            isJump = false;
 
             if (haveDoubleJump == true)
             {
@@ -79,17 +94,16 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.gravityScale = highGravity;
         }
+
+        if(playerState == PlayerState.Walk)
+        {
+            
+        }
     }
 
     public void MoveTo(float x)
     {
         rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
-        
-        if(rigidbody.velocity.x != 0 && isGrounded == true)
-        {
-            playerController.ChangeStateAndAnimation(PlayerState.Walk);
-
-        }
     }
 
     public bool JumpTo()
@@ -98,10 +112,27 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
             curJumpCount--;
-            playerController.ChangeStateAndAnimation(PlayerState.Jump);
+            isJump = true;
+            isWalk = false;
             return true;
         }
         return false;
+    }
+
+    //=====================================================================
+    // YS: 플레이어 Effect MemoryPool
+    //=====================================================================
+    public IEnumerator DustEffect()
+    {
+        while(playerState == PlayerState.Walk)
+        {
+            yield return new WaitForSeconds(0.2f);
+            GameObject dustEffect = dustPool.ActivePoolItem(dustEffectPrefab_SpawnPoint);
+
+            dustEffect.transform.position = dustEffectPrefab_SpawnPoint.position;
+
+            dustEffect.GetComponent<PlayerDustEffect>().Setup(dustPool);
+        }
     }
 
     private void OnDrawGizmos()

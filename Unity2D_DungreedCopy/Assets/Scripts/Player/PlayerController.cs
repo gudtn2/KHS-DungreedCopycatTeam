@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        ChangeStateAndAnimation(PlayerState.Idle);
+        ChangeState(PlayerState.Idle);
     }
 
     private void Update()
@@ -32,11 +32,7 @@ public class PlayerController : MonoBehaviour
         UpdateMove();
         UpdateJump();
         UpdateSight();
-
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            ChangeStateAndAnimation(PlayerState.Die);
-        }
+        ChangeAnimation();
     }
 
     //======================================================================================
@@ -48,6 +44,7 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
 
         movement.MoveTo(x);
+        movement.isWalk = true;
     }
     public void UpdateJump()
     {
@@ -78,26 +75,39 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 상태 변경
     //======================================================================================
-    public void ChangeStateAndAnimation(PlayerState newState)
+
+    public void ChangeState(PlayerState newState)
     {
         playerState = newState;
+    }
 
-        switch (newState)
+    public void ChangeAnimation()
+    {
+        // 걷는 상태
+        if(movement.rigidbody.velocity.x != 0)
         {
-            case PlayerState.Idle:
-                ani.SetBool("IsWalk", false);
-                ani.SetBool("IsJump", false);
-                break;
-            case PlayerState.Walk:
-                ani.SetBool("IsWalk", true);
-                break;
-            case PlayerState.Jump:
-                ani.SetBool("IsJump", true);
-                break;
-            case PlayerState.Die:
-                ani.SetBool("IsDie", true);
-                break;
-
+            ChangeState(PlayerState.Walk);
+            ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
+            movement.StartCoroutine("DustEffect");
+        }
+        // 점프 상태
+        if(movement.isJump == true)
+        {
+            ChangeState(PlayerState.Jump);
+            ani.SetBool("IsJump", true);
+        }
+        // 죽는 상태
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            ChangeState(PlayerState.Die);
+            ani.SetBool("IsDie", true);
+        }
+        // 기본 상태
+        if(movement.isGrounded == true)
+        {
+            ChangeState(PlayerState.Idle);
+            ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
+            ani.SetBool("IsJump", false);
         }
     }
 }

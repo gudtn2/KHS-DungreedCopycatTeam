@@ -22,7 +22,7 @@ public class MemoryPool : MonoBehaviour
 
     // 설명: 클래스 이름과 같은 이름의 함수는 "생성자"로 해당클래스의 변수를 선언하고
     //       메모리가 할당될 때 자동으로 호출
-    public MemoryPool(GameObject poolObject)
+    public MemoryPool(GameObject poolObject, Transform parent)
     {
         maxCount = 0;
         activeCount = 0;
@@ -30,11 +30,11 @@ public class MemoryPool : MonoBehaviour
 
         poolItemList = new List<PoolItem>();
 
-        InstantiateObjects();
+        InstantiateObjects(parent);
     }
 
     // 설명: increaseCount단위로 오브젝트 생성 
-    public void InstantiateObjects()
+    public void InstantiateObjects(Transform parent)
     {
         maxCount += increaseCount;
 
@@ -42,8 +42,9 @@ public class MemoryPool : MonoBehaviour
         {
             PoolItem poolItem = new PoolItem();
 
+            
             poolItem.isActive = false;
-            poolItem.gameObject = GameObject.Instantiate(poolObject);
+            poolItem.gameObject = GameObject.Instantiate(poolObject, parent);
 
             poolItemList.Add(poolItem);
         }
@@ -64,7 +65,7 @@ public class MemoryPool : MonoBehaviour
 
     // 설명: poolItemList에 저장되어있는 모근 오브젝트를 활성화해서 사용
     //       만약, 모든 오브젝트가 활성화중이면 InstantiateObjects()로 추가 생성
-    public GameObject ActivePoolItem()
+    public GameObject ActivePoolItem(Transform parent)
     {
         if (poolItemList == null) return null;
 
@@ -72,7 +73,7 @@ public class MemoryPool : MonoBehaviour
         // 모두 활성화 상태이면 새로운 오브젝트 필요
         if(maxCount == activeCount)
         {
-            InstantiateObjects();
+            InstantiateObjects(parent);
         }
 
         int count = poolItemList.Count;
