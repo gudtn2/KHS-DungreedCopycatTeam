@@ -10,16 +10,36 @@ public class PlayerController : MonoBehaviour
 
     public PlayerState     playerState;
 
+    [Header("먼지 이펙트")]
+    [SerializeField]
+    private GameObject      effectDust;
+    [SerializeField]
+    private Transform       parent;
+    [SerializeField]
+    private float           delayTime;
+    [SerializeField]
+    private bool            isSpawning = false; // 생성 중인지 여부
+
+
+    [Header("방향")]
+    [SerializeField]
+    public float            lastMoveDir;
+
     private Movement2D      movement;
-    private SpriteRenderer  spriteRenderer;
     private Animator        ani;
+    private PoolManager     poolManager;
     
 
     private void Awake()
     {
         movement        = GetComponent<Movement2D>();
-        spriteRenderer  = GetComponent<SpriteRenderer>();
         ani             = GetComponent<Animator>();
+        poolManager     = new PoolManager(effectDust);
+    }
+
+    private void OnApplicationQuit()
+    {
+        poolManager.DestroyObjcts();
     }
 
     private void Start()
@@ -33,6 +53,12 @@ public class PlayerController : MonoBehaviour
         UpdateJump();
         UpdateSight();
         ChangeAnimation();
+
+        if(!isSpawning )
+        {
+            StartCoroutine("UpdateDustEffect");
+        }
+        
     }
 
     //======================================================================================
@@ -43,9 +69,15 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
 
+        if (x != 0)
+        {
+            lastMoveDir = Mathf.Sign(x);
+        }
+
         movement.MoveTo(x);
         movement.isWalk = true;
     }
+    
     public void UpdateJump()
     {
         if(Input.GetKeyDown(jumpKey))
@@ -70,6 +102,20 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public IEnumerator UpdateDustEffect()
+    {
+        isSpawning = true;
+        while(movement.rigidbody.velocity.x != 0 && movement.rigidbody.velocity.y == 0)
+        {
+            GameObject dustEffect = poolManager.ActivePoolItem();
+            dustEffect.transform.position = parent.position;
+            dustEffect.transform.SetParent(parent);
+            dustEffect.GetComponent<PlayerDustEffect>().Setup(poolManager);
+            yield return new WaitForSeconds(delayTime);
+        }
+        isSpawning = false;
     }
 
     //======================================================================================
@@ -102,10 +148,13 @@ public class PlayerController : MonoBehaviour
             ani.SetBool("IsDie", true);
         }
         // 기본 상태
-        if(movement.isGrounded == true)
+        if(movement.isGrounded == true && movement.rigidbody.velocity.x ==0)
         {
             ChangeState(PlayerState.Idle);
             ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
+        }
+        if(movement.isGrounded == true)
+        {
             ani.SetBool("IsJump", false);
         }
     }

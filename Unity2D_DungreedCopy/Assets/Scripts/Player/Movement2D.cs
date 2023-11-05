@@ -29,24 +29,20 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private int                 curJumpCount;
     
-    [Header(" ∂• √§≈©")]
+    [Header("∂• √§≈©")]
     [SerializeField]
     private LayerMask           collisionLayer;
     [HideInInspector]
     public bool                 isGrounded;
     private Vector3             footPos;
 
-    [Header("∏’¡ˆ ¿Ã∆Â∆Æ")]
-    [SerializeField]
-    private GameObject          dustEffectPrefab;
-    [SerializeField]
-    private Transform           dustEffectPrefab_SpawnPoint;
+    
 
     public bool isLongJump { set; get; } = false;
 
+    [HideInInspector]
     public  Rigidbody2D         rigidbody;
     private BoxCollider2D       boxCollider2D;
-    private PlayerController    playerController;
 
     private PlayerState         playerState;
 
@@ -54,7 +50,6 @@ public class Movement2D : MonoBehaviour
     {
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
-        playerController    = GetComponent<PlayerController>();
     }
     private void FixedUpdate()
     {
@@ -85,11 +80,6 @@ public class Movement2D : MonoBehaviour
         else
         {
             rigidbody.gravityScale = highGravity;
-        }
-
-        if(playerState == PlayerState.Walk)
-        {
-            
         }
     }
 

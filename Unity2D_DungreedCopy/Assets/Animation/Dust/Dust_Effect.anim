@@ -86,9 +86,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.5
-    functionName: AnimationEnd
+    functionName: DeactivateEffect
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 863622844785704502, guid: 2bf8748ff3528f34e9ec994d8c0551f6, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
