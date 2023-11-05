@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
         Vector2 target  = Camera.main.ScreenToWorldPoint(mousPos);
 
         if (target.x < transform.position.x)
-            spriteRenderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         else
-            spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     //======================================================================================
@@ -88,7 +88,6 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(PlayerState.Walk);
             ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
-            movement.StartCoroutine("DustEffect");
         }
         // 점프 상태
         if(movement.isJump == true)

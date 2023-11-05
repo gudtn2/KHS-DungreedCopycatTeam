@@ -47,7 +47,6 @@ public class Movement2D : MonoBehaviour
     public  Rigidbody2D         rigidbody;
     private BoxCollider2D       boxCollider2D;
     private PlayerController    playerController;
-    private MemoryPool          dustPool;
 
     private PlayerState         playerState;
 
@@ -56,14 +55,7 @@ public class Movement2D : MonoBehaviour
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
         playerController    = GetComponent<PlayerController>();
-        dustPool            = new MemoryPool(dustEffectPrefab, dustEffectPrefab_SpawnPoint);
     }
-
-    private void OnApplicationQuit()
-    {
-        dustPool.DestroyObjects();
-    }
-
     private void FixedUpdate()
     {
         Bounds bounds = boxCollider2D.bounds;
@@ -122,19 +114,6 @@ public class Movement2D : MonoBehaviour
     //=====================================================================
     // YS: 플레이어 Effect MemoryPool
     //=====================================================================
-    public IEnumerator DustEffect()
-    {
-        while(playerState == PlayerState.Walk)
-        {
-            yield return new WaitForSeconds(0.2f);
-            GameObject dustEffect = dustPool.ActivePoolItem(dustEffectPrefab_SpawnPoint);
-
-            dustEffect.transform.position = dustEffectPrefab_SpawnPoint.position;
-
-            dustEffect.GetComponent<PlayerDustEffect>().Setup(dustPool);
-        }
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
