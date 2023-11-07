@@ -37,8 +37,6 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private float delayTime = 1.0f;
 
-
-
     [Header("¶¥ Ã¤Å©")]
     [SerializeField]
     private LayerMask collisionLayer;

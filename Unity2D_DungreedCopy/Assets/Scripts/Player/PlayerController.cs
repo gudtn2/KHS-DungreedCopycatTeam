@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
             Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dir, movement.dashDis);
 
             StartCoroutine(movement.DashTo(moveTarget));
+
         }
     }
 
