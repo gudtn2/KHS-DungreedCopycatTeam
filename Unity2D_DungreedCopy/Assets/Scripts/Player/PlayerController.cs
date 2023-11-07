@@ -2,29 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerState {Idle = 0 , Walk, Jump, Die }   // YS: 플레이어 상태 
+public enum PlayerState { Idle = 0, Walk, Jump, Die }   // YS: 플레이어 상태 
 public class PlayerController : MonoBehaviour
 {
     [Header("방향")]
     [SerializeField]
-    public float            lastMoveDir;
+    public float lastMoveDir;
     [SerializeField]
-    public Vector2          mousePos;
+    public Vector3 mousePos;
 
     [SerializeField]
-    private KeyCode         jumpKey = KeyCode.Space;
+    private KeyCode jumpKey = KeyCode.Space;
     [SerializeField]
-    private KeyCode         dashKey = KeyCode.Mouse1;
+    private KeyCode dashKey = KeyCode.Mouse1;
 
-    public PlayerState     playerState;
+    public PlayerState playerState;
 
-    private Movement2D      movement;
-    private Animator        ani;
+    private Movement2D movement;
+    private Animator ani;
 
     private void Awake()
     {
-        movement        = GetComponent<Movement2D>();
-        ani             = GetComponent<Animator>();
+        movement = GetComponent<Movement2D>();
+        ani = GetComponent<Animator>();
     }
 
     private void Start()
@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         UpdateMove();
         UpdateJump();
         UpdateSight();
@@ -42,7 +44,6 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     //======================================================================================
@@ -61,10 +62,10 @@ public class PlayerController : MonoBehaviour
         movement.MoveTo(x);
         movement.isWalk = true;
     }
-    
+
     public void UpdateJump()
     {
-        if(Input.GetKeyDown(jumpKey))
+        if (Input.GetKeyDown(jumpKey))
         {
             bool isJump = movement.JumpTo();
         }
@@ -87,10 +88,14 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateDash()
     {
-        //if(Input.GetKeyDown(dashKey) && !movement.isDashing)
-        //{
-        //    movement.StartCoroutine("DashToMouse");
-        //}
+        if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
+        {
+            mousePos.z = 0;
+            Vector3 dir = mousePos - transform.position;
+            Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dir, movement.dashDis);
+
+            StartCoroutine(movement.DashTo(moveTarget));
+        }
     }
 
     //======================================================================================
@@ -105,30 +110,30 @@ public class PlayerController : MonoBehaviour
     public void ChangeAnimation()
     {
         // 걷는 상태
-        if(movement.rigidbody.velocity.x != 0)
+        if (movement.rigidbody.velocity.x != 0)
         {
             ChangeState(PlayerState.Walk);
             ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
         }
         // 점프 상태
-        if(movement.isJump == true)
+        if (movement.isJump == true)
         {
             ChangeState(PlayerState.Jump);
             ani.SetBool("IsJump", true);
         }
         // 죽는 상태
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
         }
         // 기본 상태
-        if(movement.isGrounded == true && movement.rigidbody.velocity.x ==0)
+        if (movement.isGrounded == true && movement.rigidbody.velocity.x == 0)
         {
             ChangeState(PlayerState.Idle);
             ani.SetFloat("MoveSpeed", movement.rigidbody.velocity.x);
         }
-        if(movement.isGrounded == true)
+        if (movement.isGrounded == true)
         {
             ani.SetBool("IsJump", false);
         }
