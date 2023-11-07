@@ -1787,7 +1787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastMoveDir: 0
-  mousePos: {x: 0, y: 0}
+  mousePos: {x: 0, y: 0, z: 0}
   jumpKey: 32
   dashKey: 324
   playerState: 0
@@ -1841,9 +1841,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  jumpForce: 6
-  lowGravity: 0.7
-  highGravity: 1.2
+  jumpForce: 8
+  lowGravity: 1
+  highGravity: 1.5
   isJump: 0
   isWalk: 0
   haveDoubleJump: 0
@@ -1851,11 +1851,9 @@ MonoBehaviour:
   normalState_MaxJumpCount: 1
   curJumpCount: 0
   isDashing: 0
-  dashSpeed: 10
-  dashDis: 5
+  dashDis: 3
+  dashSpeed: 20
   delayTime: 1
-  dashDir: {x: 0, y: 0}
-  mousePos: {x: 0, y: 0, z: 0}
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -10,11 +10,11 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 3.0f;
     [SerializeField]
-    private float jumpForce = 6.0f;
+    private float jumpForce = 8.0f;
     [SerializeField]
-    private float lowGravity = 0.7f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    private float lowGravity = 1.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]
-    private float highGravity = 1.2f; // 일반적으로 적용되는 점프 
+    private float highGravity = 1.5f; // 일반적으로 적용되는 점프 
     [HideInInspector]
     public bool isJump = false;     // Jump상태 채크
     [HideInInspector]
@@ -33,7 +33,7 @@ public class Movement2D : MonoBehaviour
     public bool isDashing = false;
     public float dashDis = 3.0f;
     [SerializeField]
-    private float dashSpeed = 10.0f;
+    private float dashSpeed = 20.0f;
     [SerializeField]
     private float delayTime = 1.0f;
 
