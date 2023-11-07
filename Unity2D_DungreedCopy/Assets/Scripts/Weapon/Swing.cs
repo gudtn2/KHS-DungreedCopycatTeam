@@ -9,8 +9,11 @@ public class Swing : MonoBehaviour
     public Transform SwingPos;
     public GameObject SwingObj;
 
+    public EquipWeapon equipWeapon;
+
     void Awake()
     {
+        equipWeapon = GetComponent<EquipWeapon>();
     }
 
     // Update is called once per frame
@@ -47,7 +50,7 @@ public class Swing : MonoBehaviour
 
     void SwingSword()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon.equipWeapon == 1)
         {
             GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
         }
