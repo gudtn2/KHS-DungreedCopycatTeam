@@ -28,7 +28,6 @@ public class PlayerDustEffect : MonoBehaviour
             float a = 1;
             if(player.transform.localRotation == Quaternion.Euler(0, 180, 0))
             {
-                Debug.Log("aaaa");
                 a = -1;
             }
             MovePrefab(player.lastMoveDir * (-1) * a);

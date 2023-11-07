@@ -8,17 +8,17 @@ public class Movement2D : MonoBehaviour
 
     [Header("좌/우 이동, 점프 변수")]
     [SerializeField]
-    private float               moveSpeed = 1.0f;
+    private float               moveSpeed = 3.0f;
     [SerializeField]
-    private float               jumpForce = 3.0f;
+    private float               jumpForce = 6.0f;
     [SerializeField]
-    private float               lowGravity = 2.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    private float               lowGravity = 0.7f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]
-    private float               highGravity = 5.0f; // 일반적으로 적용되는 점프 
+    private float               highGravity = 1.2f; // 일반적으로 적용되는 점프 
     [HideInInspector]
     public bool                 isJump = false;     // Jump상태 채크
+    [HideInInspector]
     public bool                 isWalk = false;     // Walk상태 채크
-
 
     [Header("더블 점프")]
     public bool                 haveDoubleJump;
@@ -28,6 +28,21 @@ public class Movement2D : MonoBehaviour
     private int                 normalState_MaxJumpCount = 1;
     [SerializeField]
     private int                 curJumpCount;
+
+    [Header("대쉬")]
+    public bool                 isDashing = false;
+    [SerializeField]
+    private float               dashSpeed = 10.0f;
+    [SerializeField]
+    private float               dashDis = 5.0f;
+    [SerializeField]
+    private float               delayTime = 1.0f;
+    [SerializeField]
+    private Vector3             dashDir;
+    [SerializeField]
+    private Vector3             mousePos;
+
+
     
     [Header("땅 채크")]
     [SerializeField]
@@ -43,6 +58,7 @@ public class Movement2D : MonoBehaviour
     [HideInInspector]
     public  Rigidbody2D         rigidbody;
     private BoxCollider2D       boxCollider2D;
+    private PlayerController    playerController;
 
     private PlayerState         playerState;
 
@@ -50,6 +66,7 @@ public class Movement2D : MonoBehaviour
     {
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
+        playerController    = GetComponent<PlayerController>();
     }
     private void FixedUpdate()
     {
@@ -81,6 +98,10 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.gravityScale = highGravity;
         }
+
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        dashDir = (mousePos - transform.position).normalized;
+        Debug.Log(dashDir);
     }
 
     public void MoveTo(float x)
@@ -99,6 +120,16 @@ public class Movement2D : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public IEnumerator DashToMouse()
+    {
+        isDashing = true;
+
+        rigidbody.velocity = dashDir * dashSpeed;
+        yield return new WaitForSeconds(delayTime);
+
+        isDashing = false;
     }
 
     //=====================================================================
