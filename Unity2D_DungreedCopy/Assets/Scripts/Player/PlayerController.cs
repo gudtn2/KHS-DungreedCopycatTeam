@@ -5,41 +5,26 @@ using UnityEngine;
 public enum PlayerState {Idle = 0 , Walk, Jump, Die }   // YS: 플레이어 상태 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private KeyCode         jumpKey = KeyCode.Space;
-
-    public PlayerState     playerState;
-
-    [Header("먼지 이펙트")]
-    [SerializeField]
-    private GameObject      effectDust;
-    [SerializeField]
-    private Transform       parent;
-    [SerializeField]
-    private float           delayTime;
-    [SerializeField]
-    private bool            isSpawning = false; // 생성 중인지 여부
-
-
     [Header("방향")]
     [SerializeField]
     public float            lastMoveDir;
+    [SerializeField]
+    public Vector2          mousePos;
+
+    [SerializeField]
+    private KeyCode         jumpKey = KeyCode.Space;
+    [SerializeField]
+    private KeyCode         dashKey = KeyCode.Mouse1;
+
+    public PlayerState     playerState;
 
     private Movement2D      movement;
     private Animator        ani;
-    private PoolManager     poolManager;
-    
 
     private void Awake()
     {
         movement        = GetComponent<Movement2D>();
         ani             = GetComponent<Animator>();
-        poolManager     = new PoolManager(effectDust);
-    }
-
-    private void OnApplicationQuit()
-    {
-        poolManager.DestroyObjcts();
     }
 
     private void Start()
@@ -53,12 +38,11 @@ public class PlayerController : MonoBehaviour
         UpdateJump();
         UpdateSight();
         ChangeAnimation();
+        UpdateDash();
 
-        if(!isSpawning )
-        {
-            StartCoroutine("UpdateDustEffect");
-        }
-        
+        if (movement.isDashing) return;
+
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     //======================================================================================
@@ -95,27 +79,18 @@ public class PlayerController : MonoBehaviour
     }
     public void UpdateSight()
     {
-        Vector2 mousPos = Input.mousePosition;
-        Vector2 target  = Camera.main.ScreenToWorldPoint(mousPos);
-
-        if (target.x < transform.position.x)
+        if (mousePos.x < transform.position.x)
             transform.rotation = Quaternion.Euler(0, 180, 0);
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
-    public IEnumerator UpdateDustEffect()
+    public void UpdateDash()
     {
-        isSpawning = true;
-        while(movement.rigidbody.velocity.x != 0 && movement.rigidbody.velocity.y == 0)
-        {
-            GameObject dustEffect = poolManager.ActivePoolItem();
-            dustEffect.transform.position = parent.position;
-            dustEffect.transform.SetParent(parent);
-            dustEffect.GetComponent<PlayerDustEffect>().Setup(poolManager);
-            yield return new WaitForSeconds(delayTime);
-        }
-        isSpawning = false;
+        //if(Input.GetKeyDown(dashKey) && !movement.isDashing)
+        //{
+        //    movement.StartCoroutine("DashToMouse");
+        //}
     }
 
     //======================================================================================
