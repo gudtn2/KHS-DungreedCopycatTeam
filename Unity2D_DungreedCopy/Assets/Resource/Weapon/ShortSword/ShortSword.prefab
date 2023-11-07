@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3823138907314378112}
   - component: {fileID: 9080736411055194667}
-  - component: {fileID: 3354479577535909859}
   m_Layer: 0
   m_Name: ShortSword
   m_TagString: Untagged
@@ -85,19 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3354479577535909859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021233648651058914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee4ddcf9bd05c0449826193c1ae7c87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  Damage: 6
-  AttackSpeed: 3
-  value: 0
