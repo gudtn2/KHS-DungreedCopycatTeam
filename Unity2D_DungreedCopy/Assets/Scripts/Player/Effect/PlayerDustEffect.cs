@@ -8,38 +8,29 @@ public class PlayerDustEffect : MonoBehaviour
     private float               moveSpeed;
 
     private PoolManager         poolManager;
-    private Animator            ani;
-
-    private void Awake()
-    {
-        ani     = GetComponent<Animator>();
-    }
     public void Setup(PoolManager poolManager)
     {
         this.poolManager = poolManager;
     }
     private void Update()
     {
-        PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
-        Debug.Log(player.lastMoveDir);
+        PlayerController player     = GameObject.Find("Player").GetComponent<PlayerController>();
 
-        if (player.lastMoveDir != 0)
+        if (player.lastMoveDirX != 0)
         {
             float a = 1;
             if(player.transform.localRotation == Quaternion.Euler(0, 180, 0))
             {
                 a = -1;
             }
-            MovePrefab(player.lastMoveDir * (-1) * a);
-
-
+            MovePrefab(player.lastMoveDirX * (-1) * a);
         }
     }
     private void MovePrefab(float direction)
     {
         transform.Translate(Vector3.right * direction * moveSpeed * Time.deltaTime);
     }
-    public void DeactivateEffect()
+    public void DeactivateDustEffect()
     {
         poolManager.DeactivePoolItem(this.gameObject);
     }
