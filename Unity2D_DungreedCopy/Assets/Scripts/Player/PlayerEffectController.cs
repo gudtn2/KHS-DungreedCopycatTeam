@@ -4,49 +4,48 @@ using UnityEngine;
 
 public class PlayerEffectController : MonoBehaviour
 {
+
     [Header("먼지 이펙트")]
     [SerializeField]
-    private GameObject  effectDust;
+    private GameObject      effectDust;
     [SerializeField]
-    private Transform   parent;
+    private Transform       parentofDust;
     [SerializeField]
-    private float       delayTime;
-    [SerializeField]
-    private bool        isSpawning = false; // 생성 중인지 여부
+    private bool            isSpawningDust = false; 
 
+   
     private Movement2D  movement;
-    private PoolManager poolManager;
+    private PoolManager DustPoolManager;
 
     private void Awake()
     {
-        poolManager     = new PoolManager(effectDust);
+        DustPoolManager     = new PoolManager(effectDust);
         movement        = GetComponent<Movement2D>();
 
     }
     private void OnApplicationQuit()
     {
-        poolManager.DestroyObjcts();
+        DustPoolManager.DestroyObjcts();
     }
     private void Update()
     {
-        if (!isSpawning)
+        if (!isSpawningDust)
         {
             StartCoroutine("UpdateDustEffect");
         }
     }
     public IEnumerator UpdateDustEffect()
     {
-        isSpawning = true;
+        isSpawningDust = true;
         while (movement.rigidbody.velocity.x != 0 && movement.rigidbody.velocity.y == 0)
         {
-            GameObject dustEffect = poolManager.ActivePoolItem();
-            dustEffect.transform.position = parent.position;
-            dustEffect.transform.SetParent(parent);
-            dustEffect.GetComponent<PlayerDustEffect>().Setup(poolManager);
-            yield return new WaitForSeconds(delayTime);
+            GameObject dustEffect = DustPoolManager.ActivePoolItem();
+            dustEffect.transform.position = parentofDust.position;
+            dustEffect.transform.SetParent(parentofDust);
+            dustEffect.GetComponent<PlayerDustEffect>().Setup(DustPoolManager);
+            yield return new WaitForSeconds(0.3f);
         }
-        isSpawning = false;
+        isSpawningDust = false;
     }
 }
 
-   

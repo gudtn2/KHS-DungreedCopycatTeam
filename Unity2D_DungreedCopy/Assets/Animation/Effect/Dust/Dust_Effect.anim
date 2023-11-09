@@ -86,7 +86,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.5
-    functionName: DeactivateEffect
+    functionName: DeactivateDustEffect
     data: 
     objectReferenceParameter: {fileID: 863622844785704502, guid: 2bf8748ff3528f34e9ec994d8c0551f6, type: 3}
     floatParameter: 0

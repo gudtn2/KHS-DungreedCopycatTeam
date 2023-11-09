@@ -6,10 +6,8 @@ public enum PlayerState { Idle = 0, Walk, Jump, Die }   // YS: 플레이어 상태
 public class PlayerController : MonoBehaviour
 {
     [Header("방향")]
-    [SerializeField]
-    public float lastMoveDir;
-    [SerializeField]
-    public Vector3 mousePos;
+    public float    lastMoveDirX;
+    public Vector3  mousePos;
 
     [SerializeField]
     private KeyCode jumpKey = KeyCode.Space;
@@ -56,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         if (x != 0)
         {
-            lastMoveDir = Mathf.Sign(x);
+            lastMoveDirX = Mathf.Sign(x);
         }
 
         movement.MoveTo(x);
@@ -90,15 +88,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
         {
-            mousePos.z = 0;
-            Vector3 dir = mousePos - transform.position;
-            Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dir, movement.dashDis);
-
-            StartCoroutine(movement.DashTo(moveTarget));
-
+            movement.PlayDash();
         }
     }
-
     //======================================================================================
     // YS: 플레이어 상태 변경
     //======================================================================================

@@ -31,11 +31,20 @@ public class Movement2D : MonoBehaviour
 
     [Header("´ë½¬")]
     public bool isDashing = false;
+    public bool isSpawningDash= false;
     public float dashDis = 3.0f;
     [SerializeField]
     private float dashSpeed = 20.0f;
+    public float ghostDelay;
     [SerializeField]
-    private float delayTime = 1.0f;
+    private float ghostDelaySeconds = 1.0f;
+    [SerializeField]
+    private GameObject prefab;
+    [SerializeField]
+    private Transform parent;
+    [SerializeField]
+    public Vector3 dashDir;
+
 
     [Header("¶¥ Ã¤Å©")]
     [SerializeField]
@@ -52,6 +61,7 @@ public class Movement2D : MonoBehaviour
     public Rigidbody2D rigidbody;
     private BoxCollider2D boxCollider2D;
     private PlayerController playerController;
+    private PoolManager poolManager;
 
     private PlayerState playerState;
 
@@ -60,6 +70,11 @@ public class Movement2D : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         playerController = GetComponent<PlayerController>();
+        poolManager = new PoolManager(prefab);
+    }
+    private void Start()
+    {
+        ghostDelaySeconds = ghostDelay;
     }
     private void FixedUpdate()
     {
@@ -91,6 +106,25 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.gravityScale = highGravity;
         }
+
+        if(isDashing)
+        {
+            if(ghostDelaySeconds > 0)
+            {
+                ghostDelaySeconds -= Time.deltaTime;
+            }
+            else
+            {
+                //GameObject ghostEffect = Instantiate(prefab,transform.position,transform.rotation);
+                GameObject ghostEffect = poolManager.ActivePoolItem();
+                ghostEffect.transform.position = transform.position;
+                ghostEffect.transform.rotation = transform.rotation;
+                ghostEffect.GetComponent<PlayerGhostEffect>().Setup(poolManager);
+                Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
+                ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
+                ghostDelaySeconds = ghostDelay;
+            }
+        }
     }
 
     public void MoveTo(float x)
@@ -110,12 +144,20 @@ public class Movement2D : MonoBehaviour
         }
         return false;
     }
+    public void PlayDash()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        dashDir = mousePos - transform.position;
+        Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dashDir, dashDis);
 
-    public IEnumerator DashTo(Vector3 des)
+        StartCoroutine(DashTo(moveTarget));
+    }
+    private IEnumerator DashTo(Vector3 moveTarget)
     {
         isDashing = true;
 
-        float dis = Vector3.Distance(transform.position, des);
+        float dis = Vector3.Distance(transform.position, moveTarget);
         float step = (dashSpeed / dis) * Time.fixedDeltaTime;
         float t = 0f;
 
@@ -124,7 +166,7 @@ public class Movement2D : MonoBehaviour
         while (t <= 1.0f)
         {
             t += step;
-            rigidbody.MovePosition(Vector3.Lerp(startingPos, des, t));
+            rigidbody.MovePosition(Vector3.Lerp(startingPos, moveTarget, t));
             yield return new WaitForFixedUpdate();
         }
         isDashing = false;
