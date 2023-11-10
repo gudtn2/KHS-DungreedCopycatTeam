@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1908376834962409156}
   - component: {fileID: 4265339400439177800}
   - component: {fileID: 4957785859224554307}
-  - component: {fileID: 302558744485277887}
+  - component: {fileID: -5630597789362865153}
   m_Layer: 0
   m_Name: Effect_Dust
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &302558744485277887
+--- !u!114 &-5630597789362865153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,7 +116,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 863622844785704502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad498bb97990ff341b746d00515c44ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 734292a19a4c8c84f89fdc8dede78c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3

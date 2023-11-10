@@ -66,6 +66,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(jumpKey))
         {
             bool isJump = movement.JumpTo();
+            if(movement.isGrounded == true)
+            {
+                movement.ActiveJumpDustEffect();
+            }
         }
         else if (Input.GetKey(jumpKey))
         {
