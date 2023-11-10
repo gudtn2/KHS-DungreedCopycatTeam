@@ -6,77 +6,137 @@ using UnityEngine;
 public class Movement2D : MonoBehaviour
 {
 
-    [Header("좌/우 이동, 점프 변수")]
+    [Header("MoveX,Jump")]
     [SerializeField]
-    private float moveSpeed = 3.0f;
+    private float           moveSpeed = 3.0f;
+    [SerializeField]        
+    private float           jumpForce = 8.0f;
+    [SerializeField]        
+    private float           lowGravity = 1.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    [SerializeField]        
+    private float           highGravity = 1.5f; // 일반적으로 적용되는 점프 
+    [HideInInspector]       
+    public bool             isJump = false;     // Jump상태 채크
+    [HideInInspector]       
+    public bool             isWalk = false;     // Walk상태 채크
+
+    [Header("DoubleJump")]
+    public bool             haveDoubleJump;
     [SerializeField]
-    private float jumpForce = 8.0f;
+    private int             haveDoubleJump_MaxJumpCount = 2;
     [SerializeField]
-    private float lowGravity = 1.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    private int             normalState_MaxJumpCount = 1;
     [SerializeField]
-    private float highGravity = 1.5f; // 일반적으로 적용되는 점프 
+    private int             curJumpCount;
+
+    [Header("Checking Ground")]
+    [SerializeField]
+    private LayerMask       collisionLayer;
     [HideInInspector]
-    public bool isJump = false;     // Jump상태 채크
+    public bool             isGrounded;
+    private Vector3         footPos;
+    
+    [Header("DashEffect")]
+    private PoolManager     dashPoolManager;
+    public bool             isDashing = false;
+    public float            dashDis = 3.0f;
+    [SerializeField]
+    private float           dashSpeed = 20.0f;
     [HideInInspector]
-    public bool isWalk = false;     // Walk상태 채크
+    public float            ghostDelay;
+    [SerializeField]
+    private float           ghostDelaySeconds = 1.0f;
+    [SerializeField]
+    private GameObject      dashPrefab;
+    [SerializeField]
+    public Vector3          dashDir;
 
-    [Header("더블 점프")]
-    public bool haveDoubleJump;
+    [Header("DustEffect")]
+    private PoolManager     dustPoolManager;
     [SerializeField]
-    private int haveDoubleJump_MaxJumpCount = 2;
+    private GameObject      dustPrefab;
     [SerializeField]
-    private int normalState_MaxJumpCount = 1;
+    private bool            isSpawningDust = false;
+    
+    [Header("JumpEffect")]
+    private PoolManager     jumpDustPoolManager;
     [SerializeField]
-    private int curJumpCount;
+    private GameObject      jumpDustPrefab;
 
-    [Header("대쉬")]
-    public bool isDashing = false;
-    public bool isSpawningDash= false;
-    public float dashDis = 3.0f;
+    [Header("DoubleJumpEffect")]
+    private PoolManager     doubleJumpDustPoolManager;
     [SerializeField]
-    private float dashSpeed = 20.0f;
-    public float ghostDelay;
-    [SerializeField]
-    private float ghostDelaySeconds = 1.0f;
-    [SerializeField]
-    private GameObject prefab;
-    [SerializeField]
-    private Transform parent;
-    [SerializeField]
-    public Vector3 dashDir;
+    private GameObject      doubleJumpDustPrefab;
 
-
-    [Header("땅 채크")]
-    [SerializeField]
-    private LayerMask collisionLayer;
-    [HideInInspector]
-    public bool isGrounded;
-    private Vector3 footPos;
-
-
-
-    public bool isLongJump { set; get; } = false;
+    public bool             isLongJump { set; get; } = false;
 
     [HideInInspector]
-    public Rigidbody2D rigidbody;
-    private BoxCollider2D boxCollider2D;
-    private PlayerController playerController;
-    private PoolManager poolManager;
-
-    private PlayerState playerState;
+    public Rigidbody2D      rigidbody;
+    private BoxCollider2D   boxCollider2D;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
-        playerController = GetComponent<PlayerController>();
-        poolManager = new PoolManager(prefab);
+        rigidbody           = GetComponent<Rigidbody2D>();
+        boxCollider2D       = GetComponent<BoxCollider2D>();
+        
+        dashPoolManager             = new PoolManager(dashPrefab);
+        dustPoolManager             = new PoolManager(dustPrefab);
+        jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
+        doubleJumpDustPoolManager   = new PoolManager(doubleJumpDustPrefab);
     }
     private void Start()
     {
         ghostDelaySeconds = ghostDelay;
     }
+
+    private void OnApplicationQuit()
+    {
+        dashPoolManager.DestroyObjcts();
+        dustPoolManager.DestroyObjcts();
+        jumpDustPoolManager.DestroyObjcts();
+        doubleJumpDustPoolManager.DestroyObjcts();
+    }
     private void FixedUpdate()
+    {
+
+        GroundCheckAndJumpType();
+
+        // DashEffect Active
+        if (isDashing)
+        {
+            ActiveDashEffect();
+        }
+        // DustEffect Active
+        if (!isSpawningDust)
+        {
+            StartCoroutine("ActiveDustEffect");
+        }
+    }
+
+    public void MoveTo(float x)
+    {
+        rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
+    }
+
+    public bool JumpTo()
+    {
+        if (curJumpCount > 0)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
+            curJumpCount--;
+            isJump = true;
+            isWalk = false;
+
+            if(haveDoubleJump == true && curJumpCount < 1 && Input.GetKeyDown(KeyCode.Space))
+            {
+                ActiveDoubleJumpDustEffect();
+            }
+            return true;
+            
+        }
+        return false;
+    }
+    private void GroundCheckAndJumpType()
     {
         Bounds bounds = boxCollider2D.bounds;
 
@@ -106,43 +166,6 @@ public class Movement2D : MonoBehaviour
         {
             rigidbody.gravityScale = highGravity;
         }
-
-        if(isDashing)
-        {
-            if(ghostDelaySeconds > 0)
-            {
-                ghostDelaySeconds -= Time.deltaTime;
-            }
-            else
-            {
-                //GameObject ghostEffect = Instantiate(prefab,transform.position,transform.rotation);
-                GameObject ghostEffect = poolManager.ActivePoolItem();
-                ghostEffect.transform.position = transform.position;
-                ghostEffect.transform.rotation = transform.rotation;
-                ghostEffect.GetComponent<PlayerGhostEffect>().Setup(poolManager);
-                Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
-                ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
-                ghostDelaySeconds = ghostDelay;
-            }
-        }
-    }
-
-    public void MoveTo(float x)
-    {
-        rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
-    }
-
-    public bool JumpTo()
-    {
-        if (curJumpCount > 0)
-        {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
-            curJumpCount--;
-            isJump = true;
-            isWalk = false;
-            return true;
-        }
-        return false;
     }
     public void PlayDash()
     {
@@ -171,9 +194,55 @@ public class Movement2D : MonoBehaviour
         }
         isDashing = false;
     }
-
     //=====================================================================
-    // YS: 플레이어 Effect MemoryPool
+    // YS: Player Effect Active
+    //=====================================================================
+    private IEnumerator ActiveDustEffect()
+    {
+        isSpawningDust = true;
+        while (rigidbody.velocity.x != 0 && rigidbody.velocity.y == 0)
+        {
+            GameObject dustEffect = dustPoolManager.ActivePoolItem();
+            dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,0);
+            dustEffect.transform.rotation = transform.rotation;
+            dustEffect.GetComponent<PlayerEffectPool>().Setup(dustPoolManager);
+            yield return new WaitForSeconds(0.3f);
+        }
+        isSpawningDust = false;
+    }
+    public void ActiveJumpDustEffect()
+    {
+        GameObject jumpDustEffect = jumpDustPoolManager.ActivePoolItem();
+        jumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
+        jumpDustEffect.transform.rotation = transform.rotation;
+        jumpDustEffect.GetComponent<PlayerEffectPool>().Setup(jumpDustPoolManager);
+    }
+    public void ActiveDoubleJumpDustEffect()
+    {
+        GameObject doubleJumpDustEffect = doubleJumpDustPoolManager.ActivePoolItem();
+        doubleJumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
+        doubleJumpDustEffect.transform.rotation = transform.rotation;
+        doubleJumpDustEffect.GetComponent<PlayerEffectPool>().Setup(doubleJumpDustPoolManager);
+    }
+    private void ActiveDashEffect()
+    {
+        if (ghostDelaySeconds > 0)
+        {
+            ghostDelaySeconds -= Time.deltaTime;
+        }
+        else
+        {
+            GameObject ghostEffect = dashPoolManager.ActivePoolItem();
+            ghostEffect.transform.position = transform.position;
+            ghostEffect.transform.rotation = transform.rotation;
+            ghostEffect.GetComponent<PlayerEffectPool>().Setup(dashPoolManager);
+            Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
+            ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
+            ghostDelaySeconds = ghostDelay;
+        }
+    }
+    //=====================================================================
+    // YS: Player Giamos
     //=====================================================================
     private void OnDrawGizmos()
     {

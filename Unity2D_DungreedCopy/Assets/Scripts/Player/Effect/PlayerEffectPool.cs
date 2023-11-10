@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGhostEffect : MonoBehaviour
+public class PlayerEffectPool : MonoBehaviour
 {
     private PoolManager poolManager;
     public void Setup(PoolManager poolManager)
     {
         this.poolManager = poolManager;
     }
-    public void DeactivateGhostEffect()
+    public void DeactivateEffect()
     {
-        poolManager.DeactivePoolItem(this.gameObject);
+        poolManager.DeactivePoolItem(gameObject);
     }
 }
