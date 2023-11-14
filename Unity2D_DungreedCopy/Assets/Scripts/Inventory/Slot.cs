@@ -11,6 +11,7 @@ public class Slot : MonoBehaviour
     public void UpdateSlotUI()
     {
         itemIcon.sprite = item.itemImage;
+        itemIcon.SetNativeSize();
         itemIcon.gameObject.SetActive(true);
     }
 
