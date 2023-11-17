@@ -1812,6 +1812,9 @@ MonoBehaviour:
   ghostDelaySeconds: 1
   dashPrefab: {fileID: 3743925749522001060, guid: e6472d7b2f98bba40b4c1a43b076d729, type: 3}
   dashDir: {x: 0, y: 0, z: 0}
+  maxDashCount: 3
+  curDashCount: 0
+  dashCountChargeDelayTime: 5
   dustPrefab: {fileID: 863622844785704502, guid: 2bf8748ff3528f34e9ec994d8c0551f6, type: 3}
   isSpawningDust: 0
   jumpDustPrefab: {fileID: 1803740616841836557, guid: f758c08f3a3e7e24c95e1d26fe366f15, type: 3}
