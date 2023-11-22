@@ -55,6 +55,7 @@ public class Movement2D : MonoBehaviour
     public int              maxDashCount = 3;
     public int              curDashCount;
     public float            dashCountChargeDelayTime = 5.0f;
+    public float            lastDashTime = 0;
 
     [Header("DustEffect")]
     private PoolManager     dustPoolManager;
@@ -79,13 +80,16 @@ public class Movement2D : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D      rigidbody;
     private BoxCollider2D   boxCollider2D;
+    private PlayerStatsController playerStatsController;
+
 
     private void Awake()
     {
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
-        
-        dashPoolManager             = new PoolManager(dashPrefab);
+        playerStatsController = GetComponent<PlayerStatsController>();
+
+        dashPoolManager = new PoolManager(dashPrefab);
         dustPoolManager             = new PoolManager(dustPrefab);
         jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
         doubleJumpDustPoolManager   = new PoolManager(doubleJumpDustPrefab);
@@ -151,11 +155,14 @@ public class Movement2D : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(dashCountChargeDelayTime);
-
-            if(curDashCount < maxDashCount)
+            float time = Time.time - lastDashTime;
+            yield return new WaitForSeconds(0.1f);
+            if(time >= dashCountChargeDelayTime)
             {
-                curDashCount++;
+                if(!isDashing && curDashCount < maxDashCount)
+                {
+                    curDashCount++;
+                }
             }
         }
     }
@@ -197,7 +204,7 @@ public class Movement2D : MonoBehaviour
         mousePos.z = 0;
         dashDir = mousePos - transform.position;
         Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dashDir, dashDis);
-        if(curDashCount > 0)
+        if(playerStatsController.DashCount > 0)
         {
             StartCoroutine(DashTo(moveTarget));
         }
@@ -219,6 +226,8 @@ public class Movement2D : MonoBehaviour
             rigidbody.MovePosition(Vector3.Lerp(startingPos, moveTarget, t));
             yield return new WaitForFixedUpdate();
         }
+        lastDashTime = Time.time;
+        playerStatsController.ConsumptionSteminaAndCount(playerStatsController.consumptionSTEMINA, 1);
         isDashing = false;
     }
     //=====================================================================

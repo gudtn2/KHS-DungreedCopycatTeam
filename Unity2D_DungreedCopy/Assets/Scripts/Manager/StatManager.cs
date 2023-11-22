@@ -38,15 +38,4 @@ public class StatManager : MonoBehaviour
         curAtt      = baseAtt;
         curDash     = maxDash;
     }
-
-    public void SteminaSetting()
-    {
-        if(curStemina < maxStemina)
-        {
-
-        }
-    }
-
-
-
 }
