@@ -647,10 +647,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 139662597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 872c4f4f4c8099c48ade126bdc7ea548, type: 3}
+  m_Script: {fileID: 11500000, guid: 323302cf66ec8df4db4f18d907138db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBar: {fileID: 1655186287}
+  imageHP: {fileID: 0}
+  imageDC:
+  - {fileID: 777085804}
+  - {fileID: 127307866}
+  - {fileID: 1849978382}
   playerStats: {fileID: 841347854}
 --- !u!1 &302922697
 GameObject:
@@ -1930,8 +1934,8 @@ GameObject:
   - component: {fileID: 841347848}
   - component: {fileID: 841347853}
   - component: {fileID: 841347849}
-  - component: {fileID: 841347854}
   - component: {fileID: 841347851}
+  - component: {fileID: 841347854}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2152,7 +2156,6 @@ MonoBehaviour:
   maxDashCount: 3
   curDashCount: 0
   dashCountChargeDelayTime: 5
-  lastDashTime: 0
   dustPrefab: {fileID: 863622844785704502, guid: 2bf8748ff3528f34e9ec994d8c0551f6, type: 3}
   isSpawningDust: 0
   jumpDustPrefab: {fileID: 1803740616841836557, guid: f758c08f3a3e7e24c95e1d26fe366f15, type: 3}
@@ -2167,11 +2170,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 841347844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3096280c0f6bed4aa7120998dcc698e, type: 3}
+  m_Script: {fileID: 11500000, guid: cb72a99191a9f5b4ea5d6e63a34ec4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1533528123}
-  temp: 0
+  RecoverTimeDC: 3
+  timer: 0
 --- !u!1 &866099951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3351,7 +3354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -141, y: -181}
+  m_AnchoredPosition: {x: -151.75, y: -181}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1521888720
@@ -3421,8 +3424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3096280c0f6bed4aa7120998dcc698e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 841347854}
-  temp: 0
 --- !u!4 &1533528124
 Transform:
   m_ObjectHideFlags: 0
@@ -3716,8 +3717,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -235.91, y: -181}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -241.27524, y: -181}
+  m_SizeDelta: {x: 89.0993, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1671976223
 MonoBehaviour:
