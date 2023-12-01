@@ -55,7 +55,6 @@ public class Movement2D : MonoBehaviour
     public int              maxDashCount = 3;
     public int              curDashCount;
     public float            dashCountChargeDelayTime = 5.0f;
-    public float            lastDashTime = 0;
 
     [Header("DustEffect")]
     private PoolManager     dustPoolManager;
@@ -78,18 +77,18 @@ public class Movement2D : MonoBehaviour
     public bool             isLongJump { set; get; } = false;
 
     [HideInInspector]
-    public Rigidbody2D      rigidbody;
-    private BoxCollider2D   boxCollider2D;
-    private PlayerStatsController playerStatsController;
+    public Rigidbody2D              rigidbody;
+    private BoxCollider2D           boxCollider2D;
+    private PlayerStats             playerStats;
 
 
     private void Awake()
     {
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
-        playerStatsController = GetComponent<PlayerStatsController>();
+        playerStats         = GetComponent<PlayerStats>();
 
-        dashPoolManager = new PoolManager(dashPrefab);
+        dashPoolManager             = new PoolManager(dashPrefab);
         dustPoolManager             = new PoolManager(dustPrefab);
         jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
         doubleJumpDustPoolManager   = new PoolManager(doubleJumpDustPrefab);
@@ -100,10 +99,8 @@ public class Movement2D : MonoBehaviour
 
         // YS: Dash변수 초기화
         curDashCount        = maxDashCount;
-
-        StartCoroutine(RechargeDashCount());
     }
-
+    
     private void OnApplicationQuit()
     {
         dashPoolManager.DestroyObjcts();
@@ -151,22 +148,6 @@ public class Movement2D : MonoBehaviour
         return false;
     }
 
-    private IEnumerator RechargeDashCount()
-    {
-        while (true)
-        {
-            float time = Time.time - lastDashTime;
-            yield return new WaitForSeconds(0.1f);
-            if(time >= dashCountChargeDelayTime)
-            {
-                if(!isDashing && curDashCount < maxDashCount)
-                {
-                    curDashCount++;
-                }
-            }
-        }
-    }
-
     private void GroundCheckAndJumpType()
     {
         Bounds bounds = boxCollider2D.bounds;
@@ -204,9 +185,10 @@ public class Movement2D : MonoBehaviour
         mousePos.z = 0;
         dashDir = mousePos - transform.position;
         Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dashDir, dashDis);
-        if(playerStatsController.DashCount > 0)
+        if(playerStats.DC > 0)
         {
             StartCoroutine(DashTo(moveTarget));
+            playerStats.UseDC();
         }
     }
     private IEnumerator DashTo(Vector3 moveTarget)
@@ -226,8 +208,7 @@ public class Movement2D : MonoBehaviour
             rigidbody.MovePosition(Vector3.Lerp(startingPos, moveTarget, t));
             yield return new WaitForFixedUpdate();
         }
-        lastDashTime = Time.time;
-        playerStatsController.ConsumptionSteminaAndCount(playerStatsController.consumptionSTEMINA, 1);
+        playerStats.timer = 0;
         isDashing = false;
     }
     //=====================================================================

@@ -2,40 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatManager : MonoBehaviour
+[System.Serializable]
+public struct Stats
 {
-    // 싱글톤 인스턴스
-    public static StatManager Instace { get; private set; }
+    [HideInInspector]
+    public float    HP;     // 플레이어 체력
+    [HideInInspector]       
+    public int      DC;     // 플레이어 대시 카운트
+}
 
-    // 기본 stat
-    public int      maxHP       { get; set; } = 100;
-    public float    maxStemina  { get; set; } = 100;
-    public int      maxDash     { get; set; } = 2;
-    public int      baseAtt     { get; set; } = 10;
+public abstract class StatManager : MonoBehaviour
+{
+    private Stats       stats;                // 캐릭터 정보
 
-    // 현재 stat
-    public int      curHP        { get; private set; }
-    public float    curStemina   { get; private set; }
-    public int      curDash      { get; private set; } 
-    public int      curAtt       { get; private set; }
-
-    private void Awake()
+    public float HP
     {
-        if(Instace == null)
-        {
-            Instace = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        set => stats.HP = Mathf.Clamp(value, 0, MaxHP);
+        get => stats.HP;
     }
-    private void Start()
+    public int DC
     {
-        curHP       = maxHP;
-        curStemina  = maxStemina;
-        curAtt      = baseAtt;
-        curDash     = maxDash;
+        set => stats.DC = Mathf.Clamp(value, 0, MaxDC);
+        get => stats.DC;
+    }
+
+    public abstract float       MaxHP { get; }              // 최대 체력
+    public abstract int         MaxDC { get; }              // 최대 대시 카운트
+    
+    public void Setup()
+    {
+        HP = MaxHP;
+        DC = MaxDC;
     }
 }

@@ -18,13 +18,11 @@ public class PlayerController : MonoBehaviour
 
     private Movement2D movement;
     private Animator ani;
-    private PlayerStatsController playerStatsController;
-
+    
     private void Awake()
     {
         movement = GetComponent<Movement2D>();
         ani = GetComponent<Animator>();
-        playerStatsController = GetComponent<PlayerStatsController>();
     }
 
     private void Start()
@@ -43,13 +41,8 @@ public class PlayerController : MonoBehaviour
         UpdateDash();
 
         if (movement.isDashing) return;
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            playerStatsController.TakeDamage(30);
-        }
-
     }
+
 
     //======================================================================================
     // YS: 플레이어 움직임
@@ -100,7 +93,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
         {
             movement.PlayDash();
-            Debug.Log(playerStatsController.STEMINA);
         }
     }
     //======================================================================================
