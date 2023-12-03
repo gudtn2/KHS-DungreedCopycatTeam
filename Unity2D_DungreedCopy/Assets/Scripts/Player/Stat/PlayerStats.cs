@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class HPEvent : UnityEngine.Events.UnityEvent<float, float> { }
 public class PlayerStats : StatManager
 {
-    private Movement2D  playerMove;
-    
+    [HideInInspector]
+    public HPEvent onHPEvent = new HPEvent();
+
     private void Awake()
     {
-        playerMove = GetComponent<Movement2D>();
-
         base.Setup();
     }
     public float            RecoverTimeDC = 3.0f;
@@ -28,6 +29,7 @@ public class PlayerStats : StatManager
     {
         RecoveryDC();
     }
+
     public void UseDC()
     {
         DC = Mathf.Max(DC - 1, 0);
@@ -48,10 +50,24 @@ public class PlayerStats : StatManager
         }
     }
 
+    public bool DecreaseHP(float monAtt)
+    {
+        float preHP = HP;
+
+        HP = HP - monAtt > 0 ? HP - monAtt : 0;
+
+        onHPEvent.Invoke(preHP, HP);
+
+        if(HP == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private bool DashRecoveryTimerExpired()
     {
         timer += Time.deltaTime;
         return timer >= RecoverTimeDC;
     }
-
 }
