@@ -9,6 +9,16 @@ public class PlayerController : MonoBehaviour
     public float    lastMoveDirX;
     public Vector3  mousePos;
 
+    [Header("피격")]
+    [SerializeField]
+    private bool    isHurt;
+    [SerializeField]
+    private float   hurtRoutineDuration = 3f;
+    [SerializeField]
+    private float   blinkDuration = 0.5f;
+    private Color   halfA = new Color(1,1,1,0.5f);
+    private Color   fullA = new Color(1,1,1,1);
+
     [SerializeField]
     private KeyCode jumpKey = KeyCode.Space;
     [SerializeField]
@@ -16,13 +26,20 @@ public class PlayerController : MonoBehaviour
 
     public PlayerState playerState;
 
-    private Movement2D movement;
-    private Animator ani;
+    private Movement2D      movement;
+    private Animator        ani;
+    private SpriteRenderer  spriteRenderer;
+    private PlayerStats     playerStats;
+
+    [SerializeField]
+    private PlayerStatsUIManager    UIManager;
     
     private void Awake()
     {
-        movement = GetComponent<Movement2D>();
-        ani = GetComponent<Animator>();
+        movement        = GetComponent<Movement2D>();
+        ani             = GetComponent<Animator>();
+        spriteRenderer  = GetComponent<SpriteRenderer>();
+        playerStats     = GetComponent<PlayerStats>();
     }
 
     private void Start()
@@ -93,6 +110,59 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
         {
             movement.PlayDash();
+        }
+    }
+    //======================================================================================
+    // YS: 플레이어 움직임 제외한 기능
+    //======================================================================================
+    private void Hurt()
+    {
+        if(!isHurt)
+        {
+            isHurt = true;
+        }
+        else
+        {
+            StartCoroutine(HurtRoutine());
+            StartCoroutine(BlinkPlayer());
+        }
+    }
+    public void TakeDamage(float mon_Att)
+    {
+        bool isDie = playerStats.DecreaseHP(mon_Att);
+
+        if (isDie == true)
+        {
+            Debug.Log("GameOver");
+        }
+        else
+        {
+            Hurt();
+        }
+    }
+    private IEnumerator HurtRoutine()
+    {
+        yield return new WaitForSeconds(hurtRoutineDuration);
+        isHurt = false;
+    }
+    private IEnumerator BlinkPlayer()
+    {
+        while(isHurt)
+        {
+            yield return new WaitForSeconds(blinkDuration);
+            spriteRenderer.color = halfA;
+            yield return new WaitForSeconds(blinkDuration);
+            spriteRenderer.color = fullA;
+        }
+    }
+    //======================================================================================
+    // YS: 플레이어 Collider
+    //======================================================================================
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Monster")
+        {
+            TakeDamage(20f);
         }
     }
     //======================================================================================
