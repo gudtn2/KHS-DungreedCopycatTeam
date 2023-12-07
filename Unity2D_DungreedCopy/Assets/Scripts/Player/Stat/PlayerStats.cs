@@ -9,9 +9,12 @@ public class PlayerStats : StatManager
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
 
+    private PlayerController playerController;
+
     private void Awake()
     {
         base.Setup();
+        playerController = GetComponent<PlayerController>();
     }
     public float            RecoverTimeDC = 3.0f;
     public float            timer; 
@@ -53,13 +56,14 @@ public class PlayerStats : StatManager
     public bool DecreaseHP(float monAtt)
     {
         float preHP = HP;
-
         HP = HP - monAtt > 0 ? HP - monAtt : 0;
 
         onHPEvent.Invoke(preHP, HP);
 
         if(HP == 0)
         {
+            //IsDie
+            playerController.isDie = true;
             return true;
         }
         return false;

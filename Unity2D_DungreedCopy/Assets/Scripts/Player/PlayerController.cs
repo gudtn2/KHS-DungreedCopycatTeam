@@ -11,14 +11,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("피격")]
     [SerializeField]
-    private bool    isHurt;
+    public bool    isHurt;
     [SerializeField]
     private float   hurtRoutineDuration = 3f;
     [SerializeField]
     private float   blinkDuration = 0.5f;
     private Color   halfA = new Color(1,1,1,0.5f);
     private Color   fullA = new Color(1,1,1,1);
-
+    public bool     isDie;
     [SerializeField]
     private KeyCode jumpKey = KeyCode.Space;
     [SerializeField]
@@ -26,10 +26,13 @@ public class PlayerController : MonoBehaviour
 
     public PlayerState playerState;
 
+    [SerializeField]
+
     private Movement2D      movement;
     private Animator        ani;
     private SpriteRenderer  spriteRenderer;
     private PlayerStats     playerStats;
+    private BoxCollider2D   boxCollider2D;
 
     [SerializeField]
     private PlayerStatsUIManager    UIManager;
@@ -40,22 +43,34 @@ public class PlayerController : MonoBehaviour
         ani             = GetComponent<Animator>();
         spriteRenderer  = GetComponent<SpriteRenderer>();
         playerStats     = GetComponent<PlayerStats>();
+        boxCollider2D   = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
         ChangeState(PlayerState.Idle);
+        isDie = false;
     }
 
     private void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        UpdateMove();
-        UpdateJump();
-        UpdateSight();
         ChangeAnimation();
-        UpdateDash();
+        if(!isDie)
+        {
+            boxCollider2D.offset    = new Vector2(0, -0.1f);
+            boxCollider2D.size      = new Vector2(0.8f, 1.1f);
+            UpdateMove();
+            UpdateJump();
+            UpdateSight();
+            UpdateDash();
+        }
+        else
+        {
+            boxCollider2D.offset    = new Vector2(0, 0);
+            boxCollider2D.size      = new Vector2(1.2f,0.7f);
+        }
 
         if (movement.isDashing) return;
     }
@@ -189,7 +204,7 @@ public class PlayerController : MonoBehaviour
             ani.SetBool("IsJump", true);
         }
         // 죽는 상태
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (isDie)
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
