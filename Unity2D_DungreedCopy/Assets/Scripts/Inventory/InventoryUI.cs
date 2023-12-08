@@ -9,7 +9,9 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryPanel;
 
     public Slot[] slots;
+    public int slotCount;
     public Transform slotHolder;
+    public GameObject ItemImage;
     bool activeInventory = false;
 
     private void Start()
@@ -40,6 +42,7 @@ public class InventoryUI : MonoBehaviour
         {
             slots[i].item = inven.items[i];
             slots[i].UpdateSlotUI();
+            slotCount = i;
         }
 
     }

@@ -10,6 +10,7 @@ public class DroppablaUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
     private RectTransform rect;
     public Sprite[] slotImage;
 
+    public SpriteRenderer dragimage;
     private void Awake()
     {
         image = GetComponent<Image>();
@@ -39,6 +40,7 @@ public class DroppablaUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
             // 드래그하고 있는 대상의 부모를 현재 오브젝트로 설정하고, 위치를 현재 오브젝트 위치와 동일하게 설정
             eventData.pointerDrag.transform.SetParent(transform);
             eventData.pointerDrag.GetComponent<RectTransform>().position = rect.position;
+            dragimage.sprite = eventData.pointerDrag.GetComponent<Image>().sprite;
         }
     }
 }

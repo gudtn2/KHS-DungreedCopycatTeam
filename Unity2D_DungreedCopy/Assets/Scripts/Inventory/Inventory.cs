@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour
 {
     #region Singleton
     public static Inventory instance;
+    public InventoryUI inventoryUI;
     private void Awake()
     {
         if(instance != null)
@@ -16,7 +17,7 @@ public class Inventory : MonoBehaviour
         instance = this;
     }
     #endregion
-
+    // 인벤에 들어온 item 정보 List
     public List<Item> items = new List<Item>();
 
     public delegate void OnChangeItem();
@@ -49,11 +50,17 @@ public class Inventory : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("FieldItem"))
+
+        if (collision.CompareTag("FieldItem"))
         {
             FieldItems fieldItems = collision.GetComponent<FieldItems>();
+
             if (AddItem(fieldItems.GetItem()))
-                fieldItems.DestroyItem();
+            {
+                collision.transform.SetParent(inventoryUI.slots[inventoryUI.slotCount].transform);
+
+                //    fieldItems.DestroyItem();
+            }
         }
     }
 }
