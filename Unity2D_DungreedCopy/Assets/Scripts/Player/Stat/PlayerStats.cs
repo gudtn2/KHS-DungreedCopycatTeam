@@ -4,10 +4,13 @@ using UnityEngine;
 
 [System.Serializable]
 public class HPEvent : UnityEngine.Events.UnityEvent<float, float> { }
+public class DCEvect : UnityEngine.Events.UnityEvent<int, int> { }
 public class PlayerStats : StatManager
 {
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
+    [HideInInspector]
+    public DCEvect onDCEvent = new DCEvect();
 
     private void Awake()
     {
@@ -65,6 +68,14 @@ public class PlayerStats : StatManager
         return false;
     }
 
+    public void IncreaseHP(float heal)
+    {
+        float preHP = HP;
+
+        HP = HP + heal > MaxHP ? MaxHP : HP + heal;
+
+        onHPEvent.Invoke(preHP, HP);
+    }
     private bool DashRecoveryTimerExpired()
     {
         timer += Time.deltaTime;

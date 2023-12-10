@@ -65,10 +65,11 @@ public class PlayerStatsUIManager : MonoBehaviour
    public void UpdateImageBloodScreenAndTextHP(float pre, float cur)
     {
         textHP.text = (int)playerStats.HP + "/"  + (int)playerStats.MaxHP;
+
+        if (pre <= cur) return;
         
         if (pre - cur > 0)
         {
-
             StopCoroutine(OnBloodScreen());
             StartCoroutine(OnBloodScreen());
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEffectPool : MonoBehaviour
+public class EffectPool : MonoBehaviour
 {
     private PoolManager poolManager;
     public void Setup(PoolManager poolManager)

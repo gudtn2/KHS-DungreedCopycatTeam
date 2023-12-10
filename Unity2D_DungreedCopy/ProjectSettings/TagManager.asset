@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FieldItem
   - Monster
+  - ItemFairy
   layers:
   - Default
   - TransparentFX

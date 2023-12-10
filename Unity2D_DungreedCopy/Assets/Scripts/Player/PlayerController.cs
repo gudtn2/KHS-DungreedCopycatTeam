@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
         UpdateDash();
 
         if (movement.isDashing) return;
+
+        
     }
 
 
@@ -115,18 +117,6 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임 제외한 기능
     //======================================================================================
-    private void Hurt()
-    {
-        if(!isHurt)
-        {
-            isHurt = true;
-        }
-        else
-        {
-            StartCoroutine(HurtRoutine());
-            StartCoroutine(BlinkPlayer());
-        }
-    }
     public void TakeDamage(float mon_Att)
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);
@@ -137,7 +127,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Hurt();
+            if(!isHurt)
+            {
+                isHurt = true;
+            }
         }
     }
     private IEnumerator HurtRoutine()
@@ -160,9 +153,15 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Monster")
+        if(collision.gameObject.tag == "Monster" && !isHurt)
         {
             TakeDamage(20f);
+            StartCoroutine(HurtRoutine());
+            StartCoroutine(BlinkPlayer());
+        }
+        else if(collision.gameObject.tag == "ItemFairy" && playerStats.HP<playerStats.MaxHP)
+        {
+            collision.GetComponent<ItemBase>().Use(this.gameObject);
         }
     }
     //======================================================================================
