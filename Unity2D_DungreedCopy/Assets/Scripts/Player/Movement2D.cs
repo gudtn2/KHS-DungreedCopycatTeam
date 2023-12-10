@@ -222,7 +222,7 @@ public class Movement2D : MonoBehaviour
             GameObject dustEffect = dustPoolManager.ActivePoolItem();
             dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,0);
             dustEffect.transform.rotation = transform.rotation;
-            dustEffect.GetComponent<PlayerEffectPool>().Setup(dustPoolManager);
+            dustEffect.GetComponent<EffectPool>().Setup(dustPoolManager);
             yield return new WaitForSeconds(0.3f);
         }
         isSpawningDust = false;
@@ -232,14 +232,14 @@ public class Movement2D : MonoBehaviour
         GameObject jumpDustEffect = jumpDustPoolManager.ActivePoolItem();
         jumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
         jumpDustEffect.transform.rotation = transform.rotation;
-        jumpDustEffect.GetComponent<PlayerEffectPool>().Setup(jumpDustPoolManager);
+        jumpDustEffect.GetComponent<EffectPool>().Setup(jumpDustPoolManager);
     }
     public void ActiveDoubleJumpDustEffect()
     {
         GameObject doubleJumpDustEffect = doubleJumpDustPoolManager.ActivePoolItem();
         doubleJumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
         doubleJumpDustEffect.transform.rotation = transform.rotation;
-        doubleJumpDustEffect.GetComponent<PlayerEffectPool>().Setup(doubleJumpDustPoolManager);
+        doubleJumpDustEffect.GetComponent<EffectPool>().Setup(doubleJumpDustPoolManager);
     }
     private void ActiveDashEffect()
     {
@@ -252,7 +252,7 @@ public class Movement2D : MonoBehaviour
             GameObject ghostEffect = dashPoolManager.ActivePoolItem();
             ghostEffect.transform.position = transform.position;
             ghostEffect.transform.rotation = transform.rotation;
-            ghostEffect.GetComponent<PlayerEffectPool>().Setup(dashPoolManager);
+            ghostEffect.GetComponent<EffectPool>().Setup(dashPoolManager);
             Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
             ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
             ghostDelaySeconds = ghostDelay;
