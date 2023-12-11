@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임 제외한 기능
     //======================================================================================
+<<<<<<< Updated upstream
     private void Hurt()
     {
         if(!isHurt)
@@ -142,6 +143,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(BlinkPlayer());
         }
     }
+=======
+>>>>>>> Stashed changes
     public void TakeDamage(float mon_Att)
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);
@@ -178,6 +181,15 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.tag == "Monster")
         {
             TakeDamage(20f);
+<<<<<<< Updated upstream
+=======
+            StartCoroutine(HurtRoutine());
+            StartCoroutine(BlinkPlayer());
+        }
+        else if(collision.gameObject.tag == "ItemFairy" && playerStats.HP<playerStats.MaxHP)
+        {
+            collision.GetComponent<ItemBase>().Use(this.gameObject);
+>>>>>>> Stashed changes
         }
     }
     //======================================================================================
