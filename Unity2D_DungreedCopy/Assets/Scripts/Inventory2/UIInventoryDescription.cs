@@ -29,6 +29,7 @@ public class UIInventoryDescription : MonoBehaviour
     {
         this.itemImage.gameObject.SetActive(true);
         this.itemImage.sprite = sprite;
+        this.itemImage.SetNativeSize();
         this.title.text = itemName;
         this.description.text = itemDescription;
     }
