@@ -2906,6 +2906,7 @@ GameObject:
   - component: {fileID: 841347853}
   - component: {fileID: 841347854}
   - component: {fileID: 841347855}
+  - component: {fileID: 841347856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3092,7 +3093,6 @@ MonoBehaviour:
   maxDashCount: 3
   curDashCount: 0
   dashCountChargeDelayTime: 5
-  lastDashTime: 0
   dustPrefab: {fileID: 0}
   isSpawningDust: 0
   jumpDustPrefab: {fileID: 0}
@@ -3133,9 +3133,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lastMoveDirX: 0
   mousePos: {x: 0, y: 0, z: 0}
+  isHurt: 0
+  hurtRoutineDuration: 3
+  blinkDuration: 0.5
+  isDie: 0
   jumpKey: 32
   dashKey: 324
   playerState: 0
+  movement: {fileID: 0}
+  UIManager: {fileID: 0}
 --- !u!114 &841347853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3164,15 +3170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 328850565}
   inventoryData: {fileID: 11400000, guid: 7606e85f0aa31b24299944347d1375e8, type: 2}
-  initialItems:
-  - quantity: 1
-    item: {fileID: 11400000, guid: bb726eb46cf024147af233829f38d03b, type: 2}
-  - quantity: 0
-    item: {fileID: 0}
-  - quantity: 1
-    item: {fileID: 11400000, guid: d6031f9b7a5df5445a6ad05ccda784e5, type: 2}
-  - quantity: 1
-    item: {fileID: 11400000, guid: d6031f9b7a5df5445a6ad05ccda784e5, type: 2}
+  initialItems: []
 --- !u!114 &841347855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3186,6 +3184,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryData: {fileID: 11400000, guid: 7606e85f0aa31b24299944347d1375e8, type: 2}
+--- !u!114 &841347856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841347844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36342813c23ef2945a87b53b291d1a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+  inventoryData: {fileID: 11400000, guid: 7606e85f0aa31b24299944347d1375e8, type: 2}
+  parametersToModify: []
+  itemCurrentState: []
 --- !u!1001 &856690173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7274,6 +7288,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item
       objectReference: {fileID: 0}
+    - target: {fileID: 5022510648114514476, guid: 26e3598cf50554d4f9102939a0a7a6ba, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944586457990836487, guid: 26e3598cf50554d4f9102939a0a7a6ba, type: 3}
+      propertyPath: <InventoryItem>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
     m_RemovedComponents:
     - {fileID: 319197594724952423, guid: 26e3598cf50554d4f9102939a0a7a6ba, type: 3}
     m_RemovedGameObjects: []
