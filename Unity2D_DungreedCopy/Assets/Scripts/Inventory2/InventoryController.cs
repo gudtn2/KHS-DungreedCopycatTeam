@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -51,6 +52,19 @@ public class InventoryController : MonoBehaviour
 
     private void HandleItemActionRequest(int itemIndex)
     {
+        InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
+        if (inventoryItem.IsEmpty)
+            return;
+        IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
+        if (destroyableItem != null)
+        {
+            inventoryData.RemoveItem(itemIndex, 1);
+        }
+        IItemAction itemAction = inventoryItem.item as IItemAction;
+        if(itemAction != null)
+        {
+            itemAction.PerformAction(gameObject, inventoryItem.itemState);
+        }
     }
 
     private void HandleDragging(int itemIndex)
@@ -75,7 +89,23 @@ public class InventoryController : MonoBehaviour
             return;
         }
         ItemSO item = inventoryItem.item;
+        string description = PrepareDescription(inventoryItem);
         inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, item.Description);
+    }
+
+    private string PrepareDescription(InventoryItem inventoryItem)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(inventoryItem.item.Description);
+        sb.AppendLine();
+        for (int i = 0; i < inventoryItem.itemState.Count; i++)
+        {
+            sb.Append($"{inventoryItem.itemState[i].itemParameter.ParameterName} " +
+                $": {inventoryItem.itemState[i].value} / " +
+                $"{inventoryItem.item.DefaultParametersList[i].value}");
+            sb.AppendLine();
+        }
+        return sb.ToString();
     }
 
     public void Update()
