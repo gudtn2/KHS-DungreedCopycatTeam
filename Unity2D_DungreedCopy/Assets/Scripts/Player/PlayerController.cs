@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        // YS : 씬 변경시에도 플레이어 파괴되지 않도록
+        DontDestroyOnLoad(gameObject);
         ChangeState(PlayerState.Idle);
         isDie = false;
     }
