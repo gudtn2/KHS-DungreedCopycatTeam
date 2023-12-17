@@ -18,7 +18,7 @@ public class PlayerStatsUIManager : MonoBehaviour
     
     [Header("DC")]
     [SerializeField]
-    private Image[]     imageDC;
+    private Image[]         imageDC;
 
     [SerializeField]
     private PlayerStats playerStats;
@@ -26,6 +26,10 @@ public class PlayerStatsUIManager : MonoBehaviour
     private void Awake()
     {
         playerStats.onHPEvent.AddListener(UpdateImageBloodScreenAndTextHP);
+    }
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {

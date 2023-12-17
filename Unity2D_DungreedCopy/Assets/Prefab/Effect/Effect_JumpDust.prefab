@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 800190515142427958}
   - component: {fileID: 3954177491974205492}
   - component: {fileID: 5690555258092211975}
+  - component: {fileID: 7413059568826270362}
   m_Layer: 0
   m_Name: Effect_JumpDust
   m_TagString: Untagged
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 734292a19a4c8c84f89fdc8dede78c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7413059568826270362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803740616841836557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc03114febece94e881e0301c29bf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
