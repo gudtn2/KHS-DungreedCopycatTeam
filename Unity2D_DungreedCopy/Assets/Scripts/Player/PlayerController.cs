@@ -5,6 +5,8 @@ using UnityEngine;
 public enum PlayerState { Idle = 0, Walk, Jump, Die }   // YS: 플레이어 상태 
 public class PlayerController : MonoBehaviour
 {
+    static public PlayerController instance;
+
     [Header("방향")]
     public float    lastMoveDirX;
     public Vector3  mousePos;
@@ -24,7 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private KeyCode dashKey = KeyCode.Mouse1;
 
-    public PlayerState playerState;
+    public PlayerState      playerState;
+    public string           curMapName;     // TranferScene에 transferMapName변수의 값을 저장   
 
     [SerializeField]
 
@@ -39,18 +42,27 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
-        movement        = GetComponent<Movement2D>();
-        ani             = GetComponent<Animator>();
-        spriteRenderer  = GetComponent<SpriteRenderer>();
-        playerStats     = GetComponent<PlayerStats>();
-        boxCollider2D   = GetComponent<BoxCollider2D>();
+        if(instance == null)
+        {
+            // YS : 씬 변경시에도 플레이어 파괴되지 않도록
+            DontDestroyOnLoad(gameObject);
+
+            ChangeState(PlayerState.Idle);
+            movement        = GetComponent<Movement2D>();
+            ani             = GetComponent<Animator>();
+            spriteRenderer  = GetComponent<SpriteRenderer>();
+            playerStats     = GetComponent<PlayerStats>();
+            boxCollider2D   = GetComponent<BoxCollider2D>();
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void Start()
     {
-        // YS : 씬 변경시에도 플레이어 파괴되지 않도록
-        DontDestroyOnLoad(gameObject);
-        ChangeState(PlayerState.Idle);
         isDie = false;
     }
 

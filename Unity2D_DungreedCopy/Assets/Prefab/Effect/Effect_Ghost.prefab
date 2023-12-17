@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5014223473927490292}
   - component: {fileID: 448188827541209211}
   - component: {fileID: -8325096697811423228}
+  - component: {fileID: 5610946576596385154}
   m_Layer: 0
   m_Name: Effect_Ghost
   m_TagString: Untagged
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 734292a19a4c8c84f89fdc8dede78c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5610946576596385154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743925749522001060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc03114febece94e881e0301c29bf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

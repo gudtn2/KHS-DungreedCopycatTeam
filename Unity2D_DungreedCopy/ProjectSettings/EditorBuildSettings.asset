@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene(Yuseop).unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 7f9e2b2311a0c544aa68d7e0a395e915
+    path: Assets/Scenes/TestScene(YS).unity
+    guid: d4a64df70a66bda42a69e892973dfa2b
   m_configObjects: {}
