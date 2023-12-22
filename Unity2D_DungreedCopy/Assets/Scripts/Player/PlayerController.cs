@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     private Movement2D      movement;
     private Animator        ani;
-    private SpriteRenderer  spriteRenderer;
+    public  SpriteRenderer  spriteRenderer;
     private PlayerStats     playerStats;
     private BoxCollider2D   boxCollider2D;
 
