@@ -6,6 +6,8 @@ using TMPro;
 
 public class PlayerStatsUIManager : MonoBehaviour
 {
+    static public PlayerStatsUIManager instance;
+
     [Header("HP")]
     [SerializeField]
     private Image           imageHP;
@@ -25,11 +27,19 @@ public class PlayerStatsUIManager : MonoBehaviour
 
     private void Awake()
     {
-        playerStats.onHPEvent.AddListener(UpdateImageBloodScreenAndTextHP);
+        if(instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            playerStats.onHPEvent.AddListener(UpdateImageBloodScreenAndTextHP);
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {
