@@ -5,10 +5,13 @@ using UnityEngine;
 // YS
 public class DungeonPortalController : MonoBehaviour
 {
+    public bool         isCollideToPlayer = false;
+    public float        isCollideToPlayerBackTime = 3;
+    
     [SerializeField]
-    private GameObject dungeonPortalPrefab;
+    private GameObject              dungeonPortalPrefab;
 
-    private PoolManager dungeonPortalPoolMnager;
+    private PoolManager             dungeonPortalPoolMnager;
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class DungeonPortalController : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             ActiveDungeonPortal();
+            isCollideToPlayer = true;
         }
     }
 }

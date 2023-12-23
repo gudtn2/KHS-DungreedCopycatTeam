@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartPoint : MonoBehaviour
+public class SceneStartPoint : MonoBehaviour
 {
-    public string startPoint;
+    public string                   startPoint;
+    [SerializeField]
+    private BoxCollider2D           targetBound;
 
     private PlayerController        player;
     private MainCameraController    mainCam;
@@ -16,20 +18,23 @@ public class StartPoint : MonoBehaviour
         mainCam = FindObjectOfType<MainCameraController>();
         fade    = FindObjectOfType<FadeEffectController>();
 
-        if (startPoint == player.curMapName)
+       
+    }
+
+    private void Start()
+    {
+        if (startPoint == player.curSceneName)
         {
             fade.OnFade(FadeState.FadeIn);
+
+            mainCam.SetBound(targetBound);
 
             mainCam.transform.position = new Vector3(transform.position.x,
                                                      transform.position.y,
                                                      mainCam.transform.position.z);
-            
-            player.transform.position = this.transform.position;
-        }
-    }
 
-    void Update()
-    {
-        
+            player.transform.position = this.transform.position;
+
+        }
     }
 }

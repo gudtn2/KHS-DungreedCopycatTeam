@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DungeonPortal : MonoBehaviour
 {
-    [SerializeField]
-    private float               playerColorBackTime;
+    public bool                     eatPlayer = false;
+    public string                   tranferMapName;   // 이동할 맵의 이름
 
-    private PoolManager         poolManager;
-    private PlayerController    player;
+    private PoolManager             poolManager;
+    private PlayerController        player;
+    private FadeEffectController    fade;
+    private DungeonPortalController dungeonPortalController;
 
     private void Awake()
     {
-        player = FindObjectOfType<PlayerController>();
+        player                  = FindObjectOfType<PlayerController>();
+        fade                    = FindObjectOfType<FadeEffectController>();
+        dungeonPortalController = FindObjectOfType<DungeonPortalController>();
     }
     public void Setup(PoolManager poolManager)
     {
@@ -21,17 +26,28 @@ public class DungeonPortal : MonoBehaviour
 
     public void ThePortalEatPlayer()
     {
-        Color color = player.spriteRenderer.color;
-        color.a = 0;
-        player.spriteRenderer.color = color;
-        StartCoroutine("PlayerColorBack");
+        eatPlayer = true;
+    }
+    public void FalseToEatPlayer()
+    {
+        eatPlayer = false;
+
+        player.curSceneName = tranferMapName;
+
+        fade.OnFade(FadeState.FadeOut);
+
+        StartCoroutine(ChangeScene());
     }
 
-    private IEnumerator PlayerColorBack()
+    private IEnumerator ChangeScene()
     {
-        yield return new WaitForSeconds(playerColorBackTime);
-        Color color = player.spriteRenderer.color;
-        color.a = 1;
-        player.spriteRenderer.color = color;
+        yield return new WaitForSeconds(fade.fadeTime);
+        dungeonPortalController.isCollideToPlayer = false;
+        poolManager.DeactivePoolItem(gameObject);
+        SceneManager.LoadScene(tranferMapName);
     }
+
+
+
+
 }
