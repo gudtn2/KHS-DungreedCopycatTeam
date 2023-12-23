@@ -110,7 +110,6 @@ public class Movement2D : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
         GroundCheckAndJumpType();
 
         // DashEffect Active
@@ -220,7 +219,7 @@ public class Movement2D : MonoBehaviour
         while (rigidbody.velocity.x != 0 && rigidbody.velocity.y == 0)
         {
             GameObject dustEffect = dustPoolManager.ActivePoolItem();
-            dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,0);
+            dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,-1f);
             dustEffect.transform.rotation = transform.rotation;
             dustEffect.GetComponent<EffectPool>().Setup(dustPoolManager);
             yield return new WaitForSeconds(0.3f);

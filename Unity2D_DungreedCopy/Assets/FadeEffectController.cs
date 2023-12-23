@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public enum FadeState { FadeIn = 0, FadeOut, FadeInOut, FadeLoop }
 public class FadeEffectController : MonoBehaviour
 {
-    public  float           fadeTime;
+    static public FadeEffectController instance;
+
+    public float           fadeTime;
     [SerializeField]
     private AnimationCurve  fadeCurve;
     private Image           imageFade;
@@ -14,7 +16,16 @@ public class FadeEffectController : MonoBehaviour
 
     private void Awake()
     {
-        imageFade = GetComponent<Image>();
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+            imageFade = GetComponent<Image>();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void OnFade(FadeState state)

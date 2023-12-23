@@ -27,15 +27,20 @@ public class PlayerController : MonoBehaviour
     private KeyCode dashKey = KeyCode.Mouse1;
 
     public PlayerState      playerState;
-    public string           curMapName;     // TranferScene에 transferMapName변수의 값을 저장   
+
+    [Header("현재 맵 이름")]
+    public string           curSceneName;        
+    public string           curDungeonName;        
 
     [SerializeField]
 
-    private Movement2D      movement;
-    private Animator        ani;
-    public  SpriteRenderer  spriteRenderer;
-    private PlayerStats     playerStats;
-    private BoxCollider2D   boxCollider2D;
+    private Movement2D              movement;
+    private Animator                ani;
+    public  SpriteRenderer          spriteRenderer;
+    private PlayerStats             playerStats;
+    private BoxCollider2D           boxCollider2D;
+    
+    private DungeonPortalController dungeonPortalController;
 
     [SerializeField]
     private PlayerStatsUIManager    UIManager;
@@ -53,6 +58,9 @@ public class PlayerController : MonoBehaviour
             spriteRenderer  = GetComponent<SpriteRenderer>();
             playerStats     = GetComponent<PlayerStats>();
             boxCollider2D   = GetComponent<BoxCollider2D>();
+
+            dungeonPortalController = FindObjectOfType<DungeonPortalController>();
+
             instance = this;
         }
         else
@@ -71,7 +79,7 @@ public class PlayerController : MonoBehaviour
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ChangeAnimation();
-        if(!isDie)
+        if(!isDie && !dungeonPortalController.isCollideToPlayer)
         {
             boxCollider2D.offset    = new Vector2(0, -0.1f);
             boxCollider2D.size      = new Vector2(0.8f, 1.1f);
@@ -88,6 +96,10 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
+        if(dungeonPortalController.isCollideToPlayer)
+        {
+            StartCoroutine("ChangePlayerAlpha");
+        }
     }
 
 
@@ -175,6 +187,22 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(blinkDuration);
             spriteRenderer.color = fullA;
         }
+    }
+
+    private IEnumerator ChangePlayerAlpha()
+    {
+        yield return new WaitForSeconds(0.8f);
+        Color color = spriteRenderer.color;
+        color.a = 0;
+        spriteRenderer.color = color;
+        StartCoroutine("BackPlayerAlpha");
+    }
+    private IEnumerator BackPlayerAlpha()
+    {
+        yield return new WaitForSeconds(2.2f);
+        Color color = spriteRenderer.color;
+        color.a = 1;
+        spriteRenderer.color = color;
     }
     //======================================================================================
     // YS: 플레이어 Collider
