@@ -29,6 +29,8 @@ public class SceneStartPoint : MonoBehaviour
 
             mainCam.SetBound(targetBound);
 
+            player.curDungeonName = "dungeon00";
+
             mainCam.transform.position = new Vector3(transform.position.x,
                                                      transform.position.y,
                                                      mainCam.transform.position.z);

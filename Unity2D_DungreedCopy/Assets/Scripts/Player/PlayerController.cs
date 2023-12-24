@@ -72,6 +72,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         isDie = false;
+
+        // 최초 시작지 이름을 마을로 설정
+        curSceneName = "Village";
     }
 
     private void Update()
