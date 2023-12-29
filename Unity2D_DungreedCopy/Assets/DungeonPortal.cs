@@ -38,7 +38,6 @@ public class DungeonPortal : MonoBehaviour
 
         StartCoroutine(ChangeScene());
     }
-
     private IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(fade.fadeTime);
@@ -46,8 +45,4 @@ public class DungeonPortal : MonoBehaviour
         poolManager.DeactivePoolItem(gameObject);
         SceneManager.LoadScene(tranferMapName);
     }
-
-
-
-
 }

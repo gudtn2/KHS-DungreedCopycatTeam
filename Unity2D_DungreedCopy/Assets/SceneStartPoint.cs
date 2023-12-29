@@ -5,20 +5,23 @@ using UnityEngine;
 public class SceneStartPoint : MonoBehaviour
 {
     public string                   startPoint;
+
+    [SerializeField]
+    private string                  dungeonName;
     [SerializeField]
     private BoxCollider2D           targetBound;
 
     private PlayerController        player;
     private MainCameraController    mainCam;
     private FadeEffectController    fade;
+    private MapController           map;
 
     private void Awake()
     {
         player  = FindObjectOfType<PlayerController>();
         mainCam = FindObjectOfType<MainCameraController>();
         fade    = FindObjectOfType<FadeEffectController>();
-
-       
+        map     = FindObjectOfType<MapController>();
     }
 
     private void Start()
@@ -29,7 +32,16 @@ public class SceneStartPoint : MonoBehaviour
 
             mainCam.SetBound(targetBound);
 
-            player.curDungeonName = "dungeon00";
+            player.curDungeonName = dungeonName;
+
+            if(player.curDungeonName == dungeonName)
+            {
+                if(!map.dungeonNames.Contains(dungeonName))
+                {
+                    map.dungeonNames.Add(dungeonName);
+                    Debug.Log(dungeonName + "이 리스트에 추가됐습니다.");
+                }
+            }
 
             mainCam.transform.position = new Vector3(transform.position.x,
                                                      transform.position.y,
