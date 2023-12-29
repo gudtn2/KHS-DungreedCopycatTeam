@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
+    [Header("´øÀü ¸Ê")]
+    [SerializeField]
+    private GameObject[]        dungeonMaps;
+    public List<string>         dungeonNames;
+
     public GameObject MapUI;
     public GameObject MiniMapUI;
 
@@ -20,26 +25,34 @@ public class MapController : MonoBehaviour
     void Update()
     {
         DontActivateDungeonMap();
+        UpdateDungeonMapUI();
     }
 
     private void DontActivateDungeonMap()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if(player.curSceneName == "Village")
-            {
-                MapOn       = false;
-                MiniMapOn   = true;
-
-            }
-            else
-            {
-                MapOn       = !MapOn;
-                MiniMapOn   = !MiniMapOn;
-            }
+            MapOn       = !MapOn;
+            MiniMapOn   = !MiniMapOn;
 
             MapUI.SetActive(MapOn);
             MiniMapUI.SetActive(MiniMapOn);
+        }
+    }
+
+    private void UpdateDungeonMapUI()
+    {
+        for (int i = 0; i < dungeonMaps.Length; ++i)
+        {
+            if(dungeonNames.Contains(dungeonMaps[i].name))
+            {
+                dungeonMaps[i].SetActive(true);
+            }
+            else
+            {
+                dungeonMaps[i].SetActive(false);
+            }
+
         }
     }
 }
