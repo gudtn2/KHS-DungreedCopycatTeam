@@ -9,17 +9,18 @@ TagManager:
   - ItemFairy
   - TransferScene
   - MapBorder
+  - PassingPlatform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Platform
   - Monster
   - Minimap
-  - 
+  - PassingPlatform
   - 
   - 
   - 

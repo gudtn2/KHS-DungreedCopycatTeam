@@ -132,6 +132,10 @@ public class PlayerController : MonoBehaviour
             {
                 movement.ActiveJumpDustEffect();
             }
+            else
+            {
+                Physics2D.IgnoreLayerCollision(3, 6);
+            }
         }
         else if (Input.GetKey(jumpKey))
         {
@@ -140,6 +144,10 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyUp(jumpKey))
         {
             movement.isLongJump = false;
+        }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            movement.DownJumpTo();
         }
     }
     public void UpdateSight()

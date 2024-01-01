@@ -12,13 +12,19 @@ public class Movement2D : MonoBehaviour
     [SerializeField]        
     private float           jumpForce = 8.0f;
     [SerializeField]        
+    private float           downJumpForce = -4.0f;
+    [SerializeField]        
     private float           lowGravity = 1.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]        
     private float           highGravity = 1.5f; // 일반적으로 적용되는 점프 
     [HideInInspector]       
     public bool             isJump = false;     // Jump상태 채크
     [HideInInspector]       
+    public bool             isdownJump = false;     // Jump상태 채크
+    [HideInInspector]       
     public bool             isWalk = false;     // Walk상태 채크
+    [SerializeField]
+    private int             playerLayer, platformLayer;
 
     [Header("DoubleJump")]
     public bool             haveDoubleJump;
@@ -37,7 +43,6 @@ public class Movement2D : MonoBehaviour
     private Vector3         footPos;
     
     [Header("Dash")]
-    [SerializeField]
     public bool             isDashing = false;
     public float            dashDis = 3.0f;
     [SerializeField]
@@ -87,7 +92,7 @@ public class Movement2D : MonoBehaviour
         rigidbody           = GetComponent<Rigidbody2D>();
         boxCollider2D       = GetComponent<BoxCollider2D>();
         playerStats         = GetComponent<PlayerStats>();
-
+        
         dashPoolManager             = new PoolManager(dashPrefab);
         dustPoolManager             = new PoolManager(dustPrefab);
         jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
@@ -99,6 +104,10 @@ public class Movement2D : MonoBehaviour
 
         // YS: Dash변수 초기화
         curDashCount        = maxDashCount;
+
+        // YS: 레이어 초기화
+        playerLayer     = LayerMask.NameToLayer("Player");
+        platformLayer   = LayerMask.NameToLayer("Platform");
     }
     
     private void OnApplicationQuit()
@@ -122,6 +131,11 @@ public class Movement2D : MonoBehaviour
         {
             StartCoroutine("ActiveDustEffect");
         }
+
+        if(isJump && rigidbody.velocity.y <= 0)
+        {
+            GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing();
+        }
     }
     public void MoveTo(float x)
     {
@@ -141,10 +155,24 @@ public class Movement2D : MonoBehaviour
             {
                 ActiveDoubleJumpDustEffect();
             }
+
+            // YS: 점프중 Platform 무시
+            if (rigidbody.velocity.y > 0)
+            {
+                GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing();
+            }
+            
             return true;
             
         }
         return false;
+    }
+
+    public void DownJumpTo()
+    {
+        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(0.5f);
+        rigidbody.velocity = Vector2.down * jumpForce / 2;
+
     }
 
     private void GroundCheckAndJumpType()
@@ -158,6 +186,7 @@ public class Movement2D : MonoBehaviour
         if (isGrounded == true && rigidbody.velocity.y <= 0)
         {
             isJump = false;
+            isdownJump = false;
 
             if (haveDoubleJump == true)
             {
@@ -201,6 +230,8 @@ public class Movement2D : MonoBehaviour
 
         Vector3 startingPos = transform.position;
 
+        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing();
+
         while (t <= 1.0f)
         {
             t += step;
@@ -209,6 +240,8 @@ public class Movement2D : MonoBehaviour
         }
         playerStats.timer = 0;
         isDashing = false;
+        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing();
+
     }
     //=====================================================================
     // YS: Player Effect Active
