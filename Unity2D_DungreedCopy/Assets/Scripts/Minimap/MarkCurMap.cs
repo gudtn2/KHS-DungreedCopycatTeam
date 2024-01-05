@@ -26,9 +26,6 @@ public class MarkCurMap : MonoBehaviour
     [SerializeField]
     private GameObject  Down;
     
-    [Header("던전맵에 해당하는 미니맵 오브젝트 삽입")]
-    [SerializeField]
-    private Portal  thisPortal;
     public string   dungeonMapDir;
 
     private PlayerController player;
@@ -94,6 +91,8 @@ public class MarkCurMap : MonoBehaviour
             case "D":
                 Down.SetActive(true);
                 break;
+            case "N":
+                break;  
         }
     }
 }

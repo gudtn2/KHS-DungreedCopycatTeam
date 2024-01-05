@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-
+    [Header("StrartPoint 삽입")]
     [SerializeField]
-    private PortalStartPoint    portalStartPoint;
+    private PortalStartPoint        portalStartPoint;
 
     private PlayerController        player;
     private FadeEffectController    fade;
@@ -19,8 +19,6 @@ public class Portal : MonoBehaviour
     [Header("다음 이동할 dungeon오브젝트 삽입")]
     [SerializeField]
     private GameObject              nextDungeon;
-    private string                  transferDungeonName;    // YS: 이동할 맵의 이름
-
 
     private void Awake()
     {
@@ -31,11 +29,10 @@ public class Portal : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            transferDungeonName     = nextDungeon.name;
-            player.curDungeonName   = transferDungeonName;
+            markCurMap.dungeonMapDir = dungeonMapMoveDir;
+            player.curDungeonName   = nextDungeon.name;
             fade.OnFade(FadeState.FadeOut);
             StartCoroutine(portalStartPoint.ChangePlayerPosition());
-            markCurMap.dungeonMapDir = dungeonMapMoveDir;
         }
     }
 }

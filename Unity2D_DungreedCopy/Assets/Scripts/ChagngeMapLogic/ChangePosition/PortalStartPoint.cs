@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class PortalStartPoint : MonoBehaviour
 {
-    [SerializeField]
-    private BoxCollider2D   targetBound;            // YS: 이동한 방의 카메라 바운드
-    [SerializeField]
     private  string         startingMapName;
-    [SerializeField]
-    private DungeonName     nextDungeon;
 
     private PlayerController        player;
     private FadeEffectController    fade;
@@ -18,18 +13,16 @@ public class PortalStartPoint : MonoBehaviour
 
     private void Awake()
     {
-        player  = FindObjectOfType<PlayerController>();
-        fade    = FindObjectOfType<FadeEffectController>();
-        mainCam = FindObjectOfType<MainCameraController>();
-        map     = FindObjectOfType<MapController>();
+        player      = FindObjectOfType<PlayerController>();
+        fade        = FindObjectOfType<FadeEffectController>();
+        mainCam     = FindObjectOfType<MainCameraController>();
+        map         = FindObjectOfType<MapController>();
+        
     }
-    private void Start()
-    {
-        startingMapName = nextDungeon.dungeonName;
-    }
-
     public IEnumerator ChangePlayerPosition()
     {
+        startingMapName = player.curDungeonName;
+
         yield return new WaitForSeconds(fade.fadeTime);
             
         if (startingMapName == player.curDungeonName)
@@ -51,8 +44,20 @@ public class PortalStartPoint : MonoBehaviour
             // 페이드 효과
             fade.OnFade(FadeState.FadeIn);
 
-            // 바운드 재설정
-            mainCam.SetBound(targetBound);
+            GameObject targetObject = GameObject.Find(startingMapName);
+
+            if (targetObject != null)
+            {
+                BoxCollider2D targetBound = targetObject.GetComponent<BoxCollider2D>();
+
+                // 바운드 재설정
+                mainCam.SetBound(targetBound);
+            }
+            else
+            {
+                Debug.LogWarning("Target object with the specified name not found.");
+            }
+
         }
     }
 }

@@ -8,8 +8,8 @@ public class SceneStartPoint : MonoBehaviour
 
     [SerializeField]
     private string                  dungeonName;
-    [SerializeField]
-    private BoxCollider2D           targetBound;
+    //[SerializeField]
+    //private BoxCollider2D           targetBound;
 
     private PlayerController        player;
     private MainCameraController    mainCam;
@@ -30,7 +30,19 @@ public class SceneStartPoint : MonoBehaviour
         {
             fade.OnFade(FadeState.FadeIn);
 
-            mainCam.SetBound(targetBound);
+            GameObject targetObject = GameObject.Find(dungeonName);
+
+            if (targetObject != null)
+            {
+                BoxCollider2D targetBound = targetObject.GetComponent<BoxCollider2D>();
+
+                // 바운드 재설정
+                mainCam.SetBound(targetBound);
+            }
+            else
+            {
+                Debug.LogWarning("Target object with the specified name not found.");
+            }
 
             player.curDungeonName = dungeonName;
 
