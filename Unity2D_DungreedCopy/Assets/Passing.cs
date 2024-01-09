@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class Passing : MonoBehaviour
 {
-    private CompositeCollider2D collider;
-
-    private void Awake()
+    int normalPlatform, passingPlatform;
+ 
+    private void Start()
     {
-        collider = GetComponent<CompositeCollider2D>();
-    }
-    public void OnPassing()
-    {
-        collider.isTrigger = true;
-    }
-    public void OffPassing()
-    {
-        collider.isTrigger = false;
+        normalPlatform  = LayerMask.NameToLayer("Platform");
+        passingPlatform = LayerMask.NameToLayer("PassingPlatform");    
     }
 
-    public void PassingRoutain(float time)
+    public void OnPassing(int layer1, int layer2)
     {
-        OnPassing();
-        Invoke("OffPassing", time);
+        this.gameObject.layer = passingPlatform;
+        Physics2D.IgnoreLayerCollision(layer1, layer2);
+    }
+
+    public void OffPassing(int layer1, int layer2)
+    {
+        this.gameObject.layer = normalPlatform;
+        Physics2D.IgnoreLayerCollision(layer1, layer2 , false);
+    }
+
+    public IEnumerator PassingRoutain(int layer1, int layer2,float routainTime)
+    {
+        OnPassing(layer1, layer2);
+        yield return new WaitForSeconds(routainTime);
+        OffPassing(layer1, layer2);
     }
 }

@@ -107,7 +107,7 @@ public class Movement2D : MonoBehaviour
 
         // YS: 레이어 초기화
         playerLayer     = LayerMask.NameToLayer("Player");
-        platformLayer   = LayerMask.NameToLayer("Platform");
+        platformLayer   = LayerMask.NameToLayer("PassingPlatform");
     }
     
     private void OnApplicationQuit()
@@ -134,8 +134,10 @@ public class Movement2D : MonoBehaviour
 
         if(isJump && rigidbody.velocity.y <= 0)
         {
-            GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing();
+            GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing(playerLayer,platformLayer);
         }
+
+        Physics2D.IgnoreLayerCollision(playerLayer, LayerMask.NameToLayer("Platform"), false);
     }
     public void MoveTo(float x)
     {
@@ -159,7 +161,7 @@ public class Movement2D : MonoBehaviour
             // YS: 점프중 Platform 무시
             if (rigidbody.velocity.y > 0)
             {
-                GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing();
+                GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing(playerLayer, platformLayer);
             }
             
             return true;
@@ -170,9 +172,8 @@ public class Movement2D : MonoBehaviour
 
     public void DownJumpTo()
     {
-        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(0.5f);
+        StartCoroutine(GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(playerLayer, platformLayer,0.3f));
         rigidbody.velocity = Vector2.down * jumpForce / 2;
-
     }
 
     private void GroundCheckAndJumpType()
@@ -230,7 +231,7 @@ public class Movement2D : MonoBehaviour
 
         Vector3 startingPos = transform.position;
 
-        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing();
+        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing(playerLayer, platformLayer);
 
         while (t <= 1.0f)
         {
@@ -240,7 +241,7 @@ public class Movement2D : MonoBehaviour
         }
         playerStats.timer = 0;
         isDashing = false;
-        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing();
+        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing(playerLayer, platformLayer);
 
     }
     //=====================================================================
