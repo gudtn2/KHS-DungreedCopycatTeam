@@ -121,6 +121,13 @@ public class PlayerController : MonoBehaviour
         if (x != 0)
         {
             lastMoveDirX = Mathf.Sign(x);
+
+            movement.rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+        // YS: x축 입렵이 없을시 경사면에서 미끄러지는 현상 수정
+        else
+        {
+            movement.rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
 
         movement.MoveTo(x);
@@ -164,6 +171,7 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임 제외한 기능
     //======================================================================================
+
     public void TakeDamage(float mon_Att)
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);
