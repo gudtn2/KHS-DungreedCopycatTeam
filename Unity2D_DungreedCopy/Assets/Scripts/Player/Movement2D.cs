@@ -5,30 +5,25 @@ using UnityEngine;
 
 public class Movement2D : MonoBehaviour
 {
-
     [Header("MoveX,Jump")]
     [SerializeField]
     private float           moveSpeed = 3.0f;
     [SerializeField]        
     private float           jumpForce = 8.0f;
     [SerializeField]        
-    private float           downJumpForce = -4.0f;
+    private float           downJumpForce;
     [SerializeField]        
-    private float           lowGravity = 1.0f;  // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    private float           lowGravity = 1.0f;      // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]        
-    private float           highGravity = 1.5f; // 일반적으로 적용되는 점프 
-    [HideInInspector]       
-    public bool             isJump = false;     // Jump상태 채크
-    [HideInInspector]       
+    private float           highGravity = 1.5f;     // 일반적으로 적용되는 점프 
+    public bool             isJump = false;         // Jump상태 채크
     public bool             isdownJump = false;     // Jump상태 채크
-    [HideInInspector]       
-    public bool             isWalk = false;     // Walk상태 채크
+    public bool             isWalk = false;         // Walk상태 채크
     [SerializeField]
     private int             playerLayer, platformLayer;
     [SerializeField]
-    private float           dis;
-    [SerializeField]
-    private float           angle;
+    private float           downJumpTime;
+
 
     [Header("DoubleJump")]
     public bool             haveDoubleJump;
@@ -39,11 +34,26 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private int             curJumpCount;
 
+    [Header("Checking Slope")]
+    [SerializeField]
+    private float           dis;
+    [SerializeField]
+    private float           angle;
+    [SerializeField]
+    private float           maxAngle;   // YS: 최대 각도를 설정해 이 각도 이상으로는 못올라가게 설정할 수 있음
+    [SerializeField]
+    private bool            isSlope = false;
+    [SerializeField]
+    private Vector2         prep;
+    
     [Header("Checking Ground")]
     [SerializeField]
     private LayerMask       collisionLayer;
     public bool             isGrounded;
-    private Vector3         footPos;
+    [SerializeField]
+    private Transform       footPos;
+    [SerializeField]
+    private float           checkRadius;
     
     [Header("Dash")]
     public bool             isDashing = false;
@@ -122,8 +132,10 @@ public class Movement2D : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        RaycastHit2D hit        = Physics2D.Raycast(this.transform.position, Vector2.down, dis, collisionLayer);
+        CheckSlope(hit);
+
         GroundCheckAndJumpType();
-        CheckSlope();
 
         if (isDashing)
         {
@@ -140,7 +152,13 @@ public class Movement2D : MonoBehaviour
     }
     public void MoveTo(float x)
     {
-        rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
+        if (isSlope && isGrounded && !isJump && angle < maxAngle)
+            rigidbody.velocity = prep * moveSpeed * x * -1f;
+        else if (!isSlope && isGrounded && !isJump)
+            rigidbody.velocity = new Vector2(x * moveSpeed, 0);
+        else if (!isGrounded)
+            rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
+
 
         // DustEffect Active
         if (!isSpawningDust)
@@ -182,25 +200,32 @@ public class Movement2D : MonoBehaviour
 
     public void DownJumpTo()
     {
-        StartCoroutine(GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(playerLayer, platformLayer,0.3f));
-        rigidbody.velocity = Vector2.down * jumpForce / 2;
+        StartCoroutine(GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(playerLayer, platformLayer, downJumpTime));
+        rigidbody.velocity = Vector2.down * downJumpForce;
     }
-    private void CheckSlope()
+    private void CheckSlope(RaycastHit2D hit)
     {
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.down, dis, collisionLayer);
+        if(hit)
+        {
+            // YS: Vector2.Perpendicular(Vector2 A)는 값에서 "반시계 방향"으로 90도 회전한
+            //     벡터값을 반환한다.
 
-        angle = Vector2.Angle(hit.normal, Vector2.up);
+            // YS: hit.normal은 충돌한 지점에서 면에 수직인 법선 벡터임.
+            prep = Vector2.Perpendicular(hit.normal).normalized;
+            angle = Vector2.Angle(hit.normal, Vector2.up);
 
-        Debug.DrawLine(hit.point, hit.point + hit.normal, Color.green);
+            // YS: 각도가 0이 아님으로 경사일때
+            if(angle != 0) isSlope = true;
+            else           isSlope = false;
+
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.green);
+            Debug.DrawLine(hit.point, hit.point + prep, Color.red);
+        }
     }
     private void GroundCheckAndJumpType()
     {
-        Bounds bounds = boxCollider2D.bounds;
-
-        footPos = new Vector3(bounds.center.x, bounds.min.y);
-
-        isGrounded = Physics2D.OverlapCircle(footPos, 0.02f, collisionLayer);
-
+        isGrounded = Physics2D.OverlapCircle(footPos.position, checkRadius, collisionLayer);
+        
         if (isGrounded == true && rigidbody.velocity.y <= 0)
         {
             isJump = false;
@@ -267,7 +292,7 @@ public class Movement2D : MonoBehaviour
     private IEnumerator ActiveDustEffect()
     {
         isSpawningDust = true;
-        while (rigidbody.velocity.x != 0 && rigidbody.velocity.y == 0)
+        while (rigidbody.velocity.x != 0 && !isJump)
         {
             GameObject dustEffect = dustPoolManager.ActivePoolItem();
             dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,-1f);
@@ -308,17 +333,10 @@ public class Movement2D : MonoBehaviour
             ghostDelaySeconds = ghostDelay;
         }
     }
-    //=====================================================================
-    // YS: Player Giamos
-    //=====================================================================
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(footPos, 0.02f);
-
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, dashDis);
-
-
+        Gizmos.DrawSphere(footPos.position, checkRadius);
     }
 }
