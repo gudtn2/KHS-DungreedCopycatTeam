@@ -102,6 +102,10 @@ public class PlayerController : MonoBehaviour
         if(dungeonPortalController.isCollideToPlayer)
         {
             StartCoroutine("ChangePlayerAlpha");
+            
+            // YS: 플레이어 Ground에 빠지는 현상 및 이동하던 방향으로 계속 이동현상 수정 
+            movement.rigidbody.velocity = new Vector2(0, 0);
+            this.transform.position = new Vector2(transform.position.x, -6.334974f);
         }
     }
 
@@ -128,14 +132,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(jumpKey))
         {
             bool isJump = movement.JumpTo();
-            if(movement.isGrounded == true)
-            {
-                movement.ActiveJumpDustEffect();
-            }
-            else
-            {
-                Physics2D.IgnoreLayerCollision(3, 6);
-            }
         }
         else if (Input.GetKey(jumpKey))
         {

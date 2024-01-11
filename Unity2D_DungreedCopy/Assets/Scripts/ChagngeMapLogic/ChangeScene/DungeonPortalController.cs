@@ -6,16 +6,18 @@ using UnityEngine;
 public class DungeonPortalController : MonoBehaviour
 {
     public bool         isCollideToPlayer = false;
-    public float        isCollideToPlayerBackTime = 3;
     
     [SerializeField]
     private GameObject              dungeonPortalPrefab;
 
     private PoolManager             dungeonPortalPoolMnager;
+    private PlayerController        player;
 
     private void Awake()
     {
         dungeonPortalPoolMnager = new PoolManager(dungeonPortalPrefab);
+        
+        player = FindObjectOfType<PlayerController>();
     }
     private void OnApplicationQuit()
     {
@@ -25,7 +27,7 @@ public class DungeonPortalController : MonoBehaviour
     private void ActiveDungeonPortal()
     {
         GameObject dungeonPortal = dungeonPortalPoolMnager.ActivePoolItem();
-        dungeonPortal.transform.position = new Vector3(transform.position.x,-1.5f,transform.position.z);
+        dungeonPortal.transform.position = new Vector3(player.transform.position.x, -1.5f,transform.position.z);
         dungeonPortal.transform.rotation = transform.rotation;
         dungeonPortal.GetComponent<DungeonPortal>().Setup(dungeonPortalPoolMnager);
     }

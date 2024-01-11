@@ -38,7 +38,6 @@ public class Movement2D : MonoBehaviour
     [Header("Checking Ground")]
     [SerializeField]
     private LayerMask       collisionLayer;
-    [HideInInspector]
     public bool             isGrounded;
     private Vector3         footPos;
     
@@ -121,16 +120,11 @@ public class Movement2D : MonoBehaviour
     {
         GroundCheckAndJumpType();
 
-        // DashEffect Active
         if (isDashing)
         {
             ActiveDashEffect();
         }
-        // DustEffect Active
-        if (!isSpawningDust)
-        {
-            StartCoroutine("ActiveDustEffect");
-        }
+        
 
         if(isJump && rigidbody.velocity.y <= 0)
         {
@@ -142,6 +136,12 @@ public class Movement2D : MonoBehaviour
     public void MoveTo(float x)
     {
         rigidbody.velocity = new Vector2(x * moveSpeed, rigidbody.velocity.y);
+
+        // DustEffect Active
+        if (!isSpawningDust)
+        {
+            StartCoroutine("ActiveDustEffect");
+        }
     }
 
     public bool JumpTo()
@@ -156,6 +156,11 @@ public class Movement2D : MonoBehaviour
             if(haveDoubleJump == true && curJumpCount < 1 && Input.GetKeyDown(KeyCode.Space))
             {
                 ActiveDoubleJumpDustEffect();
+            }
+
+            if(isGrounded)
+            {
+                ActiveJumpDustEffect();
             }
 
             // YS: 점프중 Platform 무시

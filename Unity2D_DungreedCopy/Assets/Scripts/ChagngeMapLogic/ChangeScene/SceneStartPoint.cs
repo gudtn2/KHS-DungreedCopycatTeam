@@ -8,8 +8,6 @@ public class SceneStartPoint : MonoBehaviour
 
     [SerializeField]
     private string                  dungeonName;
-    //[SerializeField]
-    //private BoxCollider2D           targetBound;
 
     private PlayerController        player;
     private MainCameraController    mainCam;
