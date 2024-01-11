@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene(JaeMo)/Original.unity
     guid: 68b324c5127a1c24297c7e1e776b5556
+  - enabled: 1
+    path: Assets/Scenes/Scene(JaeMo)/SkelBoss.unity
+    guid: 265b57cbb8cdcb54c93435883db23833
   m_configObjects: {}
