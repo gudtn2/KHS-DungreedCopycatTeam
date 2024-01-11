@@ -25,6 +25,10 @@ public class Movement2D : MonoBehaviour
     public bool             isWalk = false;     // Walk상태 채크
     [SerializeField]
     private int             playerLayer, platformLayer;
+    [SerializeField]
+    private float           dis;
+    [SerializeField]
+    private float           angle;
 
     [Header("DoubleJump")]
     public bool             haveDoubleJump;
@@ -119,6 +123,7 @@ public class Movement2D : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheckAndJumpType();
+        CheckSlope();
 
         if (isDashing)
         {
@@ -180,7 +185,14 @@ public class Movement2D : MonoBehaviour
         StartCoroutine(GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(playerLayer, platformLayer,0.3f));
         rigidbody.velocity = Vector2.down * jumpForce / 2;
     }
+    private void CheckSlope()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.down, dis, collisionLayer);
 
+        angle = Vector2.Angle(hit.normal, Vector2.up);
+
+        Debug.DrawLine(hit.point, hit.point + hit.normal, Color.green);
+    }
     private void GroundCheckAndJumpType()
     {
         Bounds bounds = boxCollider2D.bounds;

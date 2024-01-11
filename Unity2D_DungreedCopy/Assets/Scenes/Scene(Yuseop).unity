@@ -3169,7 +3169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollideToPlayer: 0
-  isCollideToPlayerBackTime: 3
   dungeonPortalPrefab: {fileID: 670594784744020050, guid: 68360ff107c217b4585710c64b7408c6, type: 3}
 --- !u!61 &695778397
 BoxCollider2D:
@@ -3845,6 +3844,8 @@ MonoBehaviour:
   isWalk: 0
   playerLayer: 0
   platformLayer: 0
+  dis: 1
+  angle: 0
   haveDoubleJump: 0
   haveDoubleJump_MaxJumpCount: 2
   normalState_MaxJumpCount: 1
