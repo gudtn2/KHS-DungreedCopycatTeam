@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     static public PlayerController instance;
 
+    [Header("보스를 만났는지 여부")]
+    public bool     playerMeetsBoss;
+
     [Header("방향")]
     public float    lastMoveDirX;
     public Vector3  mousePos;
@@ -31,8 +34,6 @@ public class PlayerController : MonoBehaviour
     [Header("현재 맵 이름")]
     public string           curSceneName;        
     public string           curDungeonName;        
-
-    [SerializeField]
 
     private Movement2D              movement;
     private Animator                ani;

@@ -24,6 +24,8 @@ public class MainCameraController : MonoBehaviour
     // YS: 카메라의 반높이 값의 속성을 이용하기 위한 변수
     private Camera          halfHeightCam;
 
+    private PlayerController playerController;
+
     private void Awake()
     {
         if (instance == null)
@@ -49,8 +51,11 @@ public class MainCameraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, targetPos, smooting);
+        if(!playerController.playerMeetsBoss)
+        {
+            ChasePlayer();
+        }
+        
 
         float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
@@ -63,5 +68,18 @@ public class MainCameraController : MonoBehaviour
         bound = newBound;
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
+    }
+
+    public void ChangeView(Transform changePos)
+    {
+        Vector3 targetPos = new Vector3(changePos.position.x, changePos.position.y, changePos.position.z - 10);
+
+        transform.position = Vector3.Lerp(transform.position, targetPos, 0.5f);
+    }
+
+    private void ChasePlayer()
+    {
+        Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, targetPos, smooting);
     }
 }
