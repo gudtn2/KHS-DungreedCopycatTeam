@@ -4,51 +4,64 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class TransformToBossDungeon : MonoBehaviour
 {
-    private KeyCode         transferBossKey = KeyCode.F;
+
     [SerializeField]
-    private SpriteRenderer  spriteKey_F;
+    private GameObject              spriteKey_F;
     [SerializeField]
-    private string          transferBossStageName;
+    private string                  transferBossStageName;
+    [SerializeField]
+    private bool                    isActiveTransferKey = false;
+
+    private KeyCode                 transferBossKey = KeyCode.F;
 
     private PlayerController        player;
     private FadeEffectController    fade;
+    private MapController           map;
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
         fade   = FindObjectOfType<FadeEffectController>();
+        map    = FindObjectOfType<MapController>();
     }
+    private void Update()
+    {
+        spriteKey_F.SetActive(isActiveTransferKey);
+
+        if (isActiveTransferKey)
+        {
+            if(Input.GetKeyDown(transferBossKey))
+            {
+                // 변경할 씬 이름으로 변경
+                player.curSceneName = transferBossStageName;
+
+                // dungeonName List정리
+                map.dungeonNames.Clear();
+
+                // 페이드아웃 효과
+                fade.OnFade(FadeState.FadeOut);
+
+                StartCoroutine(TranferBossStage());
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.name == "Player")
         {
-            spriteKey_F.gameObject.SetActive(true);
+            isActiveTransferKey = true;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-            if(Input.GetKeyDown(transferBossKey))
-            {
-                StartCoroutine("TranferBossStage");
-            }
-        }
-
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
-            spriteKey_F.gameObject.SetActive(false);
+            isActiveTransferKey = false;
+            //spriteKey_F.SetActive(isActiveTransferKey);
         }
     }
     private IEnumerator TranferBossStage()
     {
-        player.curSceneName = transferBossStageName;
-
-        fade.OnFade(FadeState.FadeInOut);
-
         yield return new WaitForSeconds(fade.fadeTime);
         SceneManager.LoadScene(transferBossStageName);
     }

@@ -39,7 +39,6 @@ public class PlayerStats : StatManager
     public void UseDC()
     {
         DC = Mathf.Max(DC - 1, 0);
-        Debug.Log("대시 횟수 감소: " + DC);
     }
 
     private void RecoveryDC()
@@ -47,7 +46,6 @@ public class PlayerStats : StatManager
         if(DC < MaxDC && DashRecoveryTimerExpired())
         {
             DC = Mathf.Min(DC + 1, MaxDC);
-            Debug.Log("대시 횟수 증가: " + DC);
             DashRecoveryTimerExpired();
             if(timer >= RecoverTimeDC)
             {
