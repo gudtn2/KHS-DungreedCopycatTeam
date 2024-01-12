@@ -12,6 +12,7 @@ public class SceneStartPoint : MonoBehaviour
     private PlayerController        player;
     private MainCameraController    mainCam;
     private FadeEffectController    fade;
+    [SerializeField]
     private MapController           map;
 
     private void Awake()
@@ -19,17 +20,33 @@ public class SceneStartPoint : MonoBehaviour
         player  = FindObjectOfType<PlayerController>();
         mainCam = FindObjectOfType<MainCameraController>();
         fade    = FindObjectOfType<FadeEffectController>();
-        map     = FindObjectOfType<MapController>();
     }
 
     private void Start()
     {
+        
         if (startPoint == player.curSceneName)
         {
             fade.OnFade(FadeState.FadeIn);
 
-            GameObject targetObject = GameObject.Find(dungeonName);
+            player.curDungeonName      = dungeonName;
+            mainCam.transform.position = new Vector3(transform.position.x,
+                                                     transform.position.y,
+                                                     mainCam.transform.position.z);
+            player.transform.position = this.transform.position;
+            
 
+            if(player.curDungeonName == dungeonName)
+            {
+                if(!map.dungeonNames.Contains(dungeonName))
+                {
+                    map.dungeonNames.Add(dungeonName);
+                    Debug.Log(dungeonName + "이 리스트에 추가됐습니다.");
+                }
+            }
+
+
+            GameObject targetObject = GameObject.Find(dungeonName);
             if (targetObject != null)
             {
                 BoxCollider2D targetBound = targetObject.GetComponent<BoxCollider2D>();
@@ -42,22 +59,7 @@ public class SceneStartPoint : MonoBehaviour
                 Debug.LogWarning("Target object with the specified name not found.");
             }
 
-            player.curDungeonName = dungeonName;
 
-            if(player.curDungeonName == dungeonName)
-            {
-                if(!map.dungeonNames.Contains(dungeonName))
-                {
-                    map.dungeonNames.Add(dungeonName);
-                    Debug.Log(dungeonName + "이 리스트에 추가됐습니다.");
-                }
-            }
-
-            mainCam.transform.position = new Vector3(transform.position.x,
-                                                     transform.position.y,
-                                                     mainCam.transform.position.z);
-
-            player.transform.position = this.transform.position;
 
         }
     }
