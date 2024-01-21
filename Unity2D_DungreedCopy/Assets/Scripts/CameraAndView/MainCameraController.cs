@@ -32,6 +32,8 @@ public class MainCameraController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
+
+            playerController = FindObjectOfType<PlayerController>();
         }
         else
         {
@@ -51,7 +53,7 @@ public class MainCameraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(!playerController.playerMeetsBoss)
+        if(playerController.playerMeetsBoss == false)
         {
             ChasePlayer();
         }
@@ -70,14 +72,13 @@ public class MainCameraController : MonoBehaviour
         maxBound = bound.bounds.max;
     }
 
-    public void ChangeView(Transform changePos)
+    public void ChangeView(Transform changePos, float smoothSpeed)
     {
         Vector3 targetPos = new Vector3(changePos.position.x, changePos.position.y, changePos.position.z - 10);
-
-        transform.position = Vector3.Lerp(transform.position, targetPos, 0.5f);
+        transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
     }
 
-    private void ChasePlayer()
+    public void ChasePlayer()
     {
         Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPos, smooting);
