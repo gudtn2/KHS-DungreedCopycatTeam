@@ -10,6 +10,8 @@ TagManager:
   - TransferScene
   - MapBorder
   - PassingPlatform
+  - Bullet
+  - Sword
   layers:
   - Default
   - TransparentFX

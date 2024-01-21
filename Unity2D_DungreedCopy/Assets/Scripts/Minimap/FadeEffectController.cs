@@ -35,11 +35,9 @@ public class FadeEffectController : MonoBehaviour
         {
             case FadeState.FadeIn:
                 StartCoroutine(Fade(1, 0));
-                Debug.Log("밝아지는 중!");
                 break;
             case FadeState.FadeOut:
                 StartCoroutine(Fade(0, 1));
-                Debug.Log("까매지는 중!");
                 break;
             case FadeState.FadeInOut:
             case FadeState.FadeLoop:
@@ -66,7 +64,6 @@ public class FadeEffectController : MonoBehaviour
         float curTime = 0;
         float percent = 0;
 
-        Debug.Log("Fade 하는중");
         while(percent < 1)
         {
             curTime += Time.deltaTime;
