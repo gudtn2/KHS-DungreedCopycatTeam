@@ -24,6 +24,15 @@ public class BossPattern : MonoBehaviour
     private float           fireRateTime = 0.2f;    // bullet의 생성 시간 제어
     [HideInInspector]
     public  PoolManager     headAttackPoolManager;
+    [SerializeField]
+    private float           headAttackMinTime = 3.0f;
+    [SerializeField]
+    private float           headAttackMaxTime = 5.0f;
+    [SerializeField]
+    private float           headAttackTime = 0;
+    [SerializeField]
+    private bool            isHeadAttack;
+
 
     [Header("SwordAttack")]
     [SerializeField]
@@ -45,7 +54,33 @@ public class BossPattern : MonoBehaviour
     }
     private void Start()
     {
-        ChangeBossState(BossState.SwordAttack);
+        //ChangeBossState(BossState.SwordAttack);
+        ChangeBossState(BossState.HeadAttack);
+    }
+
+    private void Update()
+    {
+        if(isHeadAttack)
+        {
+            headAttackTime += Time.deltaTime;
+
+            if(headAttackTime > Random.Range(headAttackMinTime,headAttackMaxTime))
+            {
+                isHeadAttack = false;
+
+                if(!isHeadAttack)
+                {
+                    StartCoroutine(HeadAttackTimeReturnZero());
+                }
+            }
+        }
+    }
+
+    private IEnumerator HeadAttackTimeReturnZero()
+    {
+        yield return new WaitForSeconds(3f);
+        headAttackTime = 0;
+
     }
     private IEnumerator SwordAttack()
     {
@@ -62,8 +97,9 @@ public class BossPattern : MonoBehaviour
     private IEnumerator HeadAttack()
     {
         int fireAngle = 0;  // 초기값은 0도
+        isHeadAttack = true;
 
-        while(true)
+        while (isHeadAttack == true)
         {
 
             for (int i = 0; i < fireDirCount; ++i)

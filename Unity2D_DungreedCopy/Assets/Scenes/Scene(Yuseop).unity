@@ -3271,6 +3271,8 @@ MonoBehaviour:
   fireDirCount: 4
   fireRateTime: 0.2
   headAttackPoolManager: {fileID: 0}
+  headAttackMinTime: 3
+  headAttackMaxTime: 5
   bossSwordSpawnPrefab: {fileID: 6487522415779275869, guid: 445ba0bcf42ccbd408f10a6e5c6d6e08, type: 3}
   bossSwordSpawnPoolManager: {fileID: 0}
   bossSwordSpawnDelayTime: 0.5
