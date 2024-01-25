@@ -13,6 +13,14 @@ public class BossPattern : MonoBehaviour
 {
     public BossState   bossState;
 
+    [Header("BossPattern")]
+    [SerializeField]
+    private int             patternCount;
+    [SerializeField]
+    private int             maxPatternCount;
+    [SerializeField]        
+    private int             minPatternCount;
+
     [Header("HeadAttack")]
     [SerializeField]
     private GameObject      headBulletPrefab;
@@ -47,7 +55,6 @@ public class BossPattern : MonoBehaviour
     public List<GameObject>     swordList = new List<GameObject>();
 
     [Header("HandsAttack")]
-    [SerializeField]
     private GameObject          selectedHand;
     [SerializeField]
     private GameObject          leftHand;
@@ -73,11 +80,6 @@ public class BossPattern : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
     }
-    private void Start()
-    {
-        //ChangeBossState(BossState.SwordAttack);
-        ChangeBossState(BossState.HandsAttack);
-    }
 
     private void Update()
     {
@@ -93,6 +95,32 @@ public class BossPattern : MonoBehaviour
                 {
                     StartCoroutine(HeadAttackTimeReturnZero());
                 }
+            }
+        }
+    }
+
+    private IEnumerator PatternRoutain()
+    {
+        // 차후 조건에 죽을때까지 돌리도록
+        while (true)
+        {
+            yield return new WaitForSeconds(15f);
+
+            int randumIndex = Random.Range(0, 3);
+
+            if(randumIndex == 0)
+            {
+                ChangeBossState(BossState.HandsAttack);
+                
+                // 차후 모든 시간이 끝난 뒤에 Idel실행하도록
+            }
+            else if(randumIndex == 1)
+            {
+                ChangeBossState(BossState.HeadAttack);
+            }
+            else
+            {
+                ChangeBossState(BossState.HeadAttack);
             }
         }
     }
@@ -125,6 +153,11 @@ public class BossPattern : MonoBehaviour
             {
                 selectedHand.transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / handsMoveTime);
                 elapsedTime += Time.deltaTime;
+             
+                if(elapsedTime >= handsMoveTime)
+                {
+                    selectedHand.GetComponent<BossHands>().StartAttackAni();
+                }
                 yield return null;
             }
         }

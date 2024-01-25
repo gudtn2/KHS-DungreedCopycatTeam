@@ -189,12 +189,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private IEnumerator HurtRoutine()
+    public IEnumerator HurtRoutine()
     {
         yield return new WaitForSeconds(hurtRoutineDuration);
         isHurt = false;
     }
-    private IEnumerator BlinkPlayer()
+    public IEnumerator BlinkPlayer()
     {
         while(isHurt)
         {
