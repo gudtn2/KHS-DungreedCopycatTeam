@@ -6,7 +6,7 @@ public enum BossState
 {
     Idle = 0,
     HeadAttack,    
-    ArmsAttack,   
+    HandsAttack,   
     SwordAttack    
 }
 public class BossPattern : MonoBehaviour
@@ -46,16 +46,37 @@ public class BossPattern : MonoBehaviour
     public bool                 isSpawnAllSword = false;
     public List<GameObject>     swordList = new List<GameObject>();
 
+    [Header("HandsAttack")]
+    [SerializeField]
+    private GameObject          selectedHand;
+    [SerializeField]
+    private GameObject          leftHand;
+    [SerializeField]
+    private GameObject          rightHand;
+    [SerializeField]
+    private float               waitHandAttackTime;
+    [SerializeField]
+    private float               handsMoveTime;
+    [SerializeField]
+    private int                 count;
+    [SerializeField]
+    private int                 maxCount;
+    [SerializeField]
+    private int                 minCount;
+
+    private GameObject player;
+
     private void Awake()
     {
         headAttackPoolManager       = new PoolManager(headBulletPrefab);
         bossSwordSpawnPoolManager   = new PoolManager(bossSwordSpawnPrefab);
 
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     private void Start()
     {
         //ChangeBossState(BossState.SwordAttack);
-        ChangeBossState(BossState.HeadAttack);
+        ChangeBossState(BossState.HandsAttack);
     }
 
     private void Update()
@@ -76,6 +97,38 @@ public class BossPattern : MonoBehaviour
         }
     }
 
+    private IEnumerator HandsAttack()
+    {
+        count = Random.Range(minCount, maxCount);
+        while(count >= 0)
+        {
+            yield return new WaitForSeconds(waitHandAttackTime);
+            count--;
+
+            int randomIndex = Random.Range(0, 2);
+
+            if(randomIndex == 0)
+            {
+                selectedHand = leftHand;
+            }
+            else
+            {
+                selectedHand = rightHand;
+            }
+
+            Vector2 startPos = selectedHand.transform.position;
+            Vector2 targetPos = new Vector2(selectedHand.transform.position.x, player.transform.position.y);
+
+            float elapsedTime = 0f;
+
+            while(elapsedTime < handsMoveTime)
+            {
+                selectedHand.transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / handsMoveTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
     private IEnumerator HeadAttackTimeReturnZero()
     {
         yield return new WaitForSeconds(3f);
