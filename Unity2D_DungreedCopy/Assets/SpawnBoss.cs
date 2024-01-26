@@ -31,18 +31,21 @@ public class SpawnBoss : MonoBehaviour
     [SerializeField]
     private AnimationCurve  activeCurve;
 
-    private CircleCollider2D circleCollider2D;
-    private UIEffectManager uiEffectManager;
-    private MainCameraController mainCam;
-    private PlayerController player;
+    private CircleCollider2D        circleCollider2D;
+    private UIEffectManager         uiEffectManager;
+    private MainCameraController    mainCam;
+    private PlayerController        player;
+    private BossPattern             bossPattern;
 
     private void Awake()
     {
-        circleCollider2D = GetComponent<CircleCollider2D>();
+        circleCollider2D    = GetComponent<CircleCollider2D>();
+        bossPattern         = GetComponent<BossPattern>();
 
-        uiEffectManager = FindObjectOfType<UIEffectManager>();
-        mainCam = FindObjectOfType<MainCameraController>();
-        player = FindObjectOfType<PlayerController>();
+        uiEffectManager     = FindObjectOfType<UIEffectManager>();
+        mainCam             = FindObjectOfType<MainCameraController>();
+        player              = FindObjectOfType<PlayerController>();
+
     }
     private void Start()
     {
@@ -53,6 +56,11 @@ public class SpawnBoss : MonoBehaviour
 
         TextBossNameUI.text     = stringBossName;
         TextBossNicknameUI.text = stringBossNickname;
+
+        if (player.playerMeetsBoss == true)
+        {
+            StartCoroutine(IntroduceBoss());
+        }
     }
 
     private void Update()
@@ -63,12 +71,10 @@ public class SpawnBoss : MonoBehaviour
             {
                 StartCoroutine(uiEffectManager.UIFade(spritesBoss[i], 0, 1));
             }
-
-            IntroduceBoss();
         }
     }
 
-    private void IntroduceBoss()
+    private IEnumerator IntroduceBoss()
     {
         // mainCam 이동 bossCamViewPos로 이동
         mainCam.ChangeView(bossCamViewPos, camViewSmoothSpeed);
@@ -79,14 +85,8 @@ public class SpawnBoss : MonoBehaviour
         StartCoroutine(uiEffectManager.UIFade(TextBossNameUI, 0, 1));
         StartCoroutine(uiEffectManager.UIFade(TextBossNicknameUI, 0, 1));
 
-        StartCoroutine(ExitIntroduceBoss());
-        
-    }
-
-    private IEnumerator ExitIntroduceBoss()
-    {
         yield return new WaitForSeconds(1f);
-
+        
         limitTime = 0.2f;
 
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageTop, 1, 0));
@@ -95,12 +95,8 @@ public class SpawnBoss : MonoBehaviour
         StartCoroutine(uiEffectManager.UIFade(TextBossNameUI, 1, 0));
         StartCoroutine(uiEffectManager.UIFade(TextBossNicknameUI, 1, 0));
 
-        StartCoroutine(ReturnCamPos());
-    }
-    private IEnumerator ReturnCamPos()
-    {
         yield return new WaitForSeconds(2f);
-        player.playerMeetsBoss  = false; 
+        player.playerMeetsBoss = false;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)

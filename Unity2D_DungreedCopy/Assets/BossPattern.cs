@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum BossState 
 {
+    None = -1,
     Idle = 0,
     HeadAttack,    
     HandsAttack,   
@@ -12,14 +13,6 @@ public enum BossState
 public class BossPattern : MonoBehaviour
 {
     public BossState   bossState;
-
-    [Header("BossPattern")]
-    [SerializeField]
-    private int             patternCount;
-    [SerializeField]
-    private int             maxPatternCount;
-    [SerializeField]        
-    private int             minPatternCount;
 
     [Header("HeadAttack")]
     [SerializeField]
@@ -40,6 +33,8 @@ public class BossPattern : MonoBehaviour
     private float           headAttackTime = 0;
     [SerializeField]
     private bool            isHeadAttack;
+    [SerializeField]
+    private Transform       headAttackTransform;
 
 
     [Header("SwordAttack")]
@@ -51,10 +46,10 @@ public class BossPattern : MonoBehaviour
     private float               bossSwordSpawnDelayTime;
     [SerializeField]
     private Transform[]         spawnTransforms;
-    public bool                 isSpawnAllSword = false;
-    public List<GameObject>     swordList = new List<GameObject>();
+    public int                  DeactivateSwordCount;
 
     [Header("HandsAttack")]
+    [SerializeField]
     private GameObject          selectedHand;
     [SerializeField]
     private GameObject          leftHand;
@@ -70,17 +65,30 @@ public class BossPattern : MonoBehaviour
     private int                 maxCount;
     [SerializeField]
     private int                 minCount;
+    [SerializeField]
+    private bool                isHandsAttack = false;
 
-    private GameObject player;
+    private GameObject      player;
+    private BossController  boss;
 
+    private void OnEnable()
+    {
+        ChangeBossState(BossState.Idle);    
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(bossState.ToString());
+        bossState = BossState.None;
+    }
     private void Awake()
     {
         headAttackPoolManager       = new PoolManager(headBulletPrefab);
         bossSwordSpawnPoolManager   = new PoolManager(bossSwordSpawnPrefab);
 
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
+        player  = GameObject.FindGameObjectWithTag("Player");
 
+        boss    = GetComponent<BossController>();
+    }
     private void Update()
     {
         if(isHeadAttack)
@@ -97,38 +105,52 @@ public class BossPattern : MonoBehaviour
                 }
             }
         }
-    }
 
-    private IEnumerator PatternRoutain()
+        if(DeactivateSwordCount >= 5)
+        {
+            DeactivateSwordCount = 0;
+            ChangeBossState(BossState.Idle);
+        }
+    }
+    private IEnumerator Idle()
     {
-        // 차후 조건에 죽을때까지 돌리도록
+        yield return new WaitForSeconds(3f);
+        StartCoroutine("AutoChangeBossAttack");
+
         while (true)
         {
-            yield return new WaitForSeconds(15f);
+            // "Idle"일때 하는 행동
 
-            int randumIndex = Random.Range(0, 3);
+            yield return null;
+        }
+    }
 
-            if(randumIndex == 0)
-            {
+    private IEnumerator AutoChangeBossAttack()
+    {
+        int changeWaitTime = Random.Range(1, 4);
+
+        yield return new WaitForSeconds(changeWaitTime);
+
+        int count = Random.Range(0, 3);
+        switch (count)
+        {
+            case 0:
                 ChangeBossState(BossState.HandsAttack);
-                
-                // 차후 모든 시간이 끝난 뒤에 Idel실행하도록
-            }
-            else if(randumIndex == 1)
-            {
+                break;
+            case 1:
                 ChangeBossState(BossState.HeadAttack);
-            }
-            else
-            {
-                ChangeBossState(BossState.HeadAttack);
-            }
+                break;
+            case 2:
+                ChangeBossState(BossState.SwordAttack);
+                break;
         }
     }
 
     private IEnumerator HandsAttack()
     {
         count = Random.Range(minCount, maxCount);
-        while(count >= 0)
+
+        while (count >= 0)
         {
             yield return new WaitForSeconds(waitHandAttackTime);
             count--;
@@ -161,6 +183,8 @@ public class BossPattern : MonoBehaviour
                 yield return null;
             }
         }
+
+        ChangeBossState(BossState.Idle);
     }
     private IEnumerator HeadAttackTimeReturnZero()
     {
@@ -183,8 +207,10 @@ public class BossPattern : MonoBehaviour
     private IEnumerator HeadAttack()
     {
         int fireAngle = 0;  // 초기값은 0도
+        
         isHeadAttack = true;
 
+        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
         while (isHeadAttack == true)
         {
 
@@ -197,7 +223,7 @@ public class BossPattern : MonoBehaviour
                 Vector2 dir = new Vector2(Mathf.Cos(fireAngle * Mathf.Deg2Rad), Mathf.Sin(fireAngle * Mathf.Deg2Rad));
 
                 tempObj.transform.right = dir;
-                tempObj.transform.position = transform.position;
+                tempObj.transform.position = headAttackTransform.position;
                 tempObj.GetComponent<BossHeadBullet>().Setup(headAttackPoolManager);
             }
 
@@ -208,10 +234,15 @@ public class BossPattern : MonoBehaviour
 
             if (fireAngle > 360) fireAngle -= 360;
         }
+        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", false);
+        ChangeBossState(BossState.Idle);
     }
 
-    private void ChangeBossState(BossState newState)
+    public void ChangeBossState(BossState newState)
     {
+
+        if (bossState == newState) return;
+
         // 이전에 재생하던 상태 종료 
         StopCoroutine(bossState.ToString());
 

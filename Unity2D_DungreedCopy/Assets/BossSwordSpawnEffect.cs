@@ -32,7 +32,5 @@ public class BossSwordSpawnEffect : MonoBehaviour
         sword.transform.position = transform.position;
         sword.transform.rotation = transform.rotation;
         sword.GetComponent<BossSword>().Setup(SwordPoolManager);
-        boss.swordList.Add(sword);
-        Debug.Log(boss.swordList);
     }
 }

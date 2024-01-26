@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4162798820151032465}
   - component: {fileID: -8856771175606751500}
   - component: {fileID: 6984972652140548152}
+  - component: {fileID: -4882404680035810947}
   m_Layer: 0
   m_Name: BossSwordDeactivateEffect
   m_TagString: Untagged
@@ -119,3 +120,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4882404680035810947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487522415779275869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8126bec689dcb5f4bba87f891a09c2ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

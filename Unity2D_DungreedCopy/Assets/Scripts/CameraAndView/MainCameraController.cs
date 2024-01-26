@@ -57,8 +57,6 @@ public class MainCameraController : MonoBehaviour
         {
             ChasePlayer();
         }
-        
-
         float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
@@ -72,10 +70,19 @@ public class MainCameraController : MonoBehaviour
         maxBound = bound.bounds.max;
     }
 
-    public void ChangeView(Transform changePos, float smoothSpeed)
+    public IEnumerator ChangeView(Transform changePos, float camMoveTime)
     {
+        float elapsedTime = 0f;
         Vector3 targetPos = new Vector3(changePos.position.x, changePos.position.y, changePos.position.z - 10);
-        transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
+       
+        while(elapsedTime< camMoveTime)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPos, elapsedTime / camMoveTime);
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
     }
 
     public void ChasePlayer()
