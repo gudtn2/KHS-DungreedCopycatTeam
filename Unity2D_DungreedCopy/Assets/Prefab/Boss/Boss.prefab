@@ -940,11 +940,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossState: -1
   slowFactor: 0.2
-  fasterRate: 0.005
+  fasterRate: 0.0025
   imageBossDieEffect: {fileID: 6243001896466694738}
   explosionEffectPrefab: {fileID: 3699184378972901191, guid: 6bb5f1a1c5bcf7241af930e7ce916da1, type: 3}
+  explosionEffectCount: 100
   diePiecePrefab: {fileID: 3066248250393582781, guid: 1b9cd17e622a8fa43938b5cbe1b9bca5, type: 3}
-  diePieceInstanceTransform: {fileID: 4441059974970208931}
   headBulletPrefab: {fileID: 3848717032181271592, guid: fb5bf371a49794244b9724385674c0e9, type: 3}
   angleInterval: -10
   fireDirCount: 4

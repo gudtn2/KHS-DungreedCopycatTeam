@@ -27,6 +27,8 @@ public class BossPattern : MonoBehaviour
     [SerializeField]
     private GameObject      explosionEffectPrefab;
     [SerializeField]
+    private int             explosionEffectCount;       // 생성할 폭발이펙트 수
+    [SerializeField]
     private GameObject      diePiecePrefab;
 
     [Header("HeadAttack")]
@@ -109,6 +111,12 @@ public class BossPattern : MonoBehaviour
 
         uiEffectManager = FindObjectOfType<UIEffectManager>();
     }
+    private void OnApplicationQuit()
+    {
+        headAttackPoolManager.DestroyObjcts();
+        bossSwordSpawnPoolManager.DestroyObjcts();
+        explosionEffectPoolManager.DestroyObjcts();
+    }
     private void Update()
     {
         // HeadAttack을 랜덤 시간으로 돌리기 위한 조건
@@ -151,10 +159,13 @@ public class BossPattern : MonoBehaviour
     private IEnumerator Die()
     {
         imageBossDieEffect.color = new Color(1, 1, 1, 1);
+
         yield return new WaitForSeconds(0.01f);
+
         StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
         Time.timeScale = slowFactor;
-        for (int i = 0; i <= 100; i++)
+
+        for (int i = 0; i <= explosionEffectCount; i++)
         {
             yield return new WaitForSeconds(0.05f);
             Vector2 randomPos = new Vector2(Random.Range(transform.position.x - 4, transform.position.x + 4), Random.Range(transform.position.y - 4, transform.position.y + 4));

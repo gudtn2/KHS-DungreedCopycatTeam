@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8483837983054169133}
   - component: {fileID: 625667401621588528}
   - component: {fileID: 4986597567128951030}
+  - component: {fileID: 8174407418648530351}
   m_Layer: 10
   m_Name: Down
   m_TagString: Untagged
@@ -112,7 +113,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &4986597567128951030
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -184,6 +185,18 @@ PolygonCollider2D:
       - {x: 1.28125, y: 0.15625}
       - {x: 1.40625, y: 0.96875}
   m_UseDelaunayMesh: 0
+--- !u!114 &8174407418648530351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238193163487637656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc7e5f13e1849e40b3023aa52b0b1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3066248250393582781
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8547793218768896489}
+  - component: {fileID: -8398746010921503112}
   m_Layer: 0
   m_Name: BossDiePiece
   m_TagString: Untagged
@@ -217,6 +231,19 @@ Transform:
   - {fileID: 119005492987773761}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8398746010921503112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066248250393582781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1df83473373944dbc4e9714588eeb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionEffectPrefab: {fileID: 3699184378972901191, guid: 392900ec85d0a3448964cf2e617e1440, type: 3}
 --- !u!1 &3781298477867488872
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +256,7 @@ GameObject:
   - component: {fileID: 5151281243594932078}
   - component: {fileID: 6616482414043048966}
   - component: {fileID: 54639076269732426}
+  - component: {fileID: 7049448698549736085}
   m_Layer: 10
   m_Name: Up
   m_TagString: Untagged
@@ -291,7 +319,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 7b7d24f1b9a9aee43baa701bab70ff5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -402,4 +430,16 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &7049448698549736085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3781298477867488872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc7e5f13e1849e40b3023aa52b0b1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
