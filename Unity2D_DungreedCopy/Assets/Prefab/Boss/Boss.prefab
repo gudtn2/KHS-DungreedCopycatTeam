@@ -945,6 +945,8 @@ MonoBehaviour:
   explosionEffectPrefab: {fileID: 3699184378972901191, guid: 6bb5f1a1c5bcf7241af930e7ce916da1, type: 3}
   explosionEffectCount: 100
   diePiecePrefab: {fileID: 3066248250393582781, guid: 1b9cd17e622a8fa43938b5cbe1b9bca5, type: 3}
+  camViewPos: {fileID: 6513474218051200541}
+  isDie: 0
   headBulletPrefab: {fileID: 3848717032181271592, guid: fb5bf371a49794244b9724385674c0e9, type: 3}
   angleInterval: -10
   fireDirCount: 4
@@ -1018,7 +1020,7 @@ Transform:
   m_GameObject: {fileID: 3568858642164729266}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalPosition: {x: 8, y: 3, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1347,7 +1349,7 @@ Transform:
   m_GameObject: {fileID: 4691696579060529988}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: -8, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

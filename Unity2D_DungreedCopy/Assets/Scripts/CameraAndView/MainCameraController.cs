@@ -6,6 +6,9 @@ public class MainCameraController : MonoBehaviour
 {
     static public MainCameraController instance;
 
+    private float           shakeTime;
+    private float           shakeIntensity;
+
     [SerializeField]
     private Transform       player;
     [SerializeField]
@@ -53,10 +56,11 @@ public class MainCameraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(playerController.playerMeetsBoss == false)
+        if(playerController.playerMeetsBoss == false && playerController.isBossDie == false)
         {
             ChasePlayer();
         }
+
         float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
@@ -84,7 +88,30 @@ public class MainCameraController : MonoBehaviour
         }
 
     }
+    public void OnShakeCam(float shakeTime = 1.0f, float shakeIntensity = 0.1f)
+    {
+        this.shakeTime = shakeTime;
+        this.shakeIntensity = shakeIntensity;
 
+        StopCoroutine("ShakePos");
+        StartCoroutine("ShakePos");
+    }
+
+    private IEnumerator ShakePos()
+    {
+        Vector3 StartPos = transform.position;
+
+        while (shakeTime > 0.0f)
+        {
+            transform.position = StartPos + Random.insideUnitSphere * shakeIntensity;
+
+            shakeTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.position = StartPos;
+    }
     public void ChasePlayer()
     {
         Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);

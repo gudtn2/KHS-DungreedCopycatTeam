@@ -30,6 +30,9 @@ public class BossPattern : MonoBehaviour
     private int             explosionEffectCount;       // »ý¼ºÇÒ Æø¹ßÀÌÆåÆ® ¼ö
     [SerializeField]
     private GameObject      diePiecePrefab;
+    [SerializeField]
+    private Transform       camViewPos;
+    public bool             isDie = false;
 
     [Header("HeadAttack")]
     [SerializeField]
@@ -85,10 +88,11 @@ public class BossPattern : MonoBehaviour
     [SerializeField]
     private bool                isHandsAttack = false;
 
-    private GameObject          player;
-    private BossController      boss;
-    private UIEffectManager     uiEffectManager;
-    
+    private GameObject              player;
+    private BossController          boss;
+    private UIEffectManager         uiEffectManager;
+    private MainCameraController    mainCam;
+    private PlayerController        playerController;
 
     private void OnEnable()
     {
@@ -109,7 +113,9 @@ public class BossPattern : MonoBehaviour
 
         boss = GetComponent<BossController>();
 
-        uiEffectManager = FindObjectOfType<UIEffectManager>();
+        uiEffectManager     = FindObjectOfType<UIEffectManager>();
+        mainCam             = FindObjectOfType<MainCameraController>();
+        playerController    = FindObjectOfType<PlayerController>();
     }
     private void OnApplicationQuit()
     {
@@ -163,16 +169,28 @@ public class BossPattern : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
 
         StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
+
+        yield return new WaitForSeconds(1);
+        GameObject explosionEffect = explosionEffectPoolManager.ActivePoolItem();
+        explosionEffect.transform.position      = new Vector2(transform.position.x + 0.5f, transform.position.y - 1);
+        explosionEffect.transform.rotation      = transform.rotation;
+        explosionEffect.transform.localScale    = new Vector2(2,2);
+        explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
+
+        yield return new WaitForSeconds(1);
+        playerController.isBossDie = true;
         Time.timeScale = slowFactor;
+        //mainCam.ChangeView(camViewPos, 0.5f);
 
         for (int i = 0; i <= explosionEffectCount; i++)
         {
             yield return new WaitForSeconds(0.05f);
             Vector2 randomPos = new Vector2(Random.Range(transform.position.x - 4, transform.position.x + 4), Random.Range(transform.position.y - 4, transform.position.y + 4));
-            GameObject explosionEffect = explosionEffectPoolManager.ActivePoolItem();
+            explosionEffect = explosionEffectPoolManager.ActivePoolItem();
             explosionEffect.transform.position = randomPos;
             explosionEffect.transform.rotation = transform.rotation;
             explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
+            mainCam.OnShakeCam();
             Time.timeScale += fasterRate;
 
             if(i >= 100)

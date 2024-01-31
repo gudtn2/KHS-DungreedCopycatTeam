@@ -12,6 +12,18 @@ public class BossDiePiece : MonoBehaviour
         CircleShot();
     }
 
+    private void Update()
+    {
+        if(Time.timeScale <= 1)
+        {
+            Time.timeScale += Time.deltaTime;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
     private void CircleShot()
     {
         for (int i = 0; i < 360; i += 36)

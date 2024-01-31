@@ -4204,6 +4204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMeetsBoss: 0
+  isBossDie: 0
   lastMoveDirX: 0
   mousePos: {x: 0, y: 0, z: 0}
   isHurt: 0

@@ -12,19 +12,26 @@ public class BossHP : MonoBehaviour
     private Image               imageBossDieEffect;
     [SerializeField]
     private SpriteRenderer      spriteRenderer;
-    private BossPattern         bossPattern;
+
+    private BossPattern             bossPattern;
+    private BossController          bossController;
+    private MainCameraController    mainCam;
 
     private void Awake()
     {
-        bossPattern      = FindObjectOfType<BossPattern>();
+        bossPattern     = GetComponent<BossPattern>();
+        bossController  = GetComponent<BossController>();
+
+        mainCam         = FindObjectOfType<MainCameraController>();
 
         curHP = maxHP;
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Q) && bossController.isAbleToAttack == true)
         {
             BossTakeDamage(100);
+            mainCam.OnShakeCam();
         }
     }
     public void BossTakeDamage(float damage)

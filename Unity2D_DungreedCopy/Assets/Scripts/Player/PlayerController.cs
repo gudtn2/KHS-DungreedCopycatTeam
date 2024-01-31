@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("보스를 만났는지 여부")]
     public bool     playerMeetsBoss;
+    [Header("보스가 죽었는지 여부")]
+    public bool     isBossDie = false;
 
     [Header("방향")]
     public float    lastMoveDirX;
@@ -231,7 +233,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(HurtRoutine());
             StartCoroutine(BlinkPlayer());
         }
-        else if(collision.gameObject.tag == "ItemFairy" && playerStats.HP<playerStats.MaxHP)
+        else if(collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
         {
             collision.GetComponent<ItemBase>().Use(this.gameObject);
         }
