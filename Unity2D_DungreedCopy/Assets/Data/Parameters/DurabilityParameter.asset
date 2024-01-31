@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd1de3b759236b45b93be46e66f00a9, type: 3}
   m_Name: DurabilityParameter
   m_EditorClassIdentifier: 
-  <ParameterName>k__BackingField: 
+  <ParameterName>k__BackingField: "\uACF5\uACA9\uB825"
+  <Damage>k__BackingField: 10
+  <AttackSpeed>k__BackingField: 3
