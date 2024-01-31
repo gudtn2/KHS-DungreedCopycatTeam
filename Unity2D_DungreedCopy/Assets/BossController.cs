@@ -5,7 +5,9 @@ using UnityEngine;
 public class BossController : MonoBehaviour
 {
     [SerializeField]
-    private SpriteRenderer[]    bossSprites;
+    private SpriteRenderer[]    spritesBoss;
+    [SerializeField]
+    private SpriteRenderer      spriteBossBack;     
     [SerializeField]
     private float               camSmoothMoveTime;
     [SerializeField]
@@ -28,18 +30,27 @@ public class BossController : MonoBehaviour
 
         StartCoroutine(FadeInBossSprite());
     }
+    public void OnDie()
+    {
+        for (int i = 0; i < spritesBoss.Length; ++i)
+        {
+            spritesBoss[i].color = new Color(1, 1, 1, 0);
+        }
+    }
 
     private IEnumerator FadeInBossSprite()
     {
         StartCoroutine(mainCam.ChangeView(camViewPos, camSmoothMoveTime));
         StartCoroutine(GameObject.FindObjectOfType<UIBossIntroduce>().OnIntroduceBoss(0, 1));
 
-        for (int i = 0; i < bossSprites.Length; ++i)
-        {
-            StartCoroutine(uiEffectManager.UIFade(bossSprites[i], 0, 1));
-            yield return new WaitForSeconds(1);
+        StartCoroutine(uiEffectManager.UIFade(spriteBossBack, 0, 1));
 
-            if(i == bossSprites.Length-1)
+        for (int i = 0; i < spritesBoss.Length; ++i)
+        {
+            StartCoroutine(uiEffectManager.UIFade(spritesBoss[i], 0, 1));
+            yield return new WaitForSeconds(1f);
+
+            if(i == spritesBoss.Length-1)
             {
                 yield return new WaitForSeconds(2);
                 player.playerMeetsBoss = false;

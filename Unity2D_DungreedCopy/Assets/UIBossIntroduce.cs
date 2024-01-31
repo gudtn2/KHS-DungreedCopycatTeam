@@ -12,13 +12,17 @@ public class UIBossIntroduce : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI TextBossNicknameUI;
     [SerializeField]
-    private string stringBossName;
+    private string          stringBossName;
     [SerializeField]
-    private string stringBossNickname;
+    private string          stringBossNickname;
     [SerializeField]
-    private Image BossIntroduceImageTop;
+    private Image           BossIntroduceImageTop;
     [SerializeField]
-    private Image BossIntroduceImageBottom;
+    private Image           BossIntroduceImageBottom;
+    [SerializeField]
+    GameObject              bossLifeObj;
+    
+    public bool             isAliveTheBoss = false;
 
     private PlayerController        player;
     private UIEffectManager         uiEffectManager;
@@ -35,7 +39,7 @@ public class UIBossIntroduce : MonoBehaviour
         TextBossNicknameUI.text = stringBossNickname;
     }
     public IEnumerator OnIntroduceBoss(float start,float end)
-    {   
+    {
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageTop, start, end));
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageBottom, start, end));
 
@@ -46,6 +50,9 @@ public class UIBossIntroduce : MonoBehaviour
     }
     public IEnumerator OffIntroduceBoss(float start, float end)
     {
+        isAliveTheBoss = true;
+        bossLifeObj.SetActive(isAliveTheBoss);
+
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageTop, start, end));
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageBottom, start, end));
 

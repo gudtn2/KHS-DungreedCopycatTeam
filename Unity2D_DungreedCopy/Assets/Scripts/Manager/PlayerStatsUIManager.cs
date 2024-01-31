@@ -48,7 +48,7 @@ public class PlayerStatsUIManager : MonoBehaviour
     }
     private void UpdateImageHP()
     {
-        imageHP.fillAmount = Mathf.Lerp(imageHP.fillAmount, playerStats.HP/playerStats.MaxHP, Time.deltaTime * 5); ;
+        imageHP.fillAmount = Mathf.Lerp(imageHP.fillAmount, playerStats.HP/playerStats.MaxHP, Time.deltaTime * 5);
         
     }
     private void UpdateImageDC()

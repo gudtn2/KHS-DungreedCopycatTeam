@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum BossState 
 {
@@ -8,11 +9,25 @@ public enum BossState
     Idle = 0,
     HeadAttack,    
     HandsAttack,   
-    SwordAttack    
+    SwordAttack,
+    Die
 }
 public class BossPattern : MonoBehaviour
 {
     public BossState   bossState;
+
+    [Header("Die")]
+    private PoolManager     explosionEffectPoolManager;
+    [SerializeField]
+    private float           slowFactor;
+    [SerializeField]
+    private float           fasterRate;
+    [SerializeField]
+    private Image           imageBossDieEffect;
+    [SerializeField]
+    private GameObject      explosionEffectPrefab;
+    [SerializeField]
+    private GameObject      diePiecePrefab;
 
     [Header("HeadAttack")]
     [SerializeField]
@@ -68,8 +83,10 @@ public class BossPattern : MonoBehaviour
     [SerializeField]
     private bool                isHandsAttack = false;
 
-    private GameObject      player;
-    private BossController  boss;
+    private GameObject          player;
+    private BossController      boss;
+    private UIEffectManager     uiEffectManager;
+    
 
     private void OnEnable()
     {
@@ -84,13 +101,17 @@ public class BossPattern : MonoBehaviour
     {
         headAttackPoolManager       = new PoolManager(headBulletPrefab);
         bossSwordSpawnPoolManager   = new PoolManager(bossSwordSpawnPrefab);
+        explosionEffectPoolManager  = new PoolManager(explosionEffectPrefab);
 
-        player  = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
 
-        boss    = GetComponent<BossController>();
+        boss = GetComponent<BossController>();
+
+        uiEffectManager = FindObjectOfType<UIEffectManager>();
     }
     private void Update()
     {
+        // HeadAttack을 랜덤 시간으로 돌리기 위한 조건
         if(isHeadAttack)
         {
             headAttackTime += Time.deltaTime;
@@ -106,15 +127,17 @@ public class BossPattern : MonoBehaviour
             }
         }
 
+        // SwordAttack을 끝내기 위한 초기화
         if(DeactivateSwordCount >= 5)
         {
             DeactivateSwordCount = 0;
             ChangeBossState(BossState.Idle);
         }
+
     }
     private IEnumerator Idle()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         StartCoroutine("AutoChangeBossAttack");
 
         while (true)
@@ -123,6 +146,33 @@ public class BossPattern : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private IEnumerator Die()
+    {
+        imageBossDieEffect.color = new Color(1, 1, 1, 1);
+        yield return new WaitForSeconds(0.01f);
+        StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
+        Time.timeScale = slowFactor;
+        for (int i = 0; i <= 100; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            Vector2 randomPos = new Vector2(Random.Range(transform.position.x - 4, transform.position.x + 4), Random.Range(transform.position.y - 4, transform.position.y + 4));
+            GameObject explosionEffect = explosionEffectPoolManager.ActivePoolItem();
+            explosionEffect.transform.position = randomPos;
+            explosionEffect.transform.rotation = transform.rotation;
+            explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
+            Time.timeScale += fasterRate;
+
+            if(i >= 100)
+            {
+                GameObject diePiece = Instantiate(diePiecePrefab);
+                diePiece.transform.position = new Vector2(transform.position.x +1.45f , transform.position.y -1);
+                diePiece.transform.rotation= transform.rotation;
+                Destroy(this.gameObject);
+            }
+        }
+
     }
 
     private IEnumerator AutoChangeBossAttack()
@@ -152,7 +202,6 @@ public class BossPattern : MonoBehaviour
 
         while (count >= 0)
         {
-            yield return new WaitForSeconds(waitHandAttackTime);
             count--;
 
             int randomIndex = Random.Range(0, 2);
@@ -182,6 +231,8 @@ public class BossPattern : MonoBehaviour
                 }
                 yield return null;
             }
+
+            yield return new WaitForSeconds(waitHandAttackTime);
         }
 
         ChangeBossState(BossState.Idle);
@@ -208,9 +259,11 @@ public class BossPattern : MonoBehaviour
     {
         int fireAngle = 0;  // 초기값은 0도
         
+        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
+
+        yield return new WaitForSeconds(0.03f);
         isHeadAttack = true;
 
-        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
         while (isHeadAttack == true)
         {
 
@@ -235,6 +288,7 @@ public class BossPattern : MonoBehaviour
             if (fireAngle > 360) fireAngle -= 360;
         }
         GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", false);
+
         ChangeBossState(BossState.Idle);
     }
 
