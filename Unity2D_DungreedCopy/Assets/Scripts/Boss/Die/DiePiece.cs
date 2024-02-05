@@ -6,14 +6,23 @@ public class DiePiece : MonoBehaviour
 {
     private float       originTimeScale = 1.0f;
 
+    [Header("Item 생성 변수")]
+    [SerializeField]
+    private float       forceX;
+    [SerializeField]
+    private float       forceY;
+    [SerializeField]
+    private GameObject  BullionPrefab;
     [SerializeField]
     private GameObject  fairyXLPrefab;
 
+    private PoolManager      BullionPoolManager;
     private PlayerController playerController;
 
     private void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
+        BullionPoolManager = new PoolManager(BullionPrefab);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,11 +32,29 @@ public class DiePiece : MonoBehaviour
         {
             Time.timeScale = originTimeScale;
             playerController.isBossDie = false;
-            StartCoroutine("CreateFairyXL");
+            StartCoroutine("SpawnFairyXL");
+            StartCoroutine("SpawnCoin");
         }
     }
 
-    private IEnumerator CreateFairyXL()
+    private IEnumerator SpawnCoin()
+    {
+        yield return new WaitForSeconds(2.5f);
+
+        for (int i = 0; i < 20; i++)
+        {
+            Vector3 targetPos = new Vector3(Random.Range(-forceX, forceX), Random.Range(0f, forceY), 0);
+            Vector3 dir = targetPos - transform.position;
+
+            GameObject item = BullionPoolManager.ActivePoolItem();
+            item.transform.position = transform.position;
+            item.transform.rotation = transform.rotation;
+            item.GetComponent<GoldItemController>().Setup(BullionPoolManager, dir);
+        }
+        yield return null;
+    }
+
+    private IEnumerator SpawnFairyXL()
     {
         yield return new WaitForSeconds(2f);
 

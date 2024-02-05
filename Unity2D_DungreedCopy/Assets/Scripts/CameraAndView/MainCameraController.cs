@@ -8,6 +8,8 @@ public class MainCameraController : MonoBehaviour
 
     private float           shakeTime;
     private float           shakeIntensity;
+    private Vector3         originPos;
+    private Vector3         originRot;
 
     [SerializeField]
     private Transform       player;
@@ -88,13 +90,21 @@ public class MainCameraController : MonoBehaviour
         }
 
     }
-    public void OnShakeCam(float shakeTime = 1.0f, float shakeIntensity = 0.1f)
+    public void OnShakeCamByPos(float shakeTime = 1.0f, float shakeIntensity = 0.1f)
     {
         this.shakeTime = shakeTime;
         this.shakeIntensity = shakeIntensity;
 
         StopCoroutine("ShakePos");
         StartCoroutine("ShakePos");
+    }
+    public void OnShakeCamByRot(float shakeTime = 1.0f, float shakeIntensity = 0.1f)
+    {
+        this.shakeTime = shakeTime;
+        this.shakeIntensity = shakeIntensity;
+
+        StopCoroutine("ShakeRot");
+        StartCoroutine("ShakeRot");
     }
 
     private IEnumerator ShakePos()
@@ -111,6 +121,28 @@ public class MainCameraController : MonoBehaviour
         }
 
         transform.position = StartPos;
+    }
+
+    private IEnumerator ShakeRot()
+    {
+        Vector3 startRot = transform.eulerAngles;
+
+        float power = 10.0f;
+
+        while(shakeTime > 0.0f)
+        {
+            float x = 0;
+            float y = 0;
+            float z = Random.Range(-1f,1f);
+
+            transform.rotation = Quaternion.Euler(startRot + new Vector3(x, y, z) * shakeIntensity * power);
+
+            shakeTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.rotation = Quaternion.Euler(startRot);
     }
     public void ChasePlayer()
     {

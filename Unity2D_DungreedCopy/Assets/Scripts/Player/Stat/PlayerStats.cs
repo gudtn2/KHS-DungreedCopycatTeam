@@ -24,6 +24,7 @@ public class PlayerStats : StatManager
 
     public override float   MaxHP => 100;
     public override int     MaxDC => 3;
+    public override int     MaxGOLD => 999999;
 
     private void Start()
     {
@@ -52,6 +53,11 @@ public class PlayerStats : StatManager
                 timer = 0;
             }
         }
+    }
+
+    public void TakeGold(int value)
+    {
+        GOLD += value;
     }
 
     public bool DecreaseHP(float monAtt)

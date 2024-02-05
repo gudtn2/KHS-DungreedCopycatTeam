@@ -22,6 +22,10 @@ public class PlayerStatsUIManager : MonoBehaviour
     [SerializeField]
     private Image[]         imageDC;
 
+    [Header("GOLD")]
+    [SerializeField]
+    private TextMeshProUGUI textGOLD;
+
     [SerializeField]
     private PlayerStats playerStats;
 
@@ -45,12 +49,19 @@ public class PlayerStatsUIManager : MonoBehaviour
     {
         UpdateImageDC();
         UpdateImageHP();
+        UpdateTextGold();
     }
     private void UpdateImageHP()
     {
         imageHP.fillAmount = Mathf.Lerp(imageHP.fillAmount, playerStats.HP/playerStats.MaxHP, Time.deltaTime * 5);
         
     }
+
+    private void UpdateTextGold()
+    {
+        textGOLD.text = playerStats.GOLD.ToString();
+    }
+
     private void UpdateImageDC()
     {
         for (int i = 0; i < imageDC.Length; ++i)

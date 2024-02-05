@@ -190,7 +190,7 @@ public class BossPattern : MonoBehaviour
             explosionEffect.transform.position = randomPos;
             explosionEffect.transform.rotation = transform.rotation;
             explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
-            mainCam.OnShakeCam();
+            mainCam.OnShakeCamByPos(0.05f,0.1f);
             Time.timeScale += fasterRate;
 
             if(i >= 100)

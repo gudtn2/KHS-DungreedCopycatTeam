@@ -31,7 +31,7 @@ public class BossHP : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && bossController.isAbleToAttack == true)
         {
             BossTakeDamage(100);
-            mainCam.OnShakeCam();
+            mainCam.OnShakeCamByRot(0.1f,0.1f);
         }
     }
     public void BossTakeDamage(float damage)
