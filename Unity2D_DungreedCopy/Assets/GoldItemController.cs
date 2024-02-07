@@ -52,6 +52,6 @@ public class GoldItemController : MonoBehaviour
         GameObject goldText = textGoldpoolManager.ActivePoolItem();
         goldText.transform.position = transform.position;
         goldText.transform.rotation = transform.rotation;
-        goldText.GetComponent<TextGoldController>().Setup(textGoldpoolManager);
+        goldText.GetComponent<TextGoldController>().Setup(textGoldpoolManager, GoldValue);
     }
 }

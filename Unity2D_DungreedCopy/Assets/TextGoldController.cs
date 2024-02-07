@@ -13,21 +13,18 @@ public class TextGoldController : MonoBehaviour
     [SerializeField]
     private float destroyTime;
 
-    [SerializeField]
-    private GoldItemController goldItemController;
-
     private Color alpha;
 
     private TextMeshPro textGold;
     private PoolManager poolManager;
 
-    public void Setup(PoolManager poolManager)
+    public void Setup(PoolManager poolManager, int goldValue)
     {
         this.poolManager = poolManager;
         textGold = GetComponent<TextMeshPro>();
 
         alpha = textGold.color;
-        textGold.text = (int)goldItemController.GoldValue + "G";
+        textGold.text = goldValue + "G";
         Invoke("DeactivateEffect", destroyTime);
     }
     void Update()
