@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public bool     playerMeetsBoss;
     [Header("보스가 죽었는지 여부")]
     public bool     isBossDie = false;
+    [Header("보스가 완전히 죽었는지")]
+    public bool     bossOpentheStele = false;
 
     [Header("방향")]
     public float    lastMoveDirX;

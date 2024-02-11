@@ -29,16 +29,14 @@ public class BossHeadBullet : MonoBehaviour
 
     private void Awake()
     {
-        
         bossBulletEffectPoolManager = new PoolManager(bossBulletEffectPrefab);
 
         rigidbody2D     = GetComponent<Rigidbody2D>(); 
         playerStats     = FindObjectOfType<PlayerStats>();
         mainCam         = FindObjectOfType<MainCameraController>();
-        
-        thisBound = mainCam.bound;
-    }
 
+        thisBound = GameObject.FindGameObjectWithTag("BossBound").GetComponent<BoxCollider2D>();
+    }
     private void OnApplicationQuit()
     {
         bossBulletEffectPoolManager.DestroyObjcts();
@@ -47,10 +45,7 @@ public class BossHeadBullet : MonoBehaviour
     {
         rigidbody2D.velocity = moveSpeed * transform.right;
 
-        if(!isInsideBound(this.transform.position))
-        {
-            DeactivateBullet();
-        }
+        CheckPosInBound(this.transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -68,11 +63,12 @@ public class BossHeadBullet : MonoBehaviour
         }
     }
 
-    private bool isInsideBound(Vector2 bulletPos)
+    private void CheckPosInBound(Vector2 bulletPos)
     {
-        if (thisBound != null)
-            return thisBound.bounds.Contains(bulletPos);
-        return false;
+        if(!thisBound.bounds.Contains(bulletPos))
+        {
+            DeactivateBullet();
+        }
     }
 
     private void DeactivateBullet()

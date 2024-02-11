@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 3848717032181271592}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.22, y: -1.98, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -124,6 +124,7 @@ MonoBehaviour:
   dam: 3
   moveSpeed: 6
   bossBulletEffectPrefab: {fileID: 6487522415779275869, guid: b11c101accb09114da0039822756c0af, type: 3}
+  thisBound: {fileID: 0}
 --- !u!58 &5768399804710150828
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -66,7 +66,6 @@ public class BossPattern : MonoBehaviour
     private float               bossSwordSpawnDelayTime;
     [SerializeField]
     private Transform[]         spawnTransforms;
-    public int                  DeactivateSwordCount;
 
     [Header("HandsAttack")]
     [SerializeField]
@@ -85,8 +84,7 @@ public class BossPattern : MonoBehaviour
     private int                 maxCount;
     [SerializeField]
     private int                 minCount;
-    [SerializeField]
-    private bool                isHandsAttack = false;
+    public  bool                isHandsAttack = false;
 
     private GameObject              player;
     private BossController          boss;
@@ -140,20 +138,16 @@ public class BossPattern : MonoBehaviour
                 }
             }
         }
-
-        // SwordAttack을 끝내기 위한 초기화
-        if(DeactivateSwordCount >= 5)
-        {
-            DeactivateSwordCount = 0;
-            ChangeBossState(BossState.Idle);
-        }
-
     }
     private IEnumerator Idle()
     {
         yield return new WaitForSeconds(5f);
-        StartCoroutine("AutoChangeBossAttack");
+        // 실험용 코드
+        //ChangeBossState(BossState.SwordAttack);
 
+        //실제 사용할 코드
+        StartCoroutine("AutoChangeBossAttack");
+        
         while (true)
         {
             // "Idle"일때 하는 행동
@@ -206,9 +200,7 @@ public class BossPattern : MonoBehaviour
 
     private IEnumerator AutoChangeBossAttack()
     {
-        int changeWaitTime = Random.Range(1, 4);
-
-        yield return new WaitForSeconds(changeWaitTime);
+        yield return new WaitForSeconds(1);
 
         int count = Random.Range(0, 3);
         switch (count)
@@ -260,8 +252,8 @@ public class BossPattern : MonoBehaviour
                 }
                 yield return null;
             }
-
             yield return new WaitForSeconds(waitHandAttackTime);
+
         }
 
         ChangeBossState(BossState.Idle);
@@ -282,6 +274,13 @@ public class BossPattern : MonoBehaviour
             bossSwordSpawn.transform.rotation = transform.rotation;
             bossSwordSpawn.GetComponent<BossSwordSpawnEffect>().Setup(bossSwordSpawnPoolManager);
         }
+        StartCoroutine("AutoChangeFromSwordToIdle");
+    }
+    private IEnumerator AutoChangeFromSwordToIdle()
+    {
+        yield return new WaitForSeconds(6);
+
+        ChangeBossState(BossState.Idle);
     }
 
     private IEnumerator HeadAttack()

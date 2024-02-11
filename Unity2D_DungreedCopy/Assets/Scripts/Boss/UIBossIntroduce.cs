@@ -24,12 +24,10 @@ public class UIBossIntroduce : MonoBehaviour
     
     public bool             isAliveTheBoss = false;
 
-    private PlayerController        player;
     private UIEffectManager         uiEffectManager;
 
     private void Awake()
     {
-        player              = FindObjectOfType<PlayerController>();
         uiEffectManager     = FindObjectOfType<UIEffectManager>();
     }
 

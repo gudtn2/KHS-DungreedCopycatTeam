@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5101692620226579169}
   - component: {fileID: 6346312961247424416}
   - component: {fileID: 4045280583283998182}
-  - component: {fileID: 7330758149643746444}
+  - component: {fileID: -350566098890489424}
   m_Layer: 0
   m_Name: BossSwordHitEffect
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7330758149643746444
+--- !u!114 &-350566098890489424
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

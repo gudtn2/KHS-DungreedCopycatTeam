@@ -12,6 +12,8 @@ TagManager:
   - PassingPlatform
   - Bullet
   - Sword
+  - Platform
+  - BossBound
   layers:
   - Default
   - TransparentFX

@@ -8,6 +8,5 @@ public class BossSwordDeactivateEffect : MonoBehaviour
     private void Awake()
     {
         boss = FindObjectOfType<BossPattern>();    
-        boss.DeactivateSwordCount++;   
     }
 }

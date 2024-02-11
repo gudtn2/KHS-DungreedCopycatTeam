@@ -99,9 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d491222ef302044ab26733abad7d58b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stuckSwordPrefab: {fileID: 5387041047326717562, guid: 259e8a26fb8e2a74eaebfc320038553f, type: 3}
   swordHitEffectPrefab: {fileID: 4202973763744923753, guid: 072f0d9434df05444bb8af574df1e35f, type: 3}
   moveSpeed: 50
+  swordAtt: 10
+  origineSwordSprite: {fileID: 21300000, guid: 44252681646d5e74dbd1e8976d443a3b, type: 3}
+  isThrowing: 0
+  FadeTime: 2
+  deactivateEffectPrefab: {fileID: 6487522415779275869, guid: b0561088f86da3a4d895907b493d466a, type: 3}
 --- !u!50 &8931378799584718526
 Rigidbody2D:
   serializedVersion: 4

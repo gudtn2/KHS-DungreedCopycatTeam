@@ -36,7 +36,6 @@ public class DiePiece : MonoBehaviour
             StartCoroutine("SpawnCoin");
         }
     }
-
     private IEnumerator SpawnCoin()
     {
         yield return new WaitForSeconds(2.5f);
@@ -50,6 +49,8 @@ public class DiePiece : MonoBehaviour
             item.transform.position = transform.position;
             item.transform.rotation = transform.rotation;
             item.GetComponent<GoldItemController>().Setup(BullionPoolManager, dir);
+
+            playerController.bossOpentheStele = true;
         }
         yield return null;
     }

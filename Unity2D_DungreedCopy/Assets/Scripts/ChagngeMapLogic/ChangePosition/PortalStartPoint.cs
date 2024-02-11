@@ -34,7 +34,6 @@ public class PortalStartPoint : MonoBehaviour
             mainCam.transform.position = new Vector3(this.transform.position.x,
                                                      this.transform.position.y,
                                                      mainCam.transform.position.z);
-
             if (!map.dungeonNames.Contains(startingMapName))
             {
                 map.dungeonNames.Add(startingMapName);

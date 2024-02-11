@@ -5,42 +5,68 @@ using UnityEngine;
 public class WhiteSword : MonoBehaviour
 {
     [SerializeField]
-    private GameObject  stuckSwordPrefab;
-    [SerializeField]
     private GameObject  swordHitEffectPrefab;
     [SerializeField]
     private float       moveSpeed;
+    [SerializeField]
+    private float       swordAtt;
+    [SerializeField]
+    private Sprite      origineSwordSprite;
+    [SerializeField]
+    private bool        isThrowing; 
 
-    private PoolManager poolManager;
-    private PoolManager stuckSwordPoolManager;
-    private PoolManager swordHitEffectPoolManager;
-    private void Awake()
-    {
-        stuckSwordPoolManager       = new PoolManager(stuckSwordPrefab);
-        swordHitEffectPoolManager   = new PoolManager(swordHitEffectPrefab);
-    }
+    [Header("Deactivate Sword")]
+    [SerializeField]
+    private float       FadeTime;
+    [SerializeField]
+    private GameObject  deactivateEffectPrefab;
+    private PoolManager deactivateEffectpoolManager;
 
-    private void OnApplicationQuit()
-    {
-        stuckSwordPoolManager.DestroyObjcts();
-    }
-
+    private SpriteRenderer  spriteRenderer;
+    private Rigidbody2D     rigid;
+    private PoolManager     poolManager;
+    private PoolManager     swordHitEffectPoolManager;
+    private PlayerStats     playerStats;
     public void Setup(PoolManager poolManager)
     {
         this.poolManager = poolManager;
+        swordHitEffectPoolManager   = new PoolManager(swordHitEffectPrefab);
+        deactivateEffectpoolManager = new PoolManager(deactivateEffectPrefab);
+
+        isThrowing = true;
+
+        playerStats     = FindObjectOfType<PlayerStats>();
+
+        rigid           = GetComponent<Rigidbody2D>();
+        spriteRenderer  = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        transform.Translate(moveSpeed * Vector2.up * Time.deltaTime);
+        if(isThrowing)
+        {
+            transform.Translate(moveSpeed * Vector2.up * Time.deltaTime);
+        }
+        else
+        {
+            rigid.velocity = new Vector2(0, 0);
+            rigid.bodyType = RigidbodyType2D.Static;
+        }
+       
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        if(collision.gameObject.name == "Player")
         {
-            poolManager.DeactivePoolItem(gameObject);
+            playerStats.DecreaseHP(swordAtt);
+        }
+
+        if(collision.gameObject.CompareTag("Platform"))
+        {
+            isThrowing = false;
             SpawnHitEffect();
-            SpawnStuckSword();
+            spriteRenderer.sprite = origineSwordSprite;
+            StartCoroutine("DeactivateEffect");
         }
     }
 
@@ -48,14 +74,18 @@ public class WhiteSword : MonoBehaviour
     {
         GameObject hitEffect = swordHitEffectPoolManager.ActivePoolItem();
         hitEffect.transform.position = transform.position;
-        hitEffect.transform.rotation = hitEffect.transform.rotation;
+        hitEffect.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z -180f);
         hitEffect.GetComponent<EffectPool>().Setup(swordHitEffectPoolManager);
     }
-    private void SpawnStuckSword()
+    private IEnumerator DeactivateEffect()
     {
-        GameObject stuckSword = stuckSwordPoolManager.ActivePoolItem();
-        stuckSword.transform.position = transform.position;
-        stuckSword.transform.rotation = transform.rotation;
-        stuckSword.GetComponent<StuckSword>().Setup(stuckSwordPoolManager);
+        yield return new WaitForSeconds(FadeTime);
+        poolManager.DeactivePoolItem(this.gameObject);
+        GameObject deactivateEffect = deactivateEffectpoolManager.ActivePoolItem();
+        deactivateEffect.transform.position = transform.position;
+        deactivateEffect.transform.rotation = deactivateEffect.transform.rotation;
+        deactivateEffect.GetComponent<EffectPool>().Setup(deactivateEffectpoolManager);
+        rigid.bodyType = RigidbodyType2D.Dynamic;
+        poolManager.DeactivePoolItem(gameObject);
     }
 }

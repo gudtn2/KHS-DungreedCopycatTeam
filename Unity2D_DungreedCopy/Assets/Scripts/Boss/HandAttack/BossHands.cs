@@ -8,6 +8,7 @@ public class BossHands : MonoBehaviour
     private GameObject laserPrefab;
 
     private Animator anim;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();

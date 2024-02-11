@@ -29,7 +29,9 @@ public class BossController : MonoBehaviour
         player.playerMeetsBoss = true;
 
         StartCoroutine(FadeInBossSprite());
+
     }
+
     public void OnDie()
     {
         for (int i = 0; i < spritesBoss.Length; ++i)
