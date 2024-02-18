@@ -5,27 +5,31 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     Inventory inven;
-
-    public GameObject inventoryPanel;
+    [SerializeField]
+    private GameObject inventoryPanel;
 
     public Slot[] slots;
     public int slotCount;
     public Transform slotHolder;
     public GameObject ItemImage;
-    bool activeInventory = false;
+    [SerializeField]
+    private bool        activeInventory = false;
 
     private void Start()
     {
         slots = slotHolder.GetComponentsInChildren<Slot>();
         inven = Inventory.instance;
         inven.onChangeItem += RedrawSlotUI;
+
+        // 최초 실행시에는 인벤토리 비활성화로 초기화
         inventoryPanel.SetActive(activeInventory);
-        
+
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V))
+        // v키 입력시 activeInventory(bool) 활성화 반전
+        if (Input.GetKeyDown(KeyCode.V))
         {
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
@@ -44,6 +48,6 @@ public class InventoryUI : MonoBehaviour
             slots[i].UpdateSlotUI();
             slotCount = i;
         }
-
+    
     }
 }

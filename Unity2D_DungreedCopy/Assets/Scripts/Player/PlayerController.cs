@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [Header("보스가 완전히 죽었는지")]
     public bool     bossOpentheStele = false;
 
+    public bool     dontMovePlayer;
+
     [Header("방향")]
     public float    lastMoveDirX;
     public Vector3  mousePos;
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private DungeonPortalController dungeonPortalController;
 
     [SerializeField]
-    private PlayerStatsUIManager    UIManager;
+    private UIManager               UIManager;
     
     private void Awake()
     {
@@ -87,7 +89,7 @@ public class PlayerController : MonoBehaviour
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ChangeAnimation();
-        if(!isDie && !dungeonPortalController.isCollideToPlayer)
+        if(!isDie && !dungeonPortalController.isCollideToPlayer && !UIManager.DontMovePlayer)
         {
             boxCollider2D.offset    = new Vector2(0, -0.1f);
             boxCollider2D.size      = new Vector2(0.8f, 1.1f);
@@ -112,6 +114,9 @@ public class PlayerController : MonoBehaviour
             movement.rigidbody.velocity = new Vector2(0, 0);
             this.transform.position = new Vector2(transform.position.x, -6.334974f);
         }
+
+        if(UIManager.DontMovePlayer)
+            movement.rigidbody.velocity = Vector2.zero;
     }
 
 

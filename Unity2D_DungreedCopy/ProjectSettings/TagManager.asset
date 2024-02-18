@@ -57,3 +57,18 @@ TagManager:
   - name: BackGround
     uniqueID: 644925601
     locked: 0
+  - name: Enemy
+    uniqueID: 2739260671
+    locked: 0
+  - name: Player
+    uniqueID: 3996950701
+    locked: 0
+  - name: Effect
+    uniqueID: 1252276253
+    locked: 0
+  - name: PlayerUI
+    uniqueID: 202926745
+    locked: 0
+  - name: OtherUI
+    uniqueID: 832934297
+    locked: 0
