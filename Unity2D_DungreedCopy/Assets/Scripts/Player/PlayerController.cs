@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [Header("보스가 완전히 죽었는지")]
     public bool     bossOpentheStele = false;
 
-    public bool     dontMovePlayer;
+    public bool     onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
 
     [Header("방향")]
     public float    lastMoveDirX;
@@ -89,7 +89,8 @@ public class PlayerController : MonoBehaviour
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ChangeAnimation();
-        if(!isDie && !dungeonPortalController.isCollideToPlayer && !UIManager.DontMovePlayer)
+
+        if(!isDie && !dungeonPortalController.isCollideToPlayer && !onUI)
         {
             boxCollider2D.offset    = new Vector2(0, -0.1f);
             boxCollider2D.size      = new Vector2(0.8f, 1.1f);
@@ -97,6 +98,10 @@ public class PlayerController : MonoBehaviour
             UpdateJump();
             UpdateSight();
             UpdateDash();
+        }
+        else if(onUI)
+        {
+            movement.rigidbody.velocity = Vector2.zero;
         }
         else
         {
@@ -115,8 +120,6 @@ public class PlayerController : MonoBehaviour
             this.transform.position = new Vector2(transform.position.x, -6.334974f);
         }
 
-        if(UIManager.DontMovePlayer)
-            movement.rigidbody.velocity = Vector2.zero;
     }
 
 

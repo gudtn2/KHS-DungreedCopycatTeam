@@ -5,10 +5,24 @@ using UnityEngine;
 public class ChangeCursor : MonoBehaviour
 {
     [SerializeField]
-    private Texture2D       cursorImg;
+    private Texture2D       attackCursorImg;
+    [SerializeField]
+    private Texture2D       originCursorImg;
 
-    private void Start()
+    private PlayerController player;
+    private void Awake()
     {
-        Cursor.SetCursor(cursorImg, Vector2.zero, CursorMode.Auto);
+        player = FindObjectOfType<PlayerController>();
+    }
+    private void Update()
+    {
+        if(!player.onUI)
+        {
+            Cursor.SetCursor(attackCursorImg, Vector2.zero, CursorMode.Auto);
+        }
+        else
+        {
+            Cursor.SetCursor(originCursorImg, Vector2.zero, CursorMode.Auto);
+        }
     }
 }

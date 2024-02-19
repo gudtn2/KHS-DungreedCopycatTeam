@@ -30,17 +30,17 @@ public class TalkManager : MonoBehaviour
         talkData = new Dictionary<int, string[]>();
     }
 
-    public void AddTalkData(int id, string name, string[] sentences)
+    public void AddTalkData(int id, string[] sentences)
     {
-        Name = name;
         talkData.Add(id, sentences);
-        Debug.Log(Name);
-        Debug.Log(talkData.ContainsKey(id));
     }
 
     public string GetTalk(int id,int talkIndex)
     {
-        return talkData[id][talkIndex];
+        if (talkIndex == talkData[id].Length)
+            return null;
+        else
+            return talkData[id][talkIndex];
     }
 
 }

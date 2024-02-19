@@ -32,13 +32,16 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textName;
     [SerializeField]
-    private TextMeshProUGUI textTalk;
+    private TypingEffect    talk;
     private GameObject      scannedObj;
+    private int             talkIndex = 0;
+    [HideInInspector]
+    public bool             onTalk;
 
     [SerializeField]
-    private PlayerStats     playerStats;
+    private PlayerStats         playerStats;
 
-    public bool             DontMovePlayer;
+    private PlayerController    player;
 
     private void Awake()
     {
@@ -47,6 +50,9 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             playerStats.onHPEvent.AddListener(UpdateImageBloodScreenAndTextHP);
+
+            player = FindObjectOfType<PlayerController>();
+            talk = FindObjectOfType<TypingEffect>();
 
             instance = this;
         }
@@ -61,7 +67,12 @@ public class UIManager : MonoBehaviour
         UpdateImageHP();
         UpdateTextGold();
 
-       
+        panelTalk.SetActive(onTalk);
+
+        if(onTalk && Input.GetKeyDown(KeyCode.Space))
+        {
+            talkIndex++;
+        }
     }
     private void UpdateImageHP()
     {
@@ -112,13 +123,40 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void OnTalk(string name,GameObject newScannedObj)
+    
+    public void OnTalkPanel()
     {
-        panelTalk.SetActive(true);
-        DontMovePlayer = true;
-        scannedObj = newScannedObj;
-        textName.text = name;
-        textTalk.text = "이것의 이름은 " + scannedObj.name + " 입니다.";
+        onTalk = true;
+    }
+    public void OffTalkPanel()
+    {
+        onTalk = false;
     }
 
+    public void OnTalk(GameObject newScannedObj)
+    {
+        // 스캔할 오브젝트를 해당 오브젝트로 선정
+        scannedObj = newScannedObj;
+
+        // npcData에 스캔한 오브젝트의 데이터 집어넣음
+        NPCManager npcData = scannedObj.GetComponent<NPCManager>();
+
+        // 이름text에 스캔한 오브젝트의 이름 기입
+        textName.text = npcData.npcName;
+
+        // 플레이어를 움직이지 못하게 
+        player.onUI = true;
+
+        Talk(npcData.ID);
+    }
+
+    private void Talk(int id)
+    {
+        string  talkData    = TalkManager.Instance.GetTalk(id, talkIndex);
+
+        if (talkData == null) return;
+
+        talk.SetMSG(talkData);
+        talkIndex++;
+    }
 }

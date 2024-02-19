@@ -12,27 +12,14 @@ public class NPCManager : MonoBehaviour
     private GameObject  keyObj;
     
     [Header("NPC Data")]
-    [SerializeField]
-    private int         ID;             // Talk의 Dictionary에 쓰일 key값
-    [SerializeField]
-    private string[]    talkSentences;
-    [SerializeField]
-    private string      name;
+    public int          ID;             // Talk의 Dictionary에 쓰일 key값
+    public string[]     talkSentences;
+    public string       npcName;
 
 
     private KeyCode     activateChatKey = KeyCode.F;    // 대화창을 활성화 시킬 Key
     private bool        isActivateKey;                  // KeyUI를 활성/비활성화 
     private bool        inputKey;                       // key를 눌렸는지 여부
-    
-    //private TalkManager talkManager;
-
-    private void Awake()
-    {
-        //talkManager = FindObjectOfType<TalkManager>();
-        
-        //talkManager.AddTalkData(ID, talkSentences);
-        
-    }
     private void Update()
     {
         keyObj.SetActive(isActivateKey);    
@@ -41,17 +28,15 @@ public class NPCManager : MonoBehaviour
         if(Input.GetKeyDown(activateChatKey) && isActivateKey)
         {
             // Talk의 Data를 TalkManager의 Dictionary에 저장 
-            TalkManager.Instance.AddTalkData(ID, name, talkSentences);
+            TalkManager.Instance.AddTalkData(ID, talkSentences);
             // Key를 누르면 KeyUI가 활성화되지 않도록
             isActivateKey = false;
             // Key활성화 로직이 활성화 되지 않도록
             inputKey      = true;
-            
-            // UIManager호출해 문자열 실제로 띄움
-            UIManager.instance.OnTalk(name,this.gameObject);
+
+            UIManager.instance.OnTalkPanel();
         }
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.name == "Player"&& !inputKey)
