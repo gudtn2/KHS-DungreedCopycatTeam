@@ -8,63 +8,65 @@ public class PlayerController : MonoBehaviour
     static public PlayerController instance;
 
     [Header("보스를 만났는지 여부")]
-    public bool     playerMeetsBoss;
+    public bool playerMeetsBoss;
     [Header("보스가 죽었는지 여부")]
-    public bool     isBossDie = false;
+    public bool isBossDie = false;
     [Header("보스가 완전히 죽었는지")]
-    public bool     bossOpentheStele = false;
+    public bool bossOpentheStele = false;
 
-    public bool     onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
+    public bool onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
+
+    private GameObject scanedObj;
 
     [Header("방향")]
-    public float    lastMoveDirX;
-    public Vector3  mousePos;
+    public float lastMoveDirX;
+    public Vector3 mousePos;
 
     [Header("피격")]
     [SerializeField]
-    public bool    isHurt;
+    public bool isHurt;
     [SerializeField]
-    private float   hurtRoutineDuration = 3f;
+    private float hurtRoutineDuration = 3f;
     [SerializeField]
-    private float   blinkDuration = 0.5f;
-    private Color   halfA = new Color(1,1,1,0.5f);
-    private Color   fullA = new Color(1,1,1,1);
-    public bool     isDie;
+    private float blinkDuration = 0.5f;
+    private Color halfA = new Color(1, 1, 1, 0.5f);
+    private Color fullA = new Color(1, 1, 1, 1);
+    public bool isDie;
     [SerializeField]
     private KeyCode jumpKey = KeyCode.Space;
     [SerializeField]
     private KeyCode dashKey = KeyCode.Mouse1;
 
-    public PlayerState      playerState;
+    public PlayerState playerState;
 
     [Header("현재 맵 이름")]
-    public string           curSceneName;        
-    public string           curDungeonName;        
+    public string curSceneName;
+    public string curDungeonName;
 
-    private Movement2D              movement;
-    private Animator                ani;
-    public  SpriteRenderer          spriteRenderer;
-    private PlayerStats             playerStats;
-    private BoxCollider2D           boxCollider2D;
-    
+    private Movement2D movement;
+    private Animator ani;
+    public SpriteRenderer spriteRenderer;
+    private PlayerStats playerStats;
+    private BoxCollider2D boxCollider2D;
+
     private DungeonPortalController dungeonPortalController;
 
     [SerializeField]
-    private UIManager               UIManager;
-    
+    private UIManager UIManager;
+
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             // YS : 씬 변경시에도 플레이어 파괴되지 않도록
             DontDestroyOnLoad(gameObject);
 
             ChangeState(PlayerState.Idle);
-            movement        = GetComponent<Movement2D>();
-            ani             = GetComponent<Animator>();
-            spriteRenderer  = GetComponent<SpriteRenderer>();
-            playerStats     = GetComponent<PlayerStats>();
-            boxCollider2D   = GetComponent<BoxCollider2D>();
+            movement = GetComponent<Movement2D>();
+            ani = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            playerStats = GetComponent<PlayerStats>();
+            boxCollider2D = GetComponent<BoxCollider2D>();
 
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
@@ -90,31 +92,31 @@ public class PlayerController : MonoBehaviour
 
         ChangeAnimation();
 
-        if(!isDie && !dungeonPortalController.isCollideToPlayer && !onUI)
+        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !DialogueManager.instance.openDialogue)
         {
-            boxCollider2D.offset    = new Vector2(0, -0.1f);
-            boxCollider2D.size      = new Vector2(0.8f, 1.1f);
+            boxCollider2D.offset = new Vector2(0, -0.1f);
+            boxCollider2D.size = new Vector2(0.8f, 1.1f);
             UpdateMove();
             UpdateJump();
             UpdateSight();
             UpdateDash();
         }
-        else if(onUI)
-        {
-            movement.rigidbody.velocity = Vector2.zero;
-        }
         else
         {
-            boxCollider2D.offset    = new Vector2(0, 0);
-            boxCollider2D.size      = new Vector2(1.2f,0.7f);
+            boxCollider2D.offset = new Vector2(0, 0);
+            boxCollider2D.size = new Vector2(1.2f, 0.7f);
         }
 
         if (movement.isDashing) return;
 
-        if(dungeonPortalController.isCollideToPlayer)
+        if(DialogueManager.instance.openDialogue)
+        {
+            movement.rigidbody.velocity = new Vector2(0, 0);
+        }
+        if (dungeonPortalController.isCollideToPlayer)
         {
             StartCoroutine("ChangePlayerAlpha");
-            
+
             // YS: 플레이어 Ground에 빠지는 현상 및 이동하던 방향으로 계속 이동현상 수정 
             movement.rigidbody.velocity = new Vector2(0, 0);
             this.transform.position = new Vector2(transform.position.x, -6.334974f);
@@ -134,8 +136,8 @@ public class PlayerController : MonoBehaviour
         if (x != 0)
         {
             lastMoveDirX = Mathf.Sign(x);
-
             movement.rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         }
         // YS: x축 입렵이 없을시 경사면에서 미끄러지는 현상 수정
         else
@@ -145,6 +147,8 @@ public class PlayerController : MonoBehaviour
 
         movement.MoveTo(x);
         movement.isWalk = true;
+
+
     }
 
     public void UpdateJump()
@@ -161,7 +165,7 @@ public class PlayerController : MonoBehaviour
         {
             movement.isLongJump = false;
         }
-        else if(Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.C))
         {
             movement.DownJumpTo();
         }
@@ -184,7 +188,6 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임 제외한 기능
     //======================================================================================
-
     public void TakeDamage(float mon_Att)
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);
@@ -195,7 +198,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(!isHurt)
+            if (!isHurt)
             {
                 isHurt = true;
             }
@@ -208,7 +211,7 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator BlinkPlayer()
     {
-        while(isHurt)
+        while (isHurt)
         {
             yield return new WaitForSeconds(blinkDuration);
             spriteRenderer.color = halfA;
@@ -237,13 +240,13 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Monster" && !isHurt)
+        if (collision.gameObject.tag == "Monster" && !isHurt)
         {
             TakeDamage(20f);
             StartCoroutine(HurtRoutine());
             StartCoroutine(BlinkPlayer());
         }
-        else if(collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
+        else if (collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
         {
             collision.GetComponent<ItemBase>().Use(this.gameObject);
         }

@@ -15,6 +15,7 @@ TagManager:
   - Platform
   - BossBound
   - NPC
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - PassingPlatform
   - DiePiece
   - Item
-  - 
+  - NPC
   - 
   - 
   - 
