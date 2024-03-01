@@ -17,6 +17,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     public Queue<string>        sentences;
 
     private string              curSentence;
+    private string              curNPCName;
 
     [SerializeField]
     private float               typingEffectWaitTime;
@@ -45,6 +46,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         openDialogue = true;
         sentences.Clear();
         textName.text = name;
+        curNPCName = name;
 
         foreach (string line in lines)
         {
@@ -116,6 +118,20 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             buttonsAnimators[i].Play("HideBottons");
         }
         openDialogue = false;
+
+        if(curNPCName == "크록")
+        {
+            Debug.Log("크록UI");
+        }
+        else if (curNPCName == "카블로비나")
+        {
+            Debug.Log("카블로비나UI");
+        }
+        else if (curNPCName == "호레리카")
+        {
+            Debug.Log("호레리카UI");
+        }
+        
     }
 
     public void OnExitButton()
