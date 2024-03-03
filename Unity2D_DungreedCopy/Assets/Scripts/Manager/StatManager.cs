@@ -11,6 +11,8 @@ public struct Stats
     public int      DC;     // 플레이어 대시 카운트
     [HideInInspector]
     public int      GOLD;   // 플레이어가 가지고 있는 재화
+    [HideInInspector]
+    public int      LV;     // 플레이어 레벨
 }
 
 public abstract class StatManager : MonoBehaviour
@@ -32,15 +34,25 @@ public abstract class StatManager : MonoBehaviour
         set => stats.GOLD = Mathf.Clamp(value, 0, MaxGOLD);
         get => stats.GOLD;
     }
+    public int LV
+    {
+        set => stats.LV = Mathf.Clamp(value, 0, MaxLV);
+        get => stats.LV;
+    }
+
+
+
 
     public abstract float       MaxHP { get; }              // 최대 체력
     public abstract int         MaxDC { get; }              // 최대 대시 카운트
-    public abstract int         MaxGOLD { get; }              // 최대 대시 카운트
+    public abstract int         MaxGOLD { get; }            // 최대 대시 카운트
+    public abstract int         MaxLV{ get; }               // 최대 레벨
     
     public void Setup()
     {
         HP      = MaxHP;
         DC      = MaxDC;
         GOLD    = 0;
+        LV      = 1;
     }
 }

@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private UIManager UIManager;
+    private NPC       npc;
 
     private void Awake()
     {
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
             playerStats = GetComponent<PlayerStats>();
             boxCollider2D = GetComponent<BoxCollider2D>();
 
+            npc = FindObjectOfType<NPC>();
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
             instance = this;
@@ -92,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         ChangeAnimation();
 
-        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !DialogueManager.instance.openDialogue)
+        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !npc.inputKey)
         {
             boxCollider2D.offset = new Vector2(0, -0.1f);
             boxCollider2D.size = new Vector2(0.8f, 1.1f);
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
-        if(DialogueManager.instance.openDialogue)
+        if(npc.inputKey)
         {
             movement.rigidbody.velocity = new Vector2(0, 0);
         }
@@ -121,6 +123,16 @@ public class PlayerController : MonoBehaviour
             movement.rigidbody.velocity = new Vector2(0, 0);
             this.transform.position = new Vector2(transform.position.x, -6.334974f);
         }
+
+        //########################################################################################
+        // ¡å ½ÇÇè¿ë
+        //########################################################################################
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            PlayerStats.instance.AddEXP(50);
+        }
+        //########################################################################################
+        //########################################################################################
 
     }
 

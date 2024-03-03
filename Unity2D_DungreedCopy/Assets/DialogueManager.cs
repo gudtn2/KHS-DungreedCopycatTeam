@@ -25,9 +25,14 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     private bool                isTyping;
     public bool                 openDialogue;
     private Animator            ani;
-
     [SerializeField]
     private Animator[]          buttonsAnimators;
+
+    [Header("Ability UI")]
+    [SerializeField]
+    private Animator            abillityAnimator;
+
+    private NPC npc;
 
     private void Awake()
     {
@@ -38,6 +43,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
         sentences = new Queue<string>();
         ani = GetComponent<Animator>();
+        npc = FindObjectOfType<NPC>();
     }
 
 
@@ -112,24 +118,29 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
     public void OnEnterButton()
     {
-        ani.Play("Hide");
-        for (int i = 0; i < buttonsAnimators.Length; ++i)
+        if(npc.inputKey)
         {
-            buttonsAnimators[i].Play("HideBottons");
-        }
-        openDialogue = false;
+            ani.Play("Hide");
+            for (int i = 0; i < buttonsAnimators.Length; ++i)
+            {
+                buttonsAnimators[i].Play("HideBottons");
+            }
+            openDialogue = false;
 
-        if(curNPCName == "크록")
-        {
-            Debug.Log("크록UI");
-        }
-        else if (curNPCName == "카블로비나")
-        {
-            Debug.Log("카블로비나UI");
-        }
-        else if (curNPCName == "호레리카")
-        {
-            Debug.Log("호레리카UI");
+            if(curNPCName == "크록")
+            {
+                Debug.Log("크록UI");
+            }
+            else if (curNPCName == "카블로비나")
+            {
+                Debug.Log("카블로비나UI");
+                abillityAnimator.gameObject.SetActive(true);
+                abillityAnimator.Play("AbilityShow");
+            }
+            else if (curNPCName == "호레리카")
+            {
+                Debug.Log("호레리카UI");
+            }
         }
         
     }

@@ -16,7 +16,7 @@ public class NPC : MonoBehaviour
     [SerializeField]
     private bool        onKey;
     [SerializeField]
-    private bool        inputKey;
+    public bool         inputKey;
 
     private void Update()
     {
@@ -29,12 +29,6 @@ public class NPC : MonoBehaviour
         
         keyObj.SetActive(onKey);
     }
-
-    private void OnMouseDown()
-    {
-        DialogueManager.instance.OnDialogue(sentences, name);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.name == "Player" && !inputKey)

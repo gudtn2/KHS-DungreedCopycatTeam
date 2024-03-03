@@ -7,12 +7,22 @@ public class HPEvent : UnityEngine.Events.UnityEvent<float, float> { }
 public class DCEvect : UnityEngine.Events.UnityEvent<int, int> { }
 public class PlayerStats : StatManager
 {
+    public static PlayerStats instance;
+
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
     [HideInInspector]
     public DCEvect onDCEvent = new DCEvect();
 
     private PlayerController playerController;
+
+    public float tempMaxHP = 100;
+    public float curEXP;
+    public float targetEXP;
+
+    [Header("플레이어 스텟")]
+    public int ATK= 2;
+    public int DEF= 2;
 
     private void Awake()
     {
@@ -22,12 +32,21 @@ public class PlayerStats : StatManager
     public float            RecoverTimeDC = 3.0f;
     public float            timer; 
 
-    public override float   MaxHP => 100;
+    public override float MaxHP
+    {
+        get
+        {
+            return tempMaxHP;
+        }
+    }
     public override int     MaxDC => 3;
     public override int     MaxGOLD => 999999;
+    public override int     MaxLV => 50;
 
     private void Start()
     {
+        instance = this;
+
         StartCoroutine("RecoveryDC");
         timer = 0;
     }
@@ -35,6 +54,7 @@ public class PlayerStats : StatManager
     private void Update()
     {
         RecoveryDC();
+        LevelUP();
     }
 
     public void UseDC()
@@ -88,5 +108,41 @@ public class PlayerStats : StatManager
     {
         timer += Time.deltaTime;
         return timer >= RecoverTimeDC;
+    }
+
+    public void AddMaxHP()
+    {
+        tempMaxHP += 5;
+        HP = MaxHP;
+    }
+
+    public void AddEXP(float grantedEXP)
+    {
+        curEXP += grantedEXP;
+    }
+
+    private void LevelUP()
+    {
+        if(curEXP >= targetEXP)
+        {
+            curEXP = curEXP - targetEXP;
+            LV++;
+            targetEXP += (targetEXP * 0.5f);
+        }
+    }
+
+    public void AddATK(int grantedAtk)
+    {
+        ATK += grantedAtk;
+    }
+    public void AddDEF(int grantedDef)
+    {
+        DEF += grantedDef;
+    }
+
+    private void TotalATK()
+    {
+        // 공격시 들어가는 데미지 계산법
+        // 데미지 = 무기피해.랜덤(최소값 + Player_ATK  ~  최대값 + Player_ATK ) 
     }
 }

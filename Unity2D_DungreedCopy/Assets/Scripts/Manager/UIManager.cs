@@ -8,6 +8,10 @@ public class UIManager : MonoBehaviour
 {
     static public UIManager instance;
 
+    [Header("LV")]
+    [SerializeField]
+    private TextMeshProUGUI textLV;
+    
     [Header("HP")]
     [SerializeField]
     private Image           imageHP;
@@ -52,6 +56,9 @@ public class UIManager : MonoBehaviour
         UpdateImageDC();
         UpdateImageHP();
         UpdateTextGold();
+        UpdateTextLV();
+
+        textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
     }
     private void UpdateImageHP()
     {
@@ -62,6 +69,10 @@ public class UIManager : MonoBehaviour
     private void UpdateTextGold()
     {
         textGOLD.text = playerStats.GOLD.ToString();
+    }
+    private void UpdateTextLV()
+    {
+        textLV.text = playerStats.LV.ToString();
     }
 
     private void UpdateImageDC()
