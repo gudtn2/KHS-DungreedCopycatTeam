@@ -20,7 +20,11 @@ public class Swing : MonoBehaviour
     void Update()
     {
         UpdateSight();
-        SwingSword();
+
+        if(PlayerController.instance.canAttack)
+        {
+            SwingSword();
+        }
     }
 
     void UpdateSight()
@@ -53,6 +57,7 @@ public class Swing : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon.equipWeapon == 1)
         {
             GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
+            StartCoroutine(PlayerController.instance.AbleToAttack());
         }
     }
 }

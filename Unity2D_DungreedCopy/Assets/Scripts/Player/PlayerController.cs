@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
 
     private GameObject scanedObj;
 
+    [Header("플레이어 공격 제어")]
+    public bool     canAttack;          // 플레이어가 공격을 할 수 있는지 여부
+
     [Header("방향")]
     public float lastMoveDirX;
     public Vector3 mousePos;
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         isDie = false;
+        canAttack = true;
 
         // 최초 시작지 이름을 마을로 설정
         curSceneName = "Village";
@@ -200,6 +204,18 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임 제외한 기능
     //======================================================================================
+
+    // 외부에서 공격 제어를 위함
+    public IEnumerator AbleToAttack()
+    {
+        canAttack = false;
+
+        float attackDelayTime = 1 / PlayerStats.instance.ATS;
+        yield return new WaitForSeconds(attackDelayTime);
+
+        canAttack = true;
+    }
+
     public void TakeDamage(float mon_Att)
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);

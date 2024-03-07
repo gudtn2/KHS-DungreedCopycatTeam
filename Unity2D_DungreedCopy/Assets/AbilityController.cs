@@ -38,11 +38,29 @@ public class AbilityController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textGreedDetail;            // 탐욕 내용 Text
 
+    [Header("1포인트당 얻는 Stat")]
+    [SerializeField]
+    private int     grantedATK;
+    [SerializeField]
+    private int     grantedDEF;
+    [SerializeField]
+    private float   grantedATS;
+    [SerializeField]
+    private float   grantedCRI;
+    [SerializeField]
+    private int     grantedHP;
+
+    [HideInInspector]
     public int wrathPoint;                 // 분노 Point
+    [HideInInspector]
     public int swiftnessPoint;             // 신속 Point
+    [HideInInspector]
     public int patiencePoint;              // 인내 Point
+    [HideInInspector]
     public int arcanePoint;                // 신비 Point
+    [HideInInspector]
     public int greedPoint;                 // 탐욕 Point
+
 
     private Animator ani;
     private NPC      npc;
@@ -79,7 +97,7 @@ public class AbilityController : MonoBehaviour
         textWrathDetail.text        = "<color=green>+" + wrathPoint.ToString() + "</color> 위력";
         textSwiftnessDetail.text    = "<color=green>+" + (swiftnessPoint * 10).ToString() + "%" + " </color> 공격 속도";
         textPatienceDetail.text     = "<color=green>+" + patiencePoint.ToString() + " </color> 방어력";
-        textArcaneDetail.text       = "<color=green>+" + (arcanePoint * 2).ToString() + "%" + " </color> 크리티컬";
+        textArcaneDetail.text       = "<color=green>+" + (arcanePoint * 5).ToString() + "%" + " </color> 크리티컬";
         textGreedDetail.text        = "<color=green>+" + (greedPoint * 5).ToString() + " </color> 최대 체력";
     }
     //==========================================================================================
@@ -92,7 +110,7 @@ public class AbilityController : MonoBehaviour
             curPoint--;
             wrathPoint++;
 
-            PlayerStats.instance.AddATK(1);
+            PlayerStats.instance.AddATK(grantedATK);
         }
     }
     public void SwiftnessPointUP()
@@ -101,6 +119,8 @@ public class AbilityController : MonoBehaviour
         {
             curPoint--;
             swiftnessPoint++;
+
+            PlayerStats.instance.AddATS(grantedATS);
         }
     }
     public void PatiencePointUP()
@@ -110,7 +130,7 @@ public class AbilityController : MonoBehaviour
             curPoint--;
             patiencePoint++;
 
-            PlayerStats.instance.AddDEF(1);
+            PlayerStats.instance.AddDEF(grantedDEF);
         }
     }
     public void ArcanePointUP()
@@ -119,6 +139,8 @@ public class AbilityController : MonoBehaviour
         {
             curPoint--;
             arcanePoint++;
+
+            PlayerStats.instance.AddCRI(grantedCRI);
         }
     }
     public void GreedPointUP()
@@ -128,7 +150,7 @@ public class AbilityController : MonoBehaviour
             curPoint--;
             greedPoint++;
 
-            PlayerStats.instance.AddMaxHP();
+            PlayerStats.instance.AddMaxHP(grantedHP);
         }
     }
 
@@ -147,7 +169,7 @@ public class AbilityController : MonoBehaviour
         greedPoint      = 0;
         curPoint = maxPoint;
 
-        PlayerStats.instance.tempMaxHP = 100;
+        PlayerStats.instance.ResetAllStat();
     }
     //==========================================================================================
     // YS: 애니메이션 이벤트 함수

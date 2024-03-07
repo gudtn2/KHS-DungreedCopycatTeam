@@ -20,16 +20,34 @@ public class PlayerStats : StatManager
     public float curEXP;
     public float targetEXP;
 
+    private int     originATK = 2;    // 기존 가지고 있는 공격력
+    private int     originDEF = 2;    // 기존 가직고 있는 방어력
+    private int     originATS = 1;    // 기존에 가지고 있는 공속
+    private float   originCRI = 0.1f; // 크리티컬 확률(1이 100%)
+
     [Header("플레이어 스텟")]
-    public int ATK= 2;
-    public int DEF= 2;
+    public int      ATK; // 공격력
+    public int      DEF; // 방어력 
+    public float    ATS; // 공속(1초에 n번)
+    public float    CRI; // 크리티컬(1은 100%) 
+
+    public void ResetAllStat()
+    {
+        ATK = originATK;
+        DEF = originDEF;
+        ATS = originATS;
+        CRI = originCRI;
+        tempMaxHP = 100;
+    }
 
     private void Awake()
     {
         base.Setup();
         playerController = GetComponent<PlayerController>();
     }
+    [HideInInspector]
     public float            RecoverTimeDC = 3.0f;
+    [HideInInspector]
     public float            timer; 
 
     public override float MaxHP
@@ -110,9 +128,9 @@ public class PlayerStats : StatManager
         return timer >= RecoverTimeDC;
     }
 
-    public void AddMaxHP()
+    public void AddMaxHP(int grantedHP)
     {
-        tempMaxHP += 5;
+        tempMaxHP += grantedHP;
         HP = MaxHP;
     }
 
@@ -138,6 +156,14 @@ public class PlayerStats : StatManager
     public void AddDEF(int grantedDef)
     {
         DEF += grantedDef;
+    }
+    public void AddCRI(float grantedCri)
+    {
+        CRI += grantedCri;
+    }
+    public void AddATS(float grantedATS)
+    {
+        ATS += grantedATS;
     }
 
     private void TotalATK()

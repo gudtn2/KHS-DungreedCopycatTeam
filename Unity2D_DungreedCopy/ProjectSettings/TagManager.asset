@@ -16,6 +16,8 @@ TagManager:
   - BossBound
   - NPC
   - UI
+  - Enemy
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX

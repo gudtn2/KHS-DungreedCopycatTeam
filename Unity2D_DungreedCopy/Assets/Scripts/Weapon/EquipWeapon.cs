@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EquipWeapon : MonoBehaviour
 {
-    //zzz
     [Header("무기 종류")]
     private KeyCode weapon1 = KeyCode.Alpha1;
     public GameObject[] Weapons;
@@ -18,7 +17,6 @@ public class EquipWeapon : MonoBehaviour
     public GameObject MeleePos1;
     public GameObject MeleePos2;
     public bool SwitchPos = true;
-
     void Awake()
     {
         weapon = Weapons[0].GetComponent<Weapon>();
@@ -41,7 +39,7 @@ public class EquipWeapon : MonoBehaviour
             equipWeapon = 1;
 
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != 0 && PlayerController.instance.canAttack)
         {
             if (SwitchPos == true)
             {

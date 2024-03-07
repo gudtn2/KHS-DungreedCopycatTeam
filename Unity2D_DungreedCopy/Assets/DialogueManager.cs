@@ -153,5 +153,6 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             buttonsAnimators[i].Play("HideBottons");
         }
         openDialogue = false;
+        npc.inputKey = false;
     }
 }
