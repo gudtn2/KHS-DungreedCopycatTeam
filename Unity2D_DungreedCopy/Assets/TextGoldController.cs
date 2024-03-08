@@ -35,7 +35,7 @@ public class TextGoldController : MonoBehaviour
         // 텍스트의 색변환값 변환
         alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed);
 
-        // 텍스트의 갯변환 값 저장
+        // 텍스트의 색변환 값 저장
         textGold.color = alpha;
     }
 

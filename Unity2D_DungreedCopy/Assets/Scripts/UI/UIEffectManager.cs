@@ -8,6 +8,7 @@ using TMPro;
 public class UIEffectManager : MonoBehaviour
 {
     static public UIEffectManager instance;
+
     private float limitTime = 1;
 
     [SerializeField]

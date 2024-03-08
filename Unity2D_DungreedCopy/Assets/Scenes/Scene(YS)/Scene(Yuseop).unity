@@ -9021,7 +9021,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a6cbffc2da05a49b0792c4a3350d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curHP: 0
   maxHP: 100
+  CanvasHP: {fileID: 597174396}
+  isDie: 0
+  prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
+  prefabDamageText: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
   timeToReturnOriginColor: 0.3
 --- !u!70 &1531985575
 CapsuleCollider2D:

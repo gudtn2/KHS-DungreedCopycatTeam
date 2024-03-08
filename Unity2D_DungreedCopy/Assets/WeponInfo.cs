@@ -40,7 +40,7 @@ public class WeponInfo : MonoBehaviour
             // 일반공격시 공격력 = 최대 무기피해 + 플레이어 공격력
             curATK = randomATK + stats.ATK;
             Debug.Log("공격력: " + curATK);
-            textColor = Color.red;
+            textColor = Color.white;
         }
     }
 
