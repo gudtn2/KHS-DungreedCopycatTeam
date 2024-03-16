@@ -16,7 +16,8 @@ public class UIInventoryPage : MonoBehaviour
 
     [SerializeField]
     private MouseFollower mouseFollower;
-
+    [SerializeField]
+    // 인벤토리 아이템 리스트
     List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();
 
     private int currentlyDraggedItemIndex = -1;
@@ -32,13 +33,17 @@ public class UIInventoryPage : MonoBehaviour
         itemDescription.ResetDescription();
     }
 
+    // inventorysize의 설정값만큼 인벤토리 칸 생성
     public void InitializeInventoryUI(int inventorysize)
     {
         for (int i = 0; i < inventorysize; i++)
         {
             UIInventoryItem uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
+            // content를 부모로 설정
             uiItem.transform.SetParent(contentPanel);
+            // 생성된 프리팹을 리스트에 추가
             listOfUIItems.Add(uiItem);
+            // 드래그앤드롭 이벤트
             uiItem.OnItemClicked += HandleItemSelection;
             uiItem.OnItemBeginDrag += HandleBeginDrag;
             uiItem.OnItemDroppedOn += HandleSwap;
@@ -71,6 +76,7 @@ public class UIInventoryPage : MonoBehaviour
         }
     }
 
+    // inventoryItemUI의 값은 UIInventoryItem class가 생성된 순서에 맞춰 0부터 시작
     private void HandleShowItemActions(UIInventoryItem inventoryItemUI)
     {
         int index = listOfUIItems.IndexOf(inventoryItemUI);

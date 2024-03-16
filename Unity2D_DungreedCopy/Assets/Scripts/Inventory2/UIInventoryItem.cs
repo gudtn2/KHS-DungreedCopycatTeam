@@ -16,6 +16,7 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     [SerializeField]
     private Image borderImage;
 
+    // delegate
     public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
 
     private bool empty = true;
@@ -25,6 +26,8 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
         ResetData();
         Deselect();
     }
+
+    // 인벤토리 슬롯 리셋
     public void ResetData()
     {
         this.itemImage.gameObject.SetActive(false);

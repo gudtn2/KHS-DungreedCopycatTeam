@@ -14,33 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItems:
   - quantity: 1
-    item: {fileID: 11400000, guid: d6031f9b7a5df5445a6ad05ccda784e5, type: 2}
-  - quantity: 1
-    item: {fileID: 11400000, guid: bb726eb46cf024147af233829f38d03b, type: 2}
+    item: {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: 992c21b527b9fc34fa2068336a0edad0, type: 2}
+      value: 0
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
   <Size>k__BackingField: 15

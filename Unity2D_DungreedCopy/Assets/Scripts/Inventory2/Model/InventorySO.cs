@@ -144,6 +144,7 @@ public class InventorySO : ScriptableObject
         InformAboutChange();
     }
 
+    // 인벤토리와 연결된 클래스에 변경점을 알림
     private void InformAboutChange()
     {
         OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
