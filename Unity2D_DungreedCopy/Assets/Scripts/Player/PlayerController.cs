@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public bool isBossDie = false;
     [Header("보스가 완전히 죽었는지")]
     public bool bossOpentheStele = false;
-
     public bool onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
 
     private GameObject scanedObj;
@@ -98,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
         ChangeAnimation();
 
-        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !npc.inputKey)
+        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !onUI)
         {
             boxCollider2D.offset = new Vector2(0, -0.1f);
             boxCollider2D.size = new Vector2(0.8f, 1.1f);
@@ -115,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
-        if(npc.inputKey)
+        if(onUI)
         {
             movement.rigidbody.velocity = new Vector2(0, 0);
         }

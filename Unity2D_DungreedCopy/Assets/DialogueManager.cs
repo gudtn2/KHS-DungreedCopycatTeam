@@ -32,6 +32,10 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private Animator            abillityAnimator;
 
+    [Header("Shop UI")]
+    [SerializeField]
+    private Animator            shopAnimator;
+
     private NPC npc;
 
     private void Awake()
@@ -130,6 +134,8 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             if(curNPCName == "크록")
             {
                 Debug.Log("크록UI");
+                shopAnimator.gameObject.SetActive(true);
+                shopAnimator.Play("ShopShow");
             }
             else if (curNPCName == "카블로비나")
             {

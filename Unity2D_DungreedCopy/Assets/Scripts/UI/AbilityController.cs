@@ -158,6 +158,7 @@ public class AbilityController : MonoBehaviour
     {
         ani.Play("AbilityHide");
         npc.inputKey = false;
+        PlayerController.instance.onUI = false;
     }
 
     public void ResetAllAbility()
