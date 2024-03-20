@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d092fade936ed0445a5580aa6ea2878b, type: 3}
-  m_Name: Sword
+  m_Name: CrossBow
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 0
-  <Melee>k__BackingField: 1
-  <Range>k__BackingField: 0
+  <Melee>k__BackingField: 0
+  <Range>k__BackingField: 1
   <MaxStackSize>k__BackingField: 1
-  <Code>k__BackingField: 0
-  <Name>k__BackingField: "\uC20F\uC18C\uB4DC"
-  <Description>k__BackingField: "\uAE30\uBCF8\uBB34\uAE30"
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: 58e8d9729a5a72e429aa8ef692b21935, type: 3}
+  <Code>k__BackingField: 1
+  <Name>k__BackingField: "\uC11D\uAD81"
+  <Description>k__BackingField: "\uC5B4 \uC6D0\uAC70\uB9AC \uADF8\uAC70 \uC5B4"
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 8535e42fd222ce44a819bf23d6bc34e4, type: 3}
   <Damage>k__BackingField: 10
-  <AttckSpeed>k__BackingField: 3
-  <DefaultParametersList>k__BackingField:
-  - itemParameter: {fileID: 11400000, guid: 992c21b527b9fc34fa2068336a0edad0, type: 2}
-    value: 0
+  <AttckSpeed>k__BackingField: 1
+  <DefaultParametersList>k__BackingField: []

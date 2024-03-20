@@ -54,7 +54,7 @@ public class Swing : MonoBehaviour
 
     void SwingSword()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon.equipWeapon == 1)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon.equipWeapon == 1 && equipWeapon.EquipMelee == true)
         {
             GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
             StartCoroutine(PlayerController.instance.AbleToAttack());
