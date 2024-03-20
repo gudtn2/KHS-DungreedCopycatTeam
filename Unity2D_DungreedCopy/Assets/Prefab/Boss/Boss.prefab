@@ -911,6 +911,8 @@ GameObject:
   - component: {fileID: 4586247940921176469}
   - component: {fileID: 1747295789226753855}
   - component: {fileID: 1290524909541349707}
+  - component: {fileID: 8608320626688188979}
+  - component: {fileID: 8701558660300241438}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -1023,6 +1025,68 @@ MonoBehaviour:
   maxHP: 1000
   curHP: 0
   spriteRenderer: {fileID: 8847439800526608923}
+--- !u!58 &8608320626688188979
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476549074313248860}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5, y: -0.5}
+  serializedVersion: 2
+  m_Radius: 2
+--- !u!50 &8701558660300241438
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476549074313248860}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &3568858642164729266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,10 +1898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07550fd43fc36934db0fc408dc5190e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 1
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 16384
 --- !u!1 &6487880388189476780
 GameObject:
   m_ObjectHideFlags: 0

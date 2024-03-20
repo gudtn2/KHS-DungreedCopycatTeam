@@ -306,6 +306,11 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
+            if(movement.isGrounded)
+            {
+                movement.rigidbody.velocity = Vector2.zero;
+            }
+
         }
         // 기본 상태
         if (movement.isGrounded == true && movement.rigidbody.velocity.x == 0)

@@ -15,7 +15,6 @@ public class BossHP : MonoBehaviour
 
     private BossPattern             bossPattern;
     private BossController          bossController;
-    private MainCameraController    mainCam;
 
     private void Awake()
     {
@@ -24,12 +23,10 @@ public class BossHP : MonoBehaviour
         bossPattern     = GetComponent<BossPattern>();
         bossController  = GetComponent<BossController>();
 
-        mainCam         = FindObjectOfType<MainCameraController>();
-
         curHP = maxHP;
     }
    
-    public void BossTakeDamage(float damage)
+    private void BossTakeDamage(float damage)
     {
         curHP -= damage;
 
@@ -46,7 +43,8 @@ public class BossHP : MonoBehaviour
     {
         if(collision.gameObject.tag == "PlayerAttack") 
         {
-            Debug.Log("zzzz");
+            BossTakeDamage(collision.gameObject.GetComponent<WeponInfo>().curATK);
+            MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
         }
     }
 
