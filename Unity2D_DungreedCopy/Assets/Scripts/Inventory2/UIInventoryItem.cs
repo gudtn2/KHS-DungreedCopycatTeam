@@ -16,6 +16,12 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     [SerializeField]
     private Image borderImage;
 
+    [SerializeField]
+    private int damage;
+
+    [SerializeField]
+    private float AttackSpeed;
+
     // delegate
     public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
 

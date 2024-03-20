@@ -38,11 +38,8 @@ public class UIInventoryPage : MonoBehaviour
     {
         for (int i = 0; i < inventorysize; i++)
         {
-            UIInventoryItem uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
-            // content를 부모로 설정
-            uiItem.transform.SetParent(contentPanel);
-            // 생성된 프리팹을 리스트에 추가
-            listOfUIItems.Add(uiItem);
+            UIInventoryItem uiItem = listOfUIItems[i];
+
             // 드래그앤드롭 이벤트
             uiItem.OnItemClicked += HandleItemSelection;
             uiItem.OnItemBeginDrag += HandleBeginDrag;

@@ -19,6 +19,10 @@ public abstract class ItemSO : ScriptableObject
     public string Description { get; set; }
     [field: SerializeField]
     public Sprite ItemImage { get; set; }
+    [field: SerializeField]
+    public int Damage { get; set; }
+    [field: SerializeField]
+    public float AttckSpeed { get; set; }
 
     [field: SerializeField]
     public List<ItemParameter> DefaultParametersList { get; set; }

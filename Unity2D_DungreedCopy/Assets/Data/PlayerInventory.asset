@@ -13,6 +13,42 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   inventoryItems:
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
   - quantity: 1
     item: {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
     itemState:
@@ -27,37 +63,4 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  <Size>k__BackingField: 15
+  <Size>k__BackingField: 16

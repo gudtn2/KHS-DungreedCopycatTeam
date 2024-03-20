@@ -1,16 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Example : MonoBehaviour
 {
-    public ItemSO 아이템;
+    [SerializeField]
+    private InventorySO inventory;
 
     [SerializeField]
-    private InventorySO 인벤토리;
+    private ItemSO testitem;
 
-    void Update()
+    private void Awake()
     {
-        인벤토리.AddItem(아이템, 1);
+        
+    }
+
+    private void Update()
+    {
+        
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            Call();
+
+        }
+    }
+
+    private void Call()
+    {
+        testitem = inventory.inventoryItems[15].item;
+        Debug.Log(testitem.Damage);
+        Debug.Log(testitem.name);
+        Debug.Log(testitem.AttckSpeed);
     }
 }
