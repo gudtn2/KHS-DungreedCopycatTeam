@@ -3,24 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Experimental.AI;
 
 public class UIInventoryPage : MonoBehaviour
 {
     [SerializeField]
-    private UIInventoryItem itemPrefab;
-
+    private UIInventoryItem         itemPrefab;
     [SerializeField]
-    private RectTransform contentPanel;
-
+    private RectTransform           contentPanel;
     [SerializeField]
     private UIInventoryDescription itemDescription;
-
     [SerializeField]
-    private MouseFollower mouseFollower;
+    private MouseFollower           mouseFollower;
     [SerializeField]
-    // 인벤토리 아이템 리스트
-    List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();
+    List<UIInventoryItem>           listOfUIItems = new List<UIInventoryItem>();    //인벤토리 아이템 리스트
+    [SerializeField]
+    private TextMeshProUGUI         textGold;
 
     private int currentlyDraggedItemIndex = -1;
 
@@ -39,6 +38,11 @@ public class UIInventoryPage : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        textGold.text = PlayerStats.instance.GOLD.ToString();
+    }
+
     // inventorysize의 설정값만큼 인벤토리 칸 생성
     public void InitializeInventoryUI(int inventorysize)
     {
@@ -48,6 +52,7 @@ public class UIInventoryPage : MonoBehaviour
 
             // 드래그앤드롭 이벤트
             uiItem.OnItemClicked += HandleItemSelection;
+            uiItem.OnItemPointed += HandleItemSelection;
             uiItem.OnItemBeginDrag += HandleBeginDrag;
             uiItem.OnItemDroppedOn += HandleSwap;
             uiItem.OnItemEndDrag += HandleEndDrag;

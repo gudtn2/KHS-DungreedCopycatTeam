@@ -35,6 +35,8 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     [Header("Shop UI")]
     [SerializeField]
     private Animator            shopAnimator;
+    [SerializeField]
+    private Animator            invenAnimator;
 
     private NPC npc;
 
@@ -135,17 +137,15 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             {
                 Debug.Log("크록UI");
                 shopAnimator.gameObject.SetActive(true);
+                invenAnimator.gameObject.SetActive(true);
                 shopAnimator.Play("ShopShow");
+                invenAnimator.Play("Show");
             }
             else if (curNPCName == "카블로비나")
             {
                 Debug.Log("카블로비나UI");
                 abillityAnimator.gameObject.SetActive(true);
                 abillityAnimator.Play("AbilityShow");
-            }
-            else if (curNPCName == "호레리카")
-            {
-                Debug.Log("호레리카UI");
             }
         }
         

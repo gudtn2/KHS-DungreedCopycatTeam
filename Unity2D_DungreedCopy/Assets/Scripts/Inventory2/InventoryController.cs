@@ -8,9 +8,8 @@ public class InventoryController : MonoBehaviour
 {
     [SerializeField]
     private UIInventoryPage inventoryUI;
-
     [SerializeField]
-    private InventorySO inventoryData;
+    private InventorySO     inventoryData;
 
     public List<InventoryItem> initialItems = new List<InventoryItem>();
 
@@ -89,6 +88,7 @@ public class InventoryController : MonoBehaviour
             inventoryUI.ResetSelection();
             return;
         }
+        
         ItemSO item = inventoryItem.item;
         string description = PrepareDescription(inventoryItem);
         inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, item.Description);
@@ -115,6 +115,7 @@ public class InventoryController : MonoBehaviour
         {
             if(inventoryUI.isActiveAndEnabled == false)
             {
+                PlayerController.instance.onUI = true;
                 inventoryUI.Show();
                 foreach (var item in inventoryData.GetCurrentInventoryState())
                 {
@@ -123,6 +124,7 @@ public class InventoryController : MonoBehaviour
             }
             else
             {
+                PlayerController.instance.onUI = false;
                 inventoryUI.Hide();
             }
         }
