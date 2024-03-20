@@ -50,6 +50,7 @@ public class InventoryController : MonoBehaviour
         this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
     }
 
+    // 우클릭 액션
     private void HandleItemActionRequest(int itemIndex)
     {
         InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
