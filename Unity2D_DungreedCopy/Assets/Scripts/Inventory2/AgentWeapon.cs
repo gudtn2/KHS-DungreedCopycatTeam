@@ -23,7 +23,7 @@ public class AgentWeapon : MonoBehaviour
 
     private void Awake()
     {
-        weaponImage = GetComponentInChildren<Sprite>();
+        //weaponImage = GetComponentInChildren<Sprite>();
     }
 
     public void SetWeapon(EquippableItemSO weaponItemSO, List<ItemParameter> itemState)

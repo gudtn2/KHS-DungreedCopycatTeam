@@ -29,9 +29,11 @@ public class Portal : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
+            UIManager.instance.fadeOn = true;
+
             markCurMap.dungeonMapDir = dungeonMapMoveDir;
             player.curDungeonName   = nextDungeon.name;
-            fade.OnFade(FadeState.FadeOut);
+            FadeEffectController.instance.OnFade(FadeState.FadeOut);
             StartCoroutine(portalStartPoint.ChangePlayerPosition());
         }
     }

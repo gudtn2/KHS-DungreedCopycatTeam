@@ -29,6 +29,12 @@ public class UIManager : MonoBehaviour
     [Header("GOLD")]
     [SerializeField]
     private TextMeshProUGUI textGOLD;
+
+    [Header("ImageFade")]
+    [SerializeField]
+    private GameObject      fadeImage;
+    [HideInInspector]
+    public  bool            fadeOn = false;
     
     [SerializeField]
     private PlayerStats         playerStats;
@@ -59,6 +65,8 @@ public class UIManager : MonoBehaviour
         UpdateTextLV();
 
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
+
+        fadeImage.SetActive(fadeOn);
     }
     private void UpdateImageHP()
     {

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 public class UIInventoryPage : MonoBehaviour
 {
@@ -26,11 +28,15 @@ public class UIInventoryPage : MonoBehaviour
 
     public event Action<int, int> OnSwapItems;
 
+    private Animator ani;
+
     private void Awake()
     {
-        Hide();
+        ani = GetComponent<Animator>();
         mouseFollower.Toggle(false);
         itemDescription.ResetDescription();
+
+        gameObject.SetActive(false);
     }
 
     // inventorysize의 설정값만큼 인벤토리 칸 생성
@@ -133,6 +139,7 @@ public class UIInventoryPage : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        ani.Play("Show");
         ResetSelection();
     }
 
@@ -152,7 +159,14 @@ public class UIInventoryPage : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        ani.Play("Hide");
         ResetDraggedItem();
+        StartCoroutine("RealDeactivate");
+    }
+
+    private IEnumerator RealDeactivate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
     }
 }
