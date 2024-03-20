@@ -5,11 +5,11 @@ using UnityEngine.UI    ;
 
 public class BossHP : MonoBehaviour
 {
+    public static BossHP instance;
+
     public float maxHP = 1000; 
     public float curHP;
 
-    [SerializeField]
-    private Image               imageBossDieEffect;
     [SerializeField]
     private SpriteRenderer      spriteRenderer;
 
@@ -19,6 +19,8 @@ public class BossHP : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         bossPattern     = GetComponent<BossPattern>();
         bossController  = GetComponent<BossController>();
 
@@ -26,14 +28,7 @@ public class BossHP : MonoBehaviour
 
         curHP = maxHP;
     }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Q) && bossController.isAbleToAttack == true)
-        {
-            BossTakeDamage(100);
-            mainCam.OnShakeCamByRot(0.1f,0.1f);
-        }
-    }
+   
     public void BossTakeDamage(float damage)
     {
         curHP -= damage;
@@ -44,6 +39,14 @@ public class BossHP : MonoBehaviour
         if(curHP <= 0)
         {
             bossPattern.ChangeBossState(BossState.Die);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "PlayerAttack") 
+        {
+            Debug.Log("zzzz");
         }
     }
 

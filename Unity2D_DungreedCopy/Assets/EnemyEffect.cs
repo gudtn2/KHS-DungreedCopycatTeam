@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyEffect : MonoBehaviour
 {
-    [Header("Enemy Á¤º¸")]
+    [Header("Enemy Info")]
     [SerializeField]
     private float       curHP;
     [SerializeField]
     private float       maxHP;
     [SerializeField]
-    private GameObject  CanvasHP; // °ø°ÝÀ» ÇÑ °æ¿ì¸¸ Ã¼·Â¹Ù º¸ÀÌµµ·Ï
-    [SerializeField]
     private bool        isDie;
     [SerializeField]
     private GameObject  prefabDieEffect;
+    [SerializeField]
+    private GameObject  CanvasHP;           // CanvasEnemy GameObject
 
-    [Header("Text Effect º¯¼ö")]
+    [Header("Text Effect")]
     [SerializeField]
     private GameObject  prefabDamageText;
     [SerializeField]
@@ -31,14 +31,16 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer  spriteRenderer;
     private HPBar           healthBar;
 
-    private void Start()
+    private void Awake()
     {
         spriteRenderer  = GetComponent<SpriteRenderer>();
         healthBar       = GetComponentInChildren<HPBar>();
 
-        textPoolManager         = new PoolManager(prefabDamageText);
-        dieEffectPoolManager    = new PoolManager(prefabDieEffect);
-
+        textPoolManager = new PoolManager(prefabDamageText);
+        dieEffectPoolManager = new PoolManager(prefabDieEffect);
+    }
+    private void Start()
+    {
         curHP = maxHP;
         healthBar.UpdateHPBar(curHP, maxHP);
 
@@ -80,27 +82,27 @@ public class Enemy : MonoBehaviour
         {
             if(curHP > 0)
             {
-                // °ø°ÝÀ» ½ÃÀÛÇÑ °æ¿ì¸¸ Ã¼·Â¹Ù º¸ÀÌµµ·Ï
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ Ã¼ï¿½Â¹ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½
                 CanvasHP.SetActive(true);
 
-                // ÇÇ°Ý½Ã ÄÃ·¯ º¯°æ
+                // ï¿½Ç°Ý½ï¿½ ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½
                 //spriteRenderer.color = color;
                 spriteRenderer.color = collision.gameObject.GetComponent<WeponInfo>().textColor;
 
-                // ÇÇ°Ý »ö±ò ¿ø»óº¹±¸ ÄÚ·çÆ¾ ÇÔ¼ö ½ÇÇà
+                // ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½óº¹±ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
                 StartCoroutine(ReturnColor());
 
-                // Àû Ã¼·Â °¨¼Ò
+                // ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 TakeDamage(collision.gameObject.GetComponent<WeponInfo>().curATK);
 
-                // µ¥¹ÌÁö ÅØ½ºÆ® ÀÎ½ºÅÏ½º ÇÔ¼ö
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½Ô¼ï¿½
                 ActivateText(collision.gameObject.GetComponent<WeponInfo>().curATK,
                             collision.gameObject.GetComponent<WeponInfo>().textColor);
 
-                // ÇÇ°Ý½Ã Ä«¸Þ¶ó Èçµé¸²
+                // ï¿½Ç°Ý½ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½é¸²
                 MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
 
-                // Enemy Ã¼·Â¹Ù ÃÖ½ÅÈ­
+                // Enemy Ã¼ï¿½Â¹ï¿½ ï¿½Ö½ï¿½È­
                 healthBar.UpdateHPBar(curHP, maxHP);
             }
         }

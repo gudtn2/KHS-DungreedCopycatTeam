@@ -913,7 +913,7 @@ GameObject:
   - component: {fileID: 1290524909541349707}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,7 +1022,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 1000
   curHP: 0
-  imageBossDieEffect: {fileID: 0}
   spriteRenderer: {fileID: 8847439800526608923}
 --- !u!1 &3568858642164729266
 GameObject:
@@ -1725,9 +1724,10 @@ GameObject:
   - component: {fileID: 4441059974970208931}
   - component: {fileID: 8847439800526608923}
   - component: {fileID: 1822905396390043936}
+  - component: {fileID: 8616722513561883249}
   m_Layer: 0
   m_Name: BossHead
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1822,6 +1822,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8616722513561883249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6132394054130429049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07550fd43fc36934db0fc408dc5190e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!1 &6487880388189476780
 GameObject:
   m_ObjectHideFlags: 0

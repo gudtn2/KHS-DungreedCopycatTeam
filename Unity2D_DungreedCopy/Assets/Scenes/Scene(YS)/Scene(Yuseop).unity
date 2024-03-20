@@ -2815,9 +2815,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1555706625
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 58e8d9729a5a72e429aa8ef692b21935, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3152,7 +3152,7 @@ GameObject:
   - component: {fileID: 198097327}
   - component: {fileID: 198097329}
   - component: {fileID: 198097328}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4537,7 +4537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531230539}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4873,7 +4873,7 @@ GameObject:
   - component: {fileID: 597174400}
   - component: {fileID: 597174399}
   - component: {fileID: 597174398}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CanvasEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9352,9 +9352,9 @@ GameObject:
   - component: {fileID: 1531985573}
   - component: {fileID: 1531985572}
   - component: {fileID: 1531985575}
-  - component: {fileID: 1531985574}
+  - component: {fileID: 1531985577}
   - component: {fileID: 1531985576}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Test_Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -9429,25 +9429,6 @@ Transform:
   - {fileID: 597174397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1531985574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531985571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a6cbffc2da05a49b0792c4a3350d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curHP: 0
-  maxHP: 100
-  CanvasHP: {fileID: 597174396}
-  isDie: 0
-  prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
-  prefabDamageText: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
-  timeToReturnOriginColor: 0.3
 --- !u!70 &1531985575
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -9509,7 +9490,26 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
+--- !u!114 &1531985577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531985571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a6cbffc2da05a49b0792c4a3350d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curHP: 0
+  maxHP: 100
+  isDie: 0
+  prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
+  CanvasHP: {fileID: 597174396}
+  prefabDamageText: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
+  timeToReturnOriginColor: 0.3
 --- !u!1 &1543738518
 GameObject:
   m_ObjectHideFlags: 0
@@ -9605,7 +9605,7 @@ GameObject:
   - component: {fileID: 1566960056}
   - component: {fileID: 1566960058}
   - component: {fileID: 1566960057}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyHPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12753,7 +12753,7 @@ GameObject:
   - component: {fileID: 2091718285}
   - component: {fileID: 2091718287}
   - component: {fileID: 2091718286}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12872,9 +12872,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1555706625
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 58e8d9729a5a72e429aa8ef692b21935, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

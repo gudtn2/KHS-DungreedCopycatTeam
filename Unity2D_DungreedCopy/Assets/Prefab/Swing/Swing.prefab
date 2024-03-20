@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2639251943994298930}
   - component: {fileID: 3481426598260098776}
   - component: {fileID: 2000665240350171194}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Swing
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -95,9 +95,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingLayerID: 832934297
+  m_SortingLayer: 7
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 9d0ca5fd8dae44e4b8a400228f75dbd6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

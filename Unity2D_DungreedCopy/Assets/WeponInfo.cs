@@ -44,6 +44,14 @@ public class WeponInfo : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Boss")
+        {
+            Debug.Log("zzzz");
+        }
+    }
+
     public bool IsCritical()
     {
         return (random.NextDouble() < stats.CRI);
