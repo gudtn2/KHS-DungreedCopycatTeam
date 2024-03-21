@@ -52,7 +52,7 @@ public class EquipWeapon : MonoBehaviour
 
     private void CheckWeapon(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if (equipWeapon == 0 && EquipItem1 == null)
+        if(equipWeapon == 0 && EquipItem1 == null)
         {
             Weapons[currentWeapon1code].SetActive(false);
             equipWeapon = -1;
@@ -68,7 +68,7 @@ public class EquipWeapon : MonoBehaviour
     {
         if (EquipItem1 != null && equipWeapon != 0)
         {
-            if (equipWeapon == 1)
+            if(equipWeapon == 1)
             {
                 Weapons[EquipItem2.Code].SetActive(false);
             }

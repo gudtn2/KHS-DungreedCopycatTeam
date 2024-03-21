@@ -34,7 +34,7 @@ public class UIInventoryItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHa
 
     public void Awake()
     {
-        descriptionUI     = GameObject.Find("Canvas/InventoryUI/InventoryDescription");
+        descriptionUI     = GameObject.Find("CanvasPlayerState/InventoryUI/InventoryDescription");
         rectDescriptionUI = descriptionUI.GetComponent<RectTransform>();
 
         ResetData();

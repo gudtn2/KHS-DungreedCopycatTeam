@@ -33,6 +33,4 @@ public class UIInventoryDescription : MonoBehaviour
         this.title.text = itemName;
         this.description.text = itemDescription;
     }
-
-   
 }

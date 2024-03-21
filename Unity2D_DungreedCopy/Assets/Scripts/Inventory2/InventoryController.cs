@@ -111,7 +111,7 @@ public class InventoryController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V) && !DialogueManager.instance.onShop)
+        if (Input.GetKeyDown(KeyCode.V))
         {
             if(inventoryUI.isActiveAndEnabled == false)
             {

@@ -37,9 +37,8 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     private Animator            shopAnimator;
     [SerializeField]
     private Animator            invenAnimator;
-    public bool                 onShop;
 
-    private NPC                 npc;
+    private NPC npc;
 
     private void Awake()
     {
@@ -137,7 +136,6 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             if(curNPCName == "크록")
             {
                 Debug.Log("크록UI");
-                onShop = true;
                 shopAnimator.gameObject.SetActive(true);
                 invenAnimator.gameObject.SetActive(true);
                 shopAnimator.Play("ShopShow");
@@ -162,6 +160,5 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         }
         openDialogue = false;
         npc.inputKey = false;
-        PlayerController.instance.onUI = false;
     }
 }
