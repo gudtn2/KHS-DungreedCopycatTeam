@@ -6,15 +6,8 @@ public class Weapon : MonoBehaviour
 {
     public enum Type { Melee, Range };
     public Type type;
-    public float Damage;
-    public float AttackSpeed;
-    public int value;
 
     public Transform player;
-
-    void Awake()
-    {
-    }
 
     // Update is called once per frame
     void Update()

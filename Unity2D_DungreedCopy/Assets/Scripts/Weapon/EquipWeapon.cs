@@ -11,9 +11,8 @@ public class EquipWeapon : MonoBehaviour
     public GameObject[] Weapons;
     public bool hasWeapons1;
     public bool hasWeapons2;
-    public int equipWeapon = -1;
+    private int equipWeapon = 0;
 
-    public Weapon weapon;
     public Sprite[] sprites;
 
     public GameObject MeleePos;
@@ -24,91 +23,71 @@ public class EquipWeapon : MonoBehaviour
     [SerializeField]
     private GameObject Swing;
 
+    private int currentWeapon1code;
+    private int currentWeapon2code;
+
     public bool EquipMelee;
     void Awake()
     {
-        weapon = Weapons[0].GetComponent<Weapon>();
     }
 
     void Update()
     {
         ItemSO EquipItem1 = inventory.inventoryItems[15].item;
-        // 근접무기 
-        if (inventory.inventoryItems[15].item != null)
+        ItemSO EquipItem2 = inventory.inventoryItems[16].item;
+
+        if (Input.GetKeyDown(weapon1))
         {
-            hasWeapons1 = true;
+            PlayerController.instance.canAttack = true;
+            SwitchingWeapon1(EquipItem1, EquipItem2);
         }
-        else if(Weapons[0] == null)
+        if (Input.GetKeyDown(weapon2))
         {
-            hasWeapons1 = false;
+            PlayerController.instance.canAttack = true;
+            SwitchingWeapon2(EquipItem1, EquipItem2);
         }
 
-        if (Input.GetKeyDown(weapon1) && hasWeapons1 == true && weapon.type == Weapon.Type.Melee)
-        {
-            MeleePos.SetActive(true);
-            equipWeapon = 1;
-
-        }
-        else if (hasWeapons1 && Input.GetKeyDown(weapon1)) return;
-
-
-        //if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != -1  && PlayerController.instance.canAttack)
-        //{
-        //    if (SwitchPos == true)
-        //    {
-        //        //MeleeSpr1.sprite = sprites[weapon.value];
-        //        MeleePos1.SetActive(false);
-        //        MeleePos2.SetActive(true);
-        //        SwitchPos = false;
-        //    }
-        //    else if (SwitchPos == false)
-        //    {
-        //        MeleePos1.SetActive(true);
-        //        MeleePos2.SetActive(false);
-        //        SwitchPos = true;
-        //    }
-        //}
+        CheckWeapon(EquipItem1, EquipItem2);
     }
 
-    private void SwitchingWeapon(ItemSO EquipItem)
+    private void CheckWeapon(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if (Input.GetKeyDown(weapon1) && EquipItem != null && equipWeapon != 0)
+        if(equipWeapon == 0 && EquipItem1 == null)
         {
-            Weapons[EquipItem.Code].SetActive(true);
-            MeleePos.SetActive(EquipItem.Melee);
-            RangePos.SetActive(!EquipItem.Melee);
-            if(EquipItem.Melee == true)
+            Weapons[currentWeapon1code].SetActive(false);
+            equipWeapon = -1;
+        }
+        if (equipWeapon == 1 && EquipItem2 == null)
+        {
+            Weapons[currentWeapon2code].SetActive(false);
+            equipWeapon = -1;
+        }
+    }
+
+    private void SwitchingWeapon1(ItemSO EquipItem1, ItemSO EquipItem2)
+    {
+        if (EquipItem1 != null && equipWeapon != 0)
+        {
+            if(equipWeapon == 1)
             {
-                EquipMelee = true;
+                Weapons[EquipItem2.Code].SetActive(false);
             }
-            else
-            {
-                EquipMelee = false;
-            }
+            Weapons[EquipItem1.Code].SetActive(true);
+            currentWeapon1code = EquipItem1.Code;
             equipWeapon = 0;
         }
-        if (Input.GetKeyDown(weapon2) && EquipItem != null && equipWeapon != 1)
-        {
-            Weapons[EquipItem.Code].SetActive(true);
-            MeleePos.SetActive(EquipItem.Melee);
-            RangePos.SetActive(!EquipItem.Melee);
-            if (EquipItem.Melee == true)
-            {
-                EquipMelee = true;
-            }
-            else
-            {
-                EquipMelee = false;
-            }
-            equipWeapon = 1;
-        }
     }
-
-    private void AttackPos(ItemSO EquipItem)
+    private void SwitchingWeapon2(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != -1 && PlayerController.instance.canAttack)
+        if (EquipItem2 != null && equipWeapon != 1)
         {
-            if (EquipItem.Melee == true) { }
+            if (equipWeapon == 0)
+            {
+                Weapons[EquipItem1.Code].SetActive(false);
+            }
+            Weapons[EquipItem2.Code].SetActive(true);
+            currentWeapon2code = EquipItem2.Code;
+            equipWeapon = 1;
         }
     }
 }
