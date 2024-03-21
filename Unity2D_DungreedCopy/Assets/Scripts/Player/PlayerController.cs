@@ -117,7 +117,12 @@ public class PlayerController : MonoBehaviour
 
         if(onUI)
         {
-            movement.rigidbody.velocity = new Vector2(0, 0);
+            movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
+        }
+        else if(onUI && movement.isGrounded)
+        {
+            movement.rigidbody.velocity = Vector2.zero;
+
         }
         if (dungeonPortalController.isCollideToPlayer)
         {

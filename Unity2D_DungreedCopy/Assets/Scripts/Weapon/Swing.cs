@@ -19,11 +19,14 @@ public class Swing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateSight();
-
-        if(PlayerController.instance.canAttack)
+        if (!PlayerController.instance.onUI)
         {
-            SwingSword();
+            UpdateSight();
+
+            if(PlayerController.instance.canAttack)
+            {
+                SwingSword();
+            }
         }
     }
 

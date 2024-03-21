@@ -8,7 +8,7 @@ public class ShopController : MonoBehaviour
     private NPC         npc;
 
     [SerializeField]
-    private Animator invenAni;
+    private Animator    invenAni;
 
     private void Awake()
     {
@@ -16,14 +16,15 @@ public class ShopController : MonoBehaviour
 
         npc = FindObjectOfType<NPC>();
     }
-
+    
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && DialogueManager.instance.onShop)
         {
             ani.Play("ShopHide");
             invenAni.Play("Hide");
-            npc.inputKey = false;
+            DialogueManager.instance.onShop = false;
+            npc.inputKey    = false;
             PlayerController.instance.onUI = false;
         }
     }

@@ -20,15 +20,18 @@ public class NPC : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(fKey) && onKey)
+        if(!PlayerController.instance.onUI)
         {
-            inputKey = true;
-            PlayerController.instance.onUI = true;
-            onKey = false;
-            DialogueManager.instance.OnDialogue(sentences, name);
+            if(Input.GetKeyDown(fKey) && onKey)
+            {
+                inputKey = true;
+                PlayerController.instance.onUI = true;
+                onKey = false;
+                DialogueManager.instance.OnDialogue(sentences, name);
+            }
+            
+            keyObj.SetActive(onKey);
         }
-        
-        keyObj.SetActive(onKey);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

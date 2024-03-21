@@ -82,27 +82,19 @@ public class EnemyEffect : MonoBehaviour
         {
             if(curHP > 0)
             {
-                // ������ ������ ��츸 ü�¹� ���̵���
                 CanvasHP.SetActive(true);
 
-                // �ǰݽ� �÷� ����
-                //spriteRenderer.color = color;
                 spriteRenderer.color = collision.gameObject.GetComponent<WeponInfo>().textColor;
 
-                // �ǰ� ���� ���󺹱� �ڷ�ƾ �Լ� ����
                 StartCoroutine(ReturnColor());
 
-                // �� ü�� ����
                 TakeDamage(collision.gameObject.GetComponent<WeponInfo>().curATK);
 
-                // ������ �ؽ�Ʈ �ν��Ͻ� �Լ�
                 ActivateText(collision.gameObject.GetComponent<WeponInfo>().curATK,
                             collision.gameObject.GetComponent<WeponInfo>().textColor);
 
-                // �ǰݽ� ī�޶� ��鸲
                 MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
 
-                // Enemy ü�¹� �ֽ�ȭ
                 healthBar.UpdateHPBar(curHP, maxHP);
             }
         }

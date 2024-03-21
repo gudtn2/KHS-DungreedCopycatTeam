@@ -32,27 +32,30 @@ public class EquipWeapon : MonoBehaviour
         {
             hasWeapons1 = false;
         }
-
-        if(Input.GetKeyDown(weapon1) && hasWeapons1 == true && weapon.type == Weapon.Type.Melee)
+        if(!PlayerController.instance.onUI)
         {
-            MeleePos1.SetActive(true);
-            equipWeapon = 1;
 
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != 0 && PlayerController.instance.canAttack)
-        {
-            if (SwitchPos == true)
-            {
-                //MeleeSpr1.sprite = sprites[weapon.value];
-                MeleePos1.SetActive(false);
-                MeleePos2.SetActive(true);
-                SwitchPos = false;
-            }
-            else if (SwitchPos == false)
+            if(Input.GetKeyDown(weapon1) && hasWeapons1 == true && weapon.type == Weapon.Type.Melee)
             {
                 MeleePos1.SetActive(true);
-                MeleePos2.SetActive(false);
-                SwitchPos = true;
+                equipWeapon = 1;
+
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon != 0 && PlayerController.instance.canAttack)
+            {
+                if (SwitchPos == true)
+                {
+                    //MeleeSpr1.sprite = sprites[weapon.value];
+                    MeleePos1.SetActive(false);
+                    MeleePos2.SetActive(true);
+                    SwitchPos = false;
+                }
+                else if (SwitchPos == false)
+                {
+                    MeleePos1.SetActive(true);
+                    MeleePos2.SetActive(false);
+                    SwitchPos = true;
+                }
             }
         }
     }
