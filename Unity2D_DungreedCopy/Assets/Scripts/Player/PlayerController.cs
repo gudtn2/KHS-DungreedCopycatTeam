@@ -106,11 +106,12 @@ public class PlayerController : MonoBehaviour
             UpdateSight();
             UpdateDash();
         }
-        else
+        else if(isDie)
         {
             boxCollider2D.offset = new Vector2(0, 0);
             boxCollider2D.size = new Vector2(1.2f, 0.7f);
         }
+
 
         if (movement.isDashing) return;
 
@@ -306,6 +307,11 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
+            if(movement.isGrounded)
+            {
+                movement.rigidbody.velocity = Vector2.zero;
+            }
+
         }
         // 기본 상태
         if (movement.isGrounded == true && movement.rigidbody.velocity.x == 0)

@@ -35,6 +35,7 @@ public class FadeEffectController : MonoBehaviour
         {
             case FadeState.FadeIn:
                 StartCoroutine(Fade(1, 0));
+                StartCoroutine(DeactivateFadeImage());
                 break;
             case FadeState.FadeOut:
                 StartCoroutine(Fade(0, 1));
@@ -44,6 +45,12 @@ public class FadeEffectController : MonoBehaviour
                 StartCoroutine(FadeInOut());
                 break;
         }
+    }
+
+    private IEnumerator DeactivateFadeImage()
+    {
+        yield return new WaitForSeconds(fadeTime);
+        this.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeInOut()

@@ -7,6 +7,9 @@ public class ShopController : MonoBehaviour
     private Animator    ani;
     private NPC         npc;
 
+    [SerializeField]
+    private Animator invenAni;
+
     private void Awake()
     {
         ani = GetComponent<Animator>();
@@ -19,6 +22,7 @@ public class ShopController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             ani.Play("ShopHide");
+            invenAni.Play("Hide");
             npc.inputKey = false;
             PlayerController.instance.onUI = false;
         }

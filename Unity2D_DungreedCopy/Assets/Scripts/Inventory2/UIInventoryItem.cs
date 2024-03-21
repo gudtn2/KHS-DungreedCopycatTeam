@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
+public class UIInventoryItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
 {
     [SerializeField]
     private Image itemImage;
@@ -21,14 +21,22 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     [SerializeField]
     private float AttackSpeed;
+    [SerializeField]
+    private GameObject      descriptionUI;
+    private RectTransform   rectDescriptionUI;
+    [SerializeField]
+    private float x, y;
 
     // delegate
-    public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
+    public event Action<UIInventoryItem> OnItemPointed,OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
 
     private bool empty = true;
 
     public void Awake()
     {
+        descriptionUI     = GameObject.Find("CanvasPlayerState/InventoryUI/InventoryDescription");
+        rectDescriptionUI = descriptionUI.GetComponent<RectTransform>();
+
         ResetData();
         Deselect();
     }
@@ -90,5 +98,22 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     public void OnDrag(PointerEventData eventData)
     {
+
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(!empty)
+        {
+            // 위치에 띄우기
+            OnItemPointed?.Invoke(this);
+            descriptionUI.SetActive(true);
+            rectDescriptionUI.position = new Vector3(transform.position.x - rectDescriptionUI.rect.width, transform.position.y + rectDescriptionUI.rect.height);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        descriptionUI.SetActive(false);
     }
 }
