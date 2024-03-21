@@ -12,6 +12,9 @@ public class InventorySO : ScriptableObject
     [field: SerializeField]
     public int Size { get; private set; } = 10;
 
+    [SerializeField]
+    private InventoryItem FirstItem;
+
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
     public void Initialize()
@@ -21,6 +24,7 @@ public class InventorySO : ScriptableObject
         {
             inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
+        inventoryItems.Insert(15, FirstItem);
     }
 
     public int AddItem(ItemSO item, int quantity, List<ItemParameter> itemState = null)

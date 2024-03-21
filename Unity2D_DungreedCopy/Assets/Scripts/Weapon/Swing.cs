@@ -10,6 +10,8 @@ public class Swing : MonoBehaviour
     public GameObject SwingObj;
 
     public EquipWeapon equipWeapon;
+    [SerializeField]
+    private SwordPosSwitching sword;
 
     void Awake()
     {
@@ -54,10 +56,11 @@ public class Swing : MonoBehaviour
 
     void SwingSword()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipWeapon.equipWeapon == 1)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
             StartCoroutine(PlayerController.instance.AbleToAttack());
+            sword.SwordPosition();
         }
     }
 }
