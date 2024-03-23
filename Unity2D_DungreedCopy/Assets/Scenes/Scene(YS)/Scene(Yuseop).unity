@@ -12810,8 +12810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2e3f72c661f3b4cb02d337b1c8828f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 8964481664811300423, guid: ec22d3613995ac94eb81b9a81236c04d, type: 3}
-  bulletSpawn: {fileID: 1618014781}
+  arrowPrefab: {fileID: 8964481664811300423, guid: ec22d3613995ac94eb81b9a81236c04d, type: 3}
 --- !u!212 &1618014783
 SpriteRenderer:
   m_ObjectHideFlags: 0

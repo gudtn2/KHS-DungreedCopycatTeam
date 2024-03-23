@@ -86,8 +86,7 @@ public class EnemyEffect : MonoBehaviour
                 CanvasHP.SetActive(true);
 
                 // �ǰݽ� �÷� ����
-                //spriteRenderer.color = color;
-                spriteRenderer.color = collision.gameObject.GetComponent<WeponInfo>().textColor;
+                spriteRenderer.color = color;
 
                 // �ǰ� ���� ���󺹱� �ڷ�ƾ �Լ� ����
                 StartCoroutine(ReturnColor());
