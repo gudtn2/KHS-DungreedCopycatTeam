@@ -23,5 +23,5 @@ MonoBehaviour:
   <MinDamage>k__BackingField: 5
   <MaxDamage>k__BackingField: 10
   <AttckSpeed>k__BackingField: 3
-  <Gold>k__BackingField: 0
+  <Gold>k__BackingField: 150
   <DefaultParametersList>k__BackingField: []

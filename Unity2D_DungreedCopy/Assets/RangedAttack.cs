@@ -24,7 +24,7 @@ public class RangedAttack: MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)&& PlayerController.instance.canAttack)
+        if (Input.GetKeyDown(KeyCode.Mouse0)&& PlayerController.instance.canAttack && !PlayerController.instance.onUI)
         {
             Fire();
             StartCoroutine(PlayerController.instance.AbleToAttack());

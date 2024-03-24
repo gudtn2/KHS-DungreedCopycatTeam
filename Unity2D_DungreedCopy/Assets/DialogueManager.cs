@@ -37,6 +37,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     private Animator            shopAnimator;
     [SerializeField]
     private Animator            invenAnimator;
+    public bool                 onShop;
 
     private NPC npc;
 
@@ -140,6 +141,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
                 invenAnimator.gameObject.SetActive(true);
                 shopAnimator.Play("ShopShow");
                 invenAnimator.Play("Show");
+                onShop = true;
             }
             else if (curNPCName == "카블로비나")
             {
@@ -160,5 +162,6 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         }
         openDialogue = false;
         npc.inputKey = false;
+        PlayerController.instance.onUI = false;
     }
 }

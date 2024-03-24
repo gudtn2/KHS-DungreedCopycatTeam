@@ -19,6 +19,8 @@ public class PlayerStats : StatManager
     public float tempMaxHP = 100;
     public float curEXP;
     public float targetEXP;
+    [SerializeField]
+    public int      gold;
 
     private int     originATK = 2;    // 기존 가지고 있는 공격력
     private int     originDEF = 2;    // 기존 가직고 있는 방어력
@@ -73,6 +75,8 @@ public class PlayerStats : StatManager
     {
         RecoveryDC();
         LevelUP();
+
+        GOLD = gold;
     }
 
     public void UseDC()

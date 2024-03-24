@@ -29,28 +29,30 @@ public class UIManager : MonoBehaviour
     [Header("GOLD")]
     [SerializeField]
     private TextMeshProUGUI textGOLD;
+    [SerializeField]
+    private GameObject      textNoGold;
 
     [Header("ImageFade")]
     [SerializeField]
     private GameObject      fadeImage;
     [HideInInspector]
     public  bool            fadeOn = false;
-    
+
     [SerializeField]
     private PlayerStats         playerStats;
 
-    private PlayerController    player;
     private void Awake()
     {
         if(instance == null)
         {
+            instance = this;
+
             DontDestroyOnLoad(gameObject);
 
             playerStats.onHPEvent.AddListener(UpdateImageBloodScreenAndTextHP);
 
-            player = FindObjectOfType<PlayerController>();
 
-            instance = this;
+            textNoGold.SetActive(false);
         }
         else
         {
@@ -72,6 +74,11 @@ public class UIManager : MonoBehaviour
     {
         imageHP.fillAmount = Mathf.Lerp(imageHP.fillAmount, playerStats.HP/playerStats.MaxHP, Time.deltaTime * 5);
         
+    }
+
+    public void UpdateTextNoGold(bool onText)
+    {
+        textNoGold.SetActive(onText);
     }
 
     private void UpdateTextGold()

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -60,10 +58,14 @@ public class InventoryController : MonoBehaviour
         {
             inventoryData.RemoveItem(itemIndex, 1);
         }
-        IItemAction itemAction = inventoryItem.item as IItemAction;
-        if(itemAction != null)
+
+        if(DialogueManager.instance.onShop)
         {
-            itemAction.PerformAction(gameObject, inventoryItem.itemState);
+            inventoryData.RemoveItem(itemIndex, 1);
+            Debug.Log("판매");
+
+            // 플레이어 현재 골드 -= 구매 골드 * 0.5
+            PlayerStats.instance.gold += inventoryItem.item.Gold / 2;
         }
     }
 

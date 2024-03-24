@@ -10,22 +10,10 @@ public class UIInventoryItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHa
 {
     [SerializeField]
     private Image itemImage;
-    //[SerializeField]
-    //private TMP_Text quantityTxt;
-
     [SerializeField]
     private Image borderImage;
-
-    [SerializeField]
-    private int damage;
-
-    [SerializeField]
-    private float AttackSpeed;
     [SerializeField]
     private GameObject      descriptionUI;
-    private RectTransform   rectDescriptionUI;
-    [SerializeField]
-    private float x, y;
 
     // delegate
     public event Action<UIInventoryItem> OnItemPointed,OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
@@ -34,8 +22,7 @@ public class UIInventoryItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHa
 
     public void Awake()
     {
-        descriptionUI     = GameObject.Find("CanvasPlayerState/InventoryUI/InventoryDescription");
-        rectDescriptionUI = descriptionUI.GetComponent<RectTransform>();
+        descriptionUI     = GameObject.Find("Canvas/InventoryUI/InventoryDescription");
 
         ResetData();
         Deselect();
@@ -108,7 +95,6 @@ public class UIInventoryItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHa
             // 위치에 띄우기
             OnItemPointed?.Invoke(this);
             descriptionUI.SetActive(true);
-            rectDescriptionUI.position = new Vector3(transform.position.x - rectDescriptionUI.rect.width, transform.position.y + rectDescriptionUI.rect.height);
         }
     }
 

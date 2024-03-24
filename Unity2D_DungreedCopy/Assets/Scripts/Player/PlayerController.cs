@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     public bool bossOpentheStele = false;
     public bool onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
 
-    private GameObject scanedObj;
-
     [Header("플레이어 공격 제어")]
     public bool     canAttack;          // 플레이어가 공격을 할 수 있는지 여부
 
@@ -115,10 +113,15 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
-        if(onUI)
+        if(onUI && !movement.isGrounded)
+        {
+            movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
+        }
+        else if(onUI && movement.isGrounded)
         {
             movement.rigidbody.velocity = new Vector2(0, 0);
         }
+
         if (dungeonPortalController.isCollideToPlayer)
         {
             StartCoroutine("ChangePlayerAlpha");
@@ -307,7 +310,11 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
-            if(movement.isGrounded)
+            if(!movement.isGrounded)
+            {
+                movement.rigidbody.velocity = new Vector2(0,movement.rigidbody.velocity.y);
+            }
+            else if(movement.isGrounded)
             {
                 movement.rigidbody.velocity = Vector2.zero;
             }
