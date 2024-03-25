@@ -12,6 +12,8 @@ public class Swing : MonoBehaviour
     public EquipWeapon equipWeapon;
     [SerializeField]
     private SwordPosSwitching sword;
+    [SerializeField]
+    private bool swingWeapon;
 
     void Awake()
     {
@@ -60,7 +62,10 @@ public class Swing : MonoBehaviour
         {
             GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
             StartCoroutine(PlayerController.instance.AbleToAttack());
-            sword.SwordPosition();
+            if (swingWeapon == true)
+            {
+                sword.SwordPosition();
+            }
         }
     }
 }

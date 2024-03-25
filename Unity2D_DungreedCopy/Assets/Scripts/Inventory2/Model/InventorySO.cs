@@ -20,7 +20,7 @@ public class InventorySO : ScriptableObject
     public void Initialize()
     {
         inventoryItems = new List<InventoryItem>();
-        for(int i = 0; i < Size; i++)
+        for(int i = 0; i < Size - 1; i++)
         {
             inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
