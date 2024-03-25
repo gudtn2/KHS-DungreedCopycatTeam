@@ -4957,7 +4957,6 @@ GameObject:
   - component: {fileID: 372072654}
   - component: {fileID: 372072657}
   - component: {fileID: 372072656}
-  - component: {fileID: 372072655}
   m_Layer: 0
   m_Name: 1
   m_TagString: Untagged
@@ -4980,19 +4979,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2042140607}
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
---- !u!114 &372072655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 372072653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c730361ef4bcac49bdaa38cd9ae675c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parallaxSpeed: 0
 --- !u!23 &372072656
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9828,7 +9814,6 @@ GameObject:
   - component: {fileID: 1211180244}
   - component: {fileID: 1211180247}
   - component: {fileID: 1211180246}
-  - component: {fileID: 1211180245}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -9851,19 +9836,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2042140607}
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
---- !u!114 &1211180245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211180243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c730361ef4bcac49bdaa38cd9ae675c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parallaxSpeed: 0
 --- !u!23 &1211180246
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16447,6 +16419,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2042140607}
+  - component: {fileID: 2042140608}
   m_Layer: 0
   m_Name: BackGround
   m_TagString: Untagged
@@ -16472,6 +16445,20 @@ Transform:
   - {fileID: 1211180244}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2042140608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042140606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c730361ef4bcac49bdaa38cd9ae675c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camTransform: {fileID: 0}
+  parallaxSpeed: 0
 --- !u!1 &2053251093 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 32659015349205645, guid: 65b03b9f4a02644409c89d1d7e77dc7a, type: 3}
