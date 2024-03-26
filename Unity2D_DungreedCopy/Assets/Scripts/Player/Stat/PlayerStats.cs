@@ -24,14 +24,21 @@ public class PlayerStats : StatManager
 
     private int     originATK = 2;    // 기존 가지고 있는 공격력
     private int     originDEF = 2;    // 기존 가직고 있는 방어력
-    private int     originATS = 1;    // 기존에 가지고 있는 공속
+    private int     originATS = 0;    // 기존에 가지고 있는 공속
     private float   originCRI = 0.1f; // 크리티컬 확률(1이 100%)
 
     [Header("플레이어 스텟")]
     public int      ATK; // 공격력
     public int      DEF; // 방어력 
     public float    ATS; // 공속(1초에 n번)
-    public float    CRI; // 크리티컬(1은 100%) 
+    public float    CRI; // 크리티컬(1은 100%)
+
+    [Header("무기 스텟")]
+    public int WP_MINATK; 
+    public int WP_MAXATK; 
+    public int WP_DEF; 
+    public float WP_ATS; 
+    public float WP_CRI; 
 
     public void ResetAllStat()
     {
@@ -40,6 +47,9 @@ public class PlayerStats : StatManager
         ATS = originATS;
         CRI = originCRI;
         tempMaxHP = 100;
+        WP_MINATK = 10;
+        WP_MAXATK = 15;
+        WP_ATS = 3;
     }
 
     private void Awake()
