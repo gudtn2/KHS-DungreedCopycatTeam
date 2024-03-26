@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private Movement2D movement;
     private Animator ani;
     public SpriteRenderer spriteRenderer;
+    public GameObject weaponDatabase;
+    public SpriteRenderer weaponRenderer;
     private PlayerStats playerStats;
     private BoxCollider2D boxCollider2D;
 
@@ -139,6 +141,8 @@ public class PlayerController : MonoBehaviour
         {
             PlayerStats.instance.AddEXP(50);
         }
+        weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
+
         //########################################################################################
         //########################################################################################
 
@@ -214,7 +218,7 @@ public class PlayerController : MonoBehaviour
     {
         canAttack = false;
 
-        float attackDelayTime = 1 / PlayerStats.instance.ATS;
+        float attackDelayTime = 1 / (PlayerStats.instance.ATS + PlayerStats.instance.WP_ATS);
         yield return new WaitForSeconds(attackDelayTime);
 
         canAttack = true;
@@ -258,6 +262,8 @@ public class PlayerController : MonoBehaviour
         Color color = spriteRenderer.color;
         color.a = 0;
         spriteRenderer.color = color;
+        weaponRenderer.color = color;
+      
         StartCoroutine("BackPlayerAlpha");
     }
     private IEnumerator BackPlayerAlpha()
@@ -266,6 +272,7 @@ public class PlayerController : MonoBehaviour
         Color color = spriteRenderer.color;
         color.a = 1;
         spriteRenderer.color = color;
+        weaponRenderer.color = color;
     }
     //======================================================================================
     // YS: 플레이어 Collider

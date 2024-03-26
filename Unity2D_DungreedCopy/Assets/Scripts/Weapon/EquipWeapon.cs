@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class EquipWeapon : MonoBehaviour
 {
@@ -9,27 +10,24 @@ public class EquipWeapon : MonoBehaviour
     private KeyCode weapon1 = KeyCode.Alpha1;
     private KeyCode weapon2 = KeyCode.Alpha2;
     public GameObject[] Weapons;
-    public bool hasWeapons1;
-    public bool hasWeapons2;
-    private int equipWeapon = 0;
+    public int equipWeapon = 15;
 
-    public Sprite[] sprites;
-
-    public GameObject MeleePos;
-    public GameObject RangePos;
-    public bool SwitchPos = true;
     [SerializeField]
     private InventorySO inventory;
     [SerializeField]
-    private GameObject Swing;
-
-    private int currentWeapon1code;
+    private Image equipWeaponImage;
+    private int currentWeapon1code = 0;
     private int currentWeapon2code;
+    [SerializeField]
+    private GameObject equipUI1;
+    [SerializeField]
+    private GameObject equipUI2;
 
-    public bool EquipMelee;
-    void Awake()
-    {
-    }
+    [SerializeField]
+    private Transform uiPos1;
+
+    [SerializeField]
+    private Transform uiPos2;
 
     void Update()
     {
@@ -52,12 +50,12 @@ public class EquipWeapon : MonoBehaviour
 
     private void CheckWeapon(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if(equipWeapon == 0 && EquipItem1 == null)
+        if (equipWeapon == 15 && EquipItem1 == null)
         {
             Weapons[currentWeapon1code].SetActive(false);
             equipWeapon = -1;
         }
-        if (equipWeapon == 1 && EquipItem2 == null)
+        if (equipWeapon == 16 && EquipItem2 == null)
         {
             Weapons[currentWeapon2code].SetActive(false);
             equipWeapon = -1;
@@ -66,28 +64,43 @@ public class EquipWeapon : MonoBehaviour
 
     private void SwitchingWeapon1(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if (EquipItem1 != null && equipWeapon != 0)
+        if (EquipItem1 != null && equipWeapon != 15)
         {
-            if(equipWeapon == 1)
+            if(equipWeapon == 16)
             {
                 Weapons[EquipItem2.Code].SetActive(false);
             }
             Weapons[EquipItem1.Code].SetActive(true);
             currentWeapon1code = EquipItem1.Code;
-            equipWeapon = 0;
+            equipWeapon = 15;
+            PlayerStats.instance.WP_MINATK = EquipItem1.MinDamage;
+            PlayerStats.instance.WP_MAXATK = EquipItem1.MaxDamage;
+            PlayerStats.instance.WP_ATS = EquipItem1.AttckSpeed;
+            equipUI1.transform.position = uiPos1.position;
+            equipUI2.transform.position = uiPos2.position;
+            equipUI2.GetComponent<RectTransform>().SetAsFirstSibling();
+            equipUI1.GetComponent<RectTransform>().SetAsLastSibling();
         }
     }
     private void SwitchingWeapon2(ItemSO EquipItem1, ItemSO EquipItem2)
     {
-        if (EquipItem2 != null && equipWeapon != 1)
+        if (EquipItem2 != null && equipWeapon != 16)
         {
-            if (equipWeapon == 0)
+            if (equipWeapon == 15)
             {
                 Weapons[EquipItem1.Code].SetActive(false);
             }
             Weapons[EquipItem2.Code].SetActive(true);
             currentWeapon2code = EquipItem2.Code;
-            equipWeapon = 1;
+            equipWeapon = 16;
+            PlayerStats.instance.WP_MINATK = EquipItem2.MinDamage;
+            PlayerStats.instance.WP_MAXATK = EquipItem2.MaxDamage;
+            PlayerStats.instance.WP_ATS = EquipItem2.AttckSpeed;
+            equipUI2.transform.position = uiPos1.position;
+            equipUI1.transform.position = uiPos2.position;
+            equipUI1.GetComponent<RectTransform>().SetAsFirstSibling();
+            equipUI2.GetComponent<RectTransform>().SetAsLastSibling();
+
         }
     }
 }
