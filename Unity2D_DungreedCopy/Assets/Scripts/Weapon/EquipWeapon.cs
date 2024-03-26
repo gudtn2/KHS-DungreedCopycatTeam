@@ -10,23 +10,24 @@ public class EquipWeapon : MonoBehaviour
     private KeyCode weapon1 = KeyCode.Alpha1;
     private KeyCode weapon2 = KeyCode.Alpha2;
     public GameObject[] Weapons;
-    public bool hasWeapons1;
-    public bool hasWeapons2;
-    private int equipWeapon = 15;
+    public int equipWeapon = 15;
 
-    public Sprite[] sprites;
-
-    public GameObject MeleePos;
-    public GameObject RangePos;
-    public bool SwitchPos = true;
     [SerializeField]
     private InventorySO inventory;
     [SerializeField]
     private Image equipWeaponImage;
-    private int currentWeapon1code;
+    private int currentWeapon1code = 0;
     private int currentWeapon2code;
+    [SerializeField]
+    private GameObject equipUI1;
+    [SerializeField]
+    private GameObject equipUI2;
 
-    public bool EquipMelee;
+    [SerializeField]
+    private Transform uiPos1;
+
+    [SerializeField]
+    private Transform uiPos2;
     void Awake()
     {
     }
@@ -77,8 +78,10 @@ public class EquipWeapon : MonoBehaviour
             Weapons[EquipItem1.Code].SetActive(true);
             currentWeapon1code = EquipItem1.Code;
             equipWeapon = 15;
-            equipWeaponImage.sprite = EquipItem1.ItemImage;
-            equipWeaponImage.SetNativeSize();
+            equipUI1.transform.position = uiPos1.position;
+            equipUI2.transform.position = uiPos2.position;
+            equipUI2.GetComponent<RectTransform>().SetAsFirstSibling();
+            equipUI1.GetComponent<RectTransform>().SetAsLastSibling();
         }
     }
     private void SwitchingWeapon2(ItemSO EquipItem1, ItemSO EquipItem2)
@@ -92,8 +95,11 @@ public class EquipWeapon : MonoBehaviour
             Weapons[EquipItem2.Code].SetActive(true);
             currentWeapon2code = EquipItem2.Code;
             equipWeapon = 16;
-            equipWeaponImage.sprite = EquipItem2.ItemImage;
-            equipWeaponImage.SetNativeSize();
+            equipUI2.transform.position = uiPos1.position;
+            equipUI1.transform.position = uiPos2.position;
+            equipUI1.GetComponent<RectTransform>().SetAsFirstSibling();
+            equipUI2.GetComponent<RectTransform>().SetAsLastSibling();
+
         }
     }
 }
