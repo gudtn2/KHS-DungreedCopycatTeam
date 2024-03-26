@@ -28,9 +28,6 @@ public class EquipWeapon : MonoBehaviour
 
     [SerializeField]
     private Transform uiPos2;
-    void Awake()
-    {
-    }
 
     void Update()
     {
@@ -56,13 +53,11 @@ public class EquipWeapon : MonoBehaviour
         if (equipWeapon == 15 && EquipItem1 == null)
         {
             Weapons[currentWeapon1code].SetActive(false);
-            equipWeaponImage = null;
             equipWeapon = -1;
         }
         if (equipWeapon == 16 && EquipItem2 == null)
         {
             Weapons[currentWeapon2code].SetActive(false);
-            equipWeaponImage = null;
             equipWeapon = -1;
         }
     }
@@ -78,6 +73,9 @@ public class EquipWeapon : MonoBehaviour
             Weapons[EquipItem1.Code].SetActive(true);
             currentWeapon1code = EquipItem1.Code;
             equipWeapon = 15;
+            PlayerStats.instance.WP_MINATK = EquipItem1.MinDamage;
+            PlayerStats.instance.WP_MAXATK = EquipItem1.MaxDamage;
+            PlayerStats.instance.WP_ATS = EquipItem1.AttckSpeed;
             equipUI1.transform.position = uiPos1.position;
             equipUI2.transform.position = uiPos2.position;
             equipUI2.GetComponent<RectTransform>().SetAsFirstSibling();
@@ -95,6 +93,9 @@ public class EquipWeapon : MonoBehaviour
             Weapons[EquipItem2.Code].SetActive(true);
             currentWeapon2code = EquipItem2.Code;
             equipWeapon = 16;
+            PlayerStats.instance.WP_MINATK = EquipItem2.MinDamage;
+            PlayerStats.instance.WP_MAXATK = EquipItem2.MaxDamage;
+            PlayerStats.instance.WP_ATS = EquipItem2.AttckSpeed;
             equipUI2.transform.position = uiPos1.position;
             equipUI1.transform.position = uiPos2.position;
             equipUI1.GetComponent<RectTransform>().SetAsFirstSibling();
