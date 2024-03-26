@@ -47,6 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8bce8311c0eabf4faeea72373051840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
+  - {fileID: 11400000, guid: 84a7d7adfa5c8784e9cdd576a178ddb4, type: 2}
+  inventory: {fileID: 11400000, guid: 7606e85f0aa31b24299944347d1375e8, type: 2}
+  randomNum: 0
 --- !u!212 &2571393441749079422
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88,7 +93,7 @@ SpriteRenderer:
   m_SortingLayerID: 1252276253
   m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1c27f7b81ddf4f2469afbf4298777152, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +101,7 @@ SpriteRenderer:
   m_Size: {x: 1.375, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &2402032815154066077

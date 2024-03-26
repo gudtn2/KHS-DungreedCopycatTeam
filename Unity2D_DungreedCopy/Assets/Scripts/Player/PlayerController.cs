@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [Header("현재 맵 이름")]
     public string curSceneName;
     public string curDungeonName;
+    public int    curDungeonNum;
 
     private Movement2D movement;
     private Animator ani;

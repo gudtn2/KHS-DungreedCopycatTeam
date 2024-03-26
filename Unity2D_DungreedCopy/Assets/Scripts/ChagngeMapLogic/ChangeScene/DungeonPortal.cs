@@ -25,7 +25,7 @@ public class DungeonPortal : MonoBehaviour
     public void ThePortalEatPlayer()
     {
         eatPlayer = true;
-        UIManager.instance.fadeOn = true;   
+        UIManager.instance.fadeOn = true;
     }
     public void FalseToEatPlayer()
     {

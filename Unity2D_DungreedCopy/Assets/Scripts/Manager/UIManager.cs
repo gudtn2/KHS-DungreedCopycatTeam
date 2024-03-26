@@ -38,6 +38,14 @@ public class UIManager : MonoBehaviour
     [HideInInspector]
     public  bool            fadeOn = false;
 
+    [Header("Acquired Item")]
+    [SerializeField]
+    private GameObject      AcquiredItemUI;         // 아이템을 먹을때 활성/비활성화
+    [SerializeField]
+    private Image           imageAcquiredItem;      // 얻은 아이템 이미지
+    [SerializeField]
+    private TextMeshProUGUI textAcquiredItemName;   // 얻은 아이템 이름
+
     [SerializeField]
     private PlayerStats         playerStats;
 
@@ -53,6 +61,7 @@ public class UIManager : MonoBehaviour
 
 
             textNoGold.SetActive(false);
+            AcquiredItemUI.SetActive(false);
         }
         else
         {
@@ -127,6 +136,31 @@ public class UIManager : MonoBehaviour
             StartCoroutine(OnBloodScreen());
         }
     }
-    
-    
+
+    public void OnAcquiredItem(string itemName, Sprite itemImage)
+    {
+        // UI 활성화
+        AcquiredItemUI.SetActive(true);
+
+        // 이미지 적용
+        imageAcquiredItem.sprite = itemImage;
+
+        // 이미지 사이즈 원본 사이즈에 맞게
+        imageAcquiredItem.SetNativeSize();
+
+        // 이름 적용
+        textAcquiredItemName.text = itemName;
+
+        // 비활성화 코루틴
+        StartCoroutine(OffAcquiredItem());
+    }
+
+    private IEnumerator OffAcquiredItem()
+    {
+        yield return new WaitForSeconds(3f);
+        // UI 비활성화
+        AcquiredItemUI.SetActive(false);
+    }
+
+
 }

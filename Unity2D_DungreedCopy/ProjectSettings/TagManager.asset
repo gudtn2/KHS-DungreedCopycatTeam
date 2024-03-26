@@ -71,6 +71,9 @@ TagManager:
   - name: NPC
     uniqueID: 709684633
     locked: 0
+  - name: Effect
+    uniqueID: 961843539
+    locked: 0
   - name: Player
     uniqueID: 3996950701
     locked: 0
