@@ -158,44 +158,50 @@ public class BossPattern : MonoBehaviour
 
     private IEnumerator Die()
     {
-        imageBossDieEffect.color = new Color(1, 1, 1, 1);
+        imageBossDieEffect.color = Color.white;
 
-        yield return new WaitForSeconds(0.01f);
+        yield return StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
 
-        StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
+        yield return new WaitForSeconds(1f);
 
-        yield return new WaitForSeconds(1);
-        GameObject explosionEffect = explosionEffectPoolManager.ActivePoolItem();
-        explosionEffect.transform.position      = new Vector2(transform.position.x + 0.5f, transform.position.y - 1);
-        explosionEffect.transform.rotation      = transform.rotation;
-        explosionEffect.transform.localScale    = new Vector2(2,2);
-        explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
+        PlayExplosionEffect(transform.position + new Vector3(0.5f, -1f, 0), Quaternion.identity, new Vector3(2f, 2f, 2f));
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
+
         playerController.isBossDie = true;
         Time.timeScale = slowFactor;
-        //mainCam.ChangeView(camViewPos, 0.5f);
 
         for (int i = 0; i <= explosionEffectCount; i++)
         {
             yield return new WaitForSeconds(0.05f);
-            Vector2 randomPos = new Vector2(Random.Range(transform.position.x - 4, transform.position.x + 4), Random.Range(transform.position.y - 4, transform.position.y + 4));
-            explosionEffect = explosionEffectPoolManager.ActivePoolItem();
-            explosionEffect.transform.position = randomPos;
-            explosionEffect.transform.rotation = transform.rotation;
-            explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
-            mainCam.OnShakeCamByPos(0.05f,0.1f);
+            Vector2 randomPos = new Vector2(Random.Range(transform.position.x - 4, transform.position.x + 4),
+                                            Random.Range(transform.position.y - 4, transform.position.y + 4));
+
+            PlayExplosionEffect(randomPos, Quaternion.identity,Vector3.one);
+            mainCam.OnShakeCamByPos(0.05f, 0.1f);
             Time.timeScale += fasterRate;
 
-            if(i >= 100)
+            if (i >= explosionEffectCount)
             {
-                GameObject diePiece = Instantiate(diePiecePrefab);
-                diePiece.transform.position = new Vector2(transform.position.x +1.45f , transform.position.y -1);
-                diePiece.transform.rotation= transform.rotation;
-                Destroy(this.gameObject);
+                SpawnDiePiece();
+                break;
             }
         }
 
+        Destroy(gameObject);
+    }
+    private void PlayExplosionEffect(Vector3 position, Quaternion rotation,Vector3 scale)
+    {
+        GameObject explosionEffect = explosionEffectPoolManager.ActivePoolItem();
+        explosionEffect.transform.position = position;
+        explosionEffect.transform.rotation = rotation;
+        explosionEffect.GetComponent<EffectPool>().Setup(explosionEffectPoolManager);
+    }
+
+    private void SpawnDiePiece()
+    {
+        GameObject diePiece = Instantiate(diePiecePrefab, transform.position + new Vector3(1.45f, -1f, 0), Quaternion.identity);
+        Destroy(gameObject);
     }
 
     private IEnumerator AutoChangeBossAttack()
@@ -282,43 +288,74 @@ public class BossPattern : MonoBehaviour
 
         ChangeBossState(BossState.Idle);
     }
-
     private IEnumerator HeadAttack()
     {
-        int fireAngle = 0;  // 초기값은 0도
-        
-        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
+        GameObject bossHead = GameObject.Find("BossHead");
+        bossHead.GetComponent<Animator>().SetBool("IsHeadAttack", true);
 
-        yield return new WaitForSeconds(0.03f);
+        float currentAngle = 0f; // 현재 각도
+        float angleIncrement = 360f / fireDirCount; // 각도 증가량
+
         isHeadAttack = true;
 
-        while (isHeadAttack == true)
+        while (isHeadAttack)
         {
-
             for (int i = 0; i < fireDirCount; ++i)
             {
-                fireAngle += i + 90;
+                float angle = currentAngle + i * angleIncrement;
+                Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
                 GameObject tempObj = headAttackPoolManager.ActivePoolItem();
-
-                Vector2 dir = new Vector2(Mathf.Cos(fireAngle * Mathf.Deg2Rad), Mathf.Sin(fireAngle * Mathf.Deg2Rad));
-
-                tempObj.transform.right = dir;
+                tempObj.transform.right = direction;
                 tempObj.transform.position = headAttackTransform.position;
                 tempObj.GetComponent<BossHeadBullet>().Setup(headAttackPoolManager);
             }
 
-
             yield return new WaitForSeconds(fireRateTime);
 
-            fireAngle += angleInterval;
-
-            if (fireAngle > 360) fireAngle -= 360;
+            currentAngle += angleInterval;
+            currentAngle %= 360; // 각도 정규화
         }
-        GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", false);
 
+        bossHead.GetComponent<Animator>().SetBool("IsHeadAttack", false);
         ChangeBossState(BossState.Idle);
     }
+    //private IEnumerator HeadAttack()
+    //{
+    //    int fireAngle = 0;  // 초기값은 0도
+    //    
+    //    GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
+    //
+    //    yield return new WaitForSeconds(0.03f);
+    //    isHeadAttack = true;
+    //
+    //    while (isHeadAttack == true)
+    //    {
+    //
+    //        for (int i = 0; i < fireDirCount; ++i)
+    //        {
+    //            fireAngle += i + 90;
+    //
+    //            GameObject tempObj = headAttackPoolManager.ActivePoolItem();
+    //
+    //            Vector2 dir = new Vector2(Mathf.Cos(fireAngle * Mathf.Deg2Rad), Mathf.Sin(fireAngle * Mathf.Deg2Rad));
+    //
+    //            tempObj.transform.right = dir;
+    //            tempObj.transform.position = headAttackTransform.position;
+    //            tempObj.GetComponent<BossHeadBullet>().Setup(headAttackPoolManager);
+    //        }
+    //
+    //
+    //        yield return new WaitForSeconds(fireRateTime);
+    //
+    //        fireAngle += angleInterval;
+    //
+    //        if (fireAngle > 360) fireAngle -= 360;
+    //    }
+    //    GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", false);
+    //
+    //    ChangeBossState(BossState.Idle);
+    //}
 
     public void ChangeBossState(BossState newState)
     {

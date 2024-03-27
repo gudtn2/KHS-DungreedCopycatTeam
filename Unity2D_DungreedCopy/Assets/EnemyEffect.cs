@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyEffect : MonoBehaviour
 {
+    public static event Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
+
     [Header("Enemy Info")]
     [SerializeField]
     private float       curHP;
@@ -65,6 +68,13 @@ public class EnemyEffect : MonoBehaviour
     private IEnumerator Die()
     {
         ActivateDieEffect();
+
+        // 적이 죽었음을 이벤트로 발생시킴
+        if (EnemyDieEvent != null)
+        {
+            EnemyDieEvent(gameObject);
+        }
+
         Destroy(this.gameObject);
         yield return null;
     }
