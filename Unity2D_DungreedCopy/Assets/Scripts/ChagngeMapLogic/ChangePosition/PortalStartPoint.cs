@@ -30,6 +30,8 @@ public class PortalStartPoint : MonoBehaviour
             // 플레이어 위치 이동
             player.transform.position = this.transform.position;
 
+            PlayerController.instance.onUI = false;
+
             // 카메라 위치 이동
             mainCam.transform.position = new Vector3(this.transform.position.x,
                                                      this.transform.position.y,

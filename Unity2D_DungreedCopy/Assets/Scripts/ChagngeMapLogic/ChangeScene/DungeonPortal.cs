@@ -25,7 +25,12 @@ public class DungeonPortal : MonoBehaviour
     public void ThePortalEatPlayer()
     {
         eatPlayer = true;
-        UIManager.instance.fadeOn = true;   
+
+        PlayerController.instance.onUI = true;
+        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
+        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
+
+        UIManager.instance.fadeOn = true;
     }
     public void FalseToEatPlayer()
     {
@@ -40,7 +45,6 @@ public class DungeonPortal : MonoBehaviour
     private IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(FadeEffectController.instance.fadeTime);
-        dungeonPortalController.isCollideToPlayer = false;
         poolManager.DeactivePoolItem(gameObject);
         SceneManager.LoadScene(tranferMapName);
     }

@@ -1,43 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapController : MonoBehaviour
 {
+
     [Header("던전 맵")]
     [SerializeField]
     private GameObject[]        dungeonMaps;
     public List<string>         dungeonNames;
 
+    [Header("Teleport")]
+    public GameObject    startTeleport;
+    public GameObject    targetTeleport;
+
     public GameObject MapUI;
-    public GameObject MiniMapUI;
-
-    private bool MapOn = false;
-    private bool MiniMapOn = true;
-
-    // YS: 플레이어 컨트롤러 스크립트에서 curScenename을 받아와 Village에서는 던전맵이 켜지지 않게 하기 위함
-    private PlayerController player;
-
-    private void Awake()
-    {
-        player = FindObjectOfType<PlayerController>();
-    }
+    public bool MapOn = false;
     void Update()
     {
         DontActivateDungeonMap();
         UpdateDungeonMapUI();
+        MapUI.SetActive(MapOn);
+        
+        if(MapOn)   PlayerController.instance.onUI = true;
+        else        PlayerController.instance.onUI = false;
     }
 
+    
     private void DontActivateDungeonMap()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            MapOn       = !MapOn;
-            MiniMapOn   = !MiniMapOn;
-
-            MapUI.SetActive(MapOn);
-            MiniMapUI.SetActive(MiniMapOn);
+            MapOn = true;
         }
+        else if(Input.GetKeyUp(KeyCode.Tab))
+        {
+            MapOn = false;
+        }
+    }
+
+    public void OffDungeonMap()
+    {
+        MapOn = false;
+        startTeleport.GetComponent<TeleportController>().inputKey = false;
     }
 
     private void UpdateDungeonMapUI()
@@ -55,4 +61,61 @@ public class MapController : MonoBehaviour
 
         }
     }
+
+    public IEnumerator ChangePosPlayer()
+    {
+
+        // 타겟이 되는 텔레포트의 위치 받아오기
+        Transform targetTelPos = targetTeleport.GetComponent<TeleportDungeon>().transformTeleport;
+        // 타겟이 되는 던전의 이름 
+        DungeonName targetDungeonName = targetTeleport.GetComponent<DungeonName>();
+
+
+
+        yield return new WaitForSeconds(FadeEffectController.instance.fadeTime);
+
+        startTeleport.GetComponent<TeleportController>().inputKey = false;
+        startTeleport.GetComponent<Animator>().SetBool("EatPlayer", false);
+
+        // 던전 정보 재설정
+        PlayerController.instance.curDungeonName = targetDungeonName.dungeonName;
+        PlayerController.instance.curDungeonNum  = targetDungeonName.dungeonNum;
+
+        if (PlayerController.instance.curDungeonName == targetDungeonName.dungeonName)
+        {
+            // 페이드 인 효과 시작
+            FadeEffectController.instance.OnFade(FadeState.FadeIn);
+
+            // 플레이어 이동
+            PlayerController.instance.transform.position = targetTelPos.position;
+
+            // 플레이어 이동 가능
+            PlayerController.instance.onUI = false;
+
+            // a 초기화
+            PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
+            PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
+
+            MainCameraController.instance.transform.position = new Vector3(targetTelPos.position.x,
+                                                                           targetTelPos.position.y,
+                                                                           MainCameraController.instance.transform.position.z);
+            GameObject targetObject = GameObject.Find(PlayerController.instance.curDungeonName);
+
+            if (targetObject != null)
+            {
+                BoxCollider2D targetBound = targetObject.GetComponent<BoxCollider2D>();
+
+                // 바운드 재설정
+                MainCameraController.instance.SetBound(targetBound);
+            }
+            else
+            {
+                Debug.LogWarning("Target object with the specified name not found.");
+            }
+        }
+
+
+    }
+
+
 }

@@ -32,7 +32,10 @@ public class Portal : MonoBehaviour
             UIManager.instance.fadeOn = true;
 
             markCurMap.dungeonMapDir = dungeonMapMoveDir;
-            player.curDungeonName   = nextDungeon.name;
+            nextDungeon.SetActive(true);
+            PlayerController.instance.onUI = true;
+            player.curDungeonName   = nextDungeon.GetComponent<DungeonName>().dungeonName;
+            player.curDungeonNum = nextDungeon.GetComponent<DungeonName>().dungeonNum;
             FadeEffectController.instance.OnFade(FadeState.FadeOut);
             StartCoroutine(portalStartPoint.ChangePlayerPosition());
         }

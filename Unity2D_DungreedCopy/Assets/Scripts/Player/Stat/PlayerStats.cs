@@ -58,7 +58,7 @@ public class PlayerStats : StatManager
         playerController = GetComponent<PlayerController>();
     }
     [HideInInspector]
-    public float            RecoverTimeDC = 3.0f;
+    public float            RecoverTimeDC = 1.5f;
     [HideInInspector]
     public float            timer; 
 

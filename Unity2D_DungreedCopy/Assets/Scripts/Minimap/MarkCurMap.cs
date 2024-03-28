@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public class MarkCurMap : MonoBehaviour
 {
     [SerializeField]
-    private string  curmapName;
+    public string       curmapName;
     [SerializeField]
-    private Image   imageBlinkedEffect;
+    private Image       imageBlinkedEffect;
     [SerializeField]
-    private float   blinkedTime = 0.5f;
+    private float       blinkedTime = 0.5f;
     [SerializeField]
-    private float   time = 0;
+    private float       time = 0;
+    [SerializeField]
+    private GameObject[]  teleportUIs;
 
 
     private Color   color;
@@ -28,10 +30,13 @@ public class MarkCurMap : MonoBehaviour
     
     public string   dungeonMapDir;
 
-    private PlayerController player;
+    private PlayerController    player;
+    private MapController       mapController;
+
     private void Awake()
     {
-        player = FindObjectOfType<PlayerController>();
+        player          = FindObjectOfType<PlayerController>();
+        mapController   = FindObjectOfType<MapController>();
     }
     private void Start()
     {
@@ -52,6 +57,34 @@ public class MarkCurMap : MonoBehaviour
         }
 
         UpdateMarkMapDir();
+        CheckCurMapHaveTeleport();
+    }
+
+    private void CheckCurMapHaveTeleport()
+    {
+        DungeonName curMapObj = GameObject.Find($"Dungeons/{curmapName}")?.GetComponent<DungeonName>();
+        // 해당 맵에 텔포트 있으면?
+        if (curMapObj.haveTeleport)
+        {
+            // 현재 맵이 플레이어가 있는 맵일때
+            if(curmapName == PlayerController.instance.curDungeonName)
+            {
+                teleportUIs[0].gameObject.SetActive(false);
+                teleportUIs[1].gameObject.SetActive(true);
+            }
+            // 현재 맵이 플레이어가 없으면
+            else
+            {
+                teleportUIs[0].gameObject.SetActive(true);
+                teleportUIs[1].gameObject.SetActive(false);
+            }
+        }
+        // 해당 맵에 텔포트 없으면?
+        else
+        {
+            teleportUIs[0].gameObject.SetActive(false);
+            teleportUIs[1].gameObject.SetActive(false);
+        }
     }
 
     private void UpdateMarkCurMap()

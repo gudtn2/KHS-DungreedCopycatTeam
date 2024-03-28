@@ -5,8 +5,6 @@ using UnityEngine;
 // YS
 public class DungeonPortalController : MonoBehaviour
 {
-    public bool         isCollideToPlayer = false;
-    
     [SerializeField]
     private GameObject              dungeonPortalPrefab;
 
@@ -38,7 +36,6 @@ public class DungeonPortalController : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             ActiveDungeonPortal();
-            isCollideToPlayer = true;
         }
     }
 }
