@@ -30,6 +30,11 @@ public class SceneStartPoint : MonoBehaviour
             fade.OnFade(FadeState.FadeIn);
 
             player.curDungeonName      = dungeonName;
+
+            PlayerController.instance.onUI = true;
+            PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
+            PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
+
             mainCam.transform.position = new Vector3(transform.position.x,
                                                      transform.position.y,
                                                      mainCam.transform.position.z);

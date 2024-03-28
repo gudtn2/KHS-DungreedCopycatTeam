@@ -13,13 +13,23 @@ public class DoorDungeon : MonoBehaviour
     private List<GameObject>    curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
     private void OnEnable()
     {
-        // enemies를 List에 삽입
-        curMapEnemies.AddRange(enemies);
+        if(enemies != null)
+        {
+            // enemies를 List에 삽입
+            curMapEnemies.AddRange(enemies);
 
-        CloseTheDoor();
+            CloseTheDoor();
 
-        // EnemyDieEvent에 이벤트 핸들러 등록
-        EnemyEffect.EnemyDieEvent += HandleEnemyDieEvent;
+            // EnemyDieEvent에 이벤트 핸들러 등록
+            EnemyEffect.EnemyDieEvent += HandleEnemyDieEvent;
+        }
+        else
+        {
+            for (int i = 0; i < doors.Length; i++)
+            {
+                doors[i].SetActive(false);
+            }
+        }
     }
     private void OnDisable()
     {

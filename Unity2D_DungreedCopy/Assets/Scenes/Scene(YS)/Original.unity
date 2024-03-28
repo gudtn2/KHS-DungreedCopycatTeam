@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 81674529}
   - component: {fileID: 81674528}
   - component: {fileID: 81674530}
+  - component: {fileID: 81674531}
   m_Layer: 0
   m_Name: dungeon05
   m_TagString: Untagged
@@ -903,6 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 5
+  haveTeleport: 1
 --- !u!114 &81674530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,6 +920,19 @@ MonoBehaviour:
   doors:
   - {fileID: 1125709775}
   enemies: []
+--- !u!114 &81674531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81674526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1664115946}
 --- !u!1 &94970945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,6 +1769,7 @@ GameObject:
   - component: {fileID: 206323982}
   - component: {fileID: 206323981}
   - component: {fileID: 206323983}
+  - component: {fileID: 206323984}
   m_Layer: 0
   m_Name: dungeon13
   m_TagString: Untagged
@@ -1836,6 +1852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 13
+  haveTeleport: 1
 --- !u!114 &206323983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,6 +1868,19 @@ MonoBehaviour:
   doors:
   - {fileID: 575406293}
   enemies: []
+--- !u!114 &206323984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206323979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1566126170}
 --- !u!1 &215887847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2888,6 +2918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 10
+  haveTeleport: 0
 --- !u!114 &307616810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,8 +3764,10 @@ GameObject:
   - component: {fileID: 390147455}
   - component: {fileID: 390147456}
   - component: {fileID: 390147457}
+  - component: {fileID: 390147459}
+  - component: {fileID: 390147458}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (1)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3828,6 +3861,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &390147458
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390147454}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &390147459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390147454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &397455000
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,6 +3921,7 @@ GameObject:
   - component: {fileID: 397455003}
   - component: {fileID: 397455002}
   - component: {fileID: 397455004}
+  - component: {fileID: 397455005}
   m_Layer: 0
   m_Name: dungeon12
   m_TagString: Untagged
@@ -3924,6 +4006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 12
+  haveTeleport: 1
 --- !u!114 &397455004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3941,6 +4024,19 @@ MonoBehaviour:
   - {fileID: 2111703018}
   - {fileID: 1869503217}
   enemies: []
+--- !u!114 &397455005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397455000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1799910934}
 --- !u!1 &416528902
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,6 +4245,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 2080144991}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon03
@@ -5012,8 +5112,10 @@ GameObject:
   - component: {fileID: 519462424}
   - component: {fileID: 519462425}
   - component: {fileID: 519462426}
+  - component: {fileID: 519462428}
+  - component: {fileID: 519462427}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (7)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5107,6 +5209,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &519462427
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519462423}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &519462428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519462423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &529271357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,6 +5352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 7
+  haveTeleport: 0
 --- !u!114 &529271361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6028,6 +6179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 6
+  haveTeleport: 0
 --- !u!1 &601187190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6190,6 +6342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 4
+  haveTeleport: 0
 --- !u!4 &601936510
 Transform:
   m_ObjectHideFlags: 0
@@ -14525,6 +14678,7 @@ GameObject:
   - component: {fileID: 821573003}
   - component: {fileID: 821573005}
   - component: {fileID: 821573004}
+  - component: {fileID: 821573006}
   m_Layer: 0
   m_Name: dungeon11
   m_TagString: Untagged
@@ -14608,6 +14762,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 11
+  haveTeleport: 1
+--- !u!114 &821573006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821573002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1815024909}
 --- !u!1 &854173420
 GameObject:
   m_ObjectHideFlags: 0
@@ -48298,8 +48466,10 @@ GameObject:
   - component: {fileID: 969337871}
   - component: {fileID: 969337872}
   - component: {fileID: 969337873}
+  - component: {fileID: 969337875}
+  - component: {fileID: 969337874}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (6)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48393,6 +48563,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &969337874
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969337870}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &969337875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969337870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &976485056
 GameObject:
   m_ObjectHideFlags: 0
@@ -49115,6 +49333,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 206323984}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon13
@@ -50141,6 +50363,7 @@ GameObject:
   - component: {fileID: 1139478934}
   - component: {fileID: 1139478933}
   - component: {fileID: 1139478935}
+  - component: {fileID: 1139478936}
   m_Layer: 0
   m_Name: dungeon16
   m_TagString: Untagged
@@ -50223,6 +50446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 16
+  haveTeleport: 1
 --- !u!114 &1139478935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50238,6 +50462,19 @@ MonoBehaviour:
   doors:
   - {fileID: 1703947628}
   enemies: []
+--- !u!114 &1139478936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139478931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 969337871}
 --- !u!1001 &1158347825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50362,6 +50599,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: sprite1
+      value: 
+      objectReference: {fileID: 21300000, guid: 9986e515dc0e2244c919cd11cb39236a, type: 3}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: sprite2
+      value: 
+      objectReference: {fileID: 21300000, guid: 92688adfa59c0e9429733e4c95e06b80, type: 3}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 2070420016}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon00
@@ -51017,6 +51266,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 1774807240}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon14
@@ -51338,6 +51591,139 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1200876326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1200876327}
+  - component: {fileID: 1200876330}
+  - component: {fileID: 1200876329}
+  - component: {fileID: 1200876328}
+  m_Layer: 5
+  m_Name: XButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1200876327
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200876326}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2064621888}
+  m_Father: {fileID: 1453300243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 849, y: 441}
+  m_SizeDelta: {x: 120, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1200876328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200876326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 21300000, guid: daad419e69f7f0f48b07fde4e9a64bbe, type: 3}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1200876329}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1751028560}
+        m_TargetAssemblyTypeName: MapController, Assembly-CSharp
+        m_MethodName: OffDungeonMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1200876329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200876326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 27b7a3b42eb343a48a24c5d3ef6f1d4a, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1200876330
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200876326}
+  m_CullTransparentMesh: 1
 --- !u!1 &1234074537
 GameObject:
   m_ObjectHideFlags: 0
@@ -52070,6 +52456,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 1853975609}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon17
@@ -52737,8 +53127,10 @@ GameObject:
   - component: {fileID: 1411538151}
   - component: {fileID: 1411538152}
   - component: {fileID: 1411538153}
+  - component: {fileID: 1411538155}
+  - component: {fileID: 1411538154}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (2)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52832,6 +53224,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1411538154
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411538150}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1411538155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411538150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &1417712274
 GameObject:
   m_ObjectHideFlags: 0
@@ -53188,6 +53628,7 @@ RectTransform:
   - {fileID: 8311392}
   - {fileID: 2120051401}
   - {fileID: 984396071}
+  - {fileID: 1200876327}
   m_Father: {fileID: 468761223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -53357,6 +53798,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 2088735618}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon09
@@ -53528,6 +53973,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 397455005}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon12
@@ -53743,6 +54192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 15
+  haveTeleport: 0
 --- !u!1 &1493976183
 GameObject:
   m_ObjectHideFlags: 0
@@ -53968,9 +54418,10 @@ GameObject:
   - component: {fileID: 1505730636}
   - component: {fileID: 1505730637}
   - component: {fileID: 1505730638}
-  - component: {fileID: 1505730639}
+  - component: {fileID: 1505730641}
+  - component: {fileID: 1505730640}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (4)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54064,7 +54515,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1505730639
+--- !u!58 &1505730640
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505730635}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1505730641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54073,10 +54559,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1505730635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e9b35c220cf9345b1e426cf1358969, type: 3}
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ani: {fileID: 0}
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &1518967445
 GameObject:
   m_ObjectHideFlags: 0
@@ -54646,8 +55132,10 @@ GameObject:
   - component: {fileID: 1566126170}
   - component: {fileID: 1566126171}
   - component: {fileID: 1566126172}
+  - component: {fileID: 1566126174}
+  - component: {fileID: 1566126173}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (9)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54741,6 +55229,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1566126173
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566126169}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1566126174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566126169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &1577691335
 GameObject:
   m_ObjectHideFlags: 0
@@ -55112,8 +55648,10 @@ GameObject:
   - component: {fileID: 1594601721}
   - component: {fileID: 1594601722}
   - component: {fileID: 1594601723}
+  - component: {fileID: 1594601725}
+  - component: {fileID: 1594601724}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (9)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55207,6 +55745,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1594601724
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594601720}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1594601725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594601720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &1602282961
 GameObject:
   m_ObjectHideFlags: 0
@@ -55367,6 +55953,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 1139478936}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon16
@@ -56163,6 +56753,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7804630452384146410, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
+      propertyPath: targetTeleport
+      value: 
+      objectReference: {fileID: 821573006}
     - target: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
       propertyPath: m_Name
       value: dungeon11
@@ -56221,8 +56815,10 @@ GameObject:
   - component: {fileID: 1664115946}
   - component: {fileID: 1664115947}
   - component: {fileID: 1664115948}
+  - component: {fileID: 1664115950}
+  - component: {fileID: 1664115949}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (5)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56316,6 +56912,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1664115949
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664115945}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1664115950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664115945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1001 &1695985885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56970,6 +57614,7 @@ GameObject:
   - component: {fileID: 1751028562}
   - component: {fileID: 1751028561}
   - component: {fileID: 1751028560}
+  - component: {fileID: 1751028565}
   m_Layer: 5
   m_Name: CanvasMap
   m_TagString: Untagged
@@ -57009,7 +57654,10 @@ MonoBehaviour:
   - {fileID: 1607923067}
   - {fileID: 1288891789}
   dungeonNames: []
+  startTeleport: {fileID: 0}
+  targetTeleport: {fileID: 0}
   MapUI: {fileID: 468761222}
+  MapOn: 0
 --- !u!114 &1751028561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57095,6 +57743,110 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!120 &1751028565
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751028559}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &1763420957
 GameObject:
   m_ObjectHideFlags: 0
@@ -57353,6 +58105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 1
+  haveTeleport: 0
 --- !u!114 &1772261732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57382,6 +58135,7 @@ GameObject:
   - component: {fileID: 1774807238}
   - component: {fileID: 1774807237}
   - component: {fileID: 1774807239}
+  - component: {fileID: 1774807240}
   m_Layer: 0
   m_Name: dungeon14
   m_TagString: Untagged
@@ -57464,6 +58218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 14
+  haveTeleport: 1
 --- !u!114 &1774807239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57479,6 +58234,19 @@ MonoBehaviour:
   doors:
   - {fileID: 566032571}
   enemies: []
+--- !u!114 &1774807240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774807235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1594601721}
 --- !u!1001 &1776693754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57825,8 +58593,10 @@ GameObject:
   - component: {fileID: 1799910934}
   - component: {fileID: 1799910935}
   - component: {fileID: 1799910936}
+  - component: {fileID: 1799910938}
+  - component: {fileID: 1799910937}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (8)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57920,6 +58690,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1799910937
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799910933}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1799910938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799910933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &1802266829
 GameObject:
   m_ObjectHideFlags: 0
@@ -58220,8 +59038,10 @@ GameObject:
   - component: {fileID: 1815024909}
   - component: {fileID: 1815024910}
   - component: {fileID: 1815024911}
+  - component: {fileID: 1815024913}
+  - component: {fileID: 1815024912}
   m_Layer: 0
-  m_Name: WormPassageIdle00 (3)
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58315,6 +59135,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1815024912
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815024908}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &1815024913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815024908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1001 &1816777792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58724,6 +59592,7 @@ GameObject:
   - component: {fileID: 1853975606}
   - component: {fileID: 1853975608}
   - component: {fileID: 1853975607}
+  - component: {fileID: 1853975609}
   m_Layer: 0
   m_Name: dungeon17
   m_TagString: Untagged
@@ -58806,6 +59675,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 17
+  haveTeleport: 1
+--- !u!114 &1853975609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853975605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 519462424}
 --- !u!1 &1856579079
 GameObject:
   m_ObjectHideFlags: 0
@@ -58817,6 +59700,7 @@ GameObject:
   - component: {fileID: 1856579080}
   - component: {fileID: 1856579082}
   - component: {fileID: 1856579081}
+  - component: {fileID: 1856579083}
   m_Layer: 0
   m_Name: dungeon08
   m_TagString: Untagged
@@ -58899,6 +59783,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 8
+  haveTeleport: 1
+--- !u!114 &1856579083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856579079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 390147455}
 --- !u!1 &1860870047
 GameObject:
   m_ObjectHideFlags: 0
@@ -96085,8 +96983,10 @@ GameObject:
   - component: {fileID: 2047032536}
   - component: {fileID: 2047032535}
   - component: {fileID: 2047032537}
+  - component: {fileID: 2047032539}
+  - component: {fileID: 2047032538}
   m_Layer: 0
-  m_Name: WormPassageIdle00
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96180,6 +97080,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &2047032538
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047032534}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.1
+--- !u!114 &2047032539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047032534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181e60dfcc28c14388f8a65a109718c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabKey: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
 --- !u!1 &2054233170
 GameObject:
   m_ObjectHideFlags: 0
@@ -96258,6 +97206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 2
+  haveTeleport: 0
 --- !u!4 &2054233173
 Transform:
   m_ObjectHideFlags: 0
@@ -96449,6 +97398,140 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.125, y: 1.25}
   m_EdgeRadius: 0
+--- !u!1 &2064621887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2064621888}
+  - component: {fileID: 2064621890}
+  - component: {fileID: 2064621889}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2064621888
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064621887}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1200876327}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2064621889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064621887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: X
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: eb09bfb8280c48a40a086d3ff7a6d0ae, type: 2}
+  m_sharedMaterial: {fileID: -417193694984871944, guid: eb09bfb8280c48a40a086d3ff7a6d0ae, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 100
+  m_fontSizeBase: 100
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2064621890
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064621887}
+  m_CullTransparentMesh: 1
 --- !u!1 &2064833462
 GameObject:
   m_ObjectHideFlags: 0
@@ -96715,6 +97798,7 @@ GameObject:
   - component: {fileID: 2070420011}
   - component: {fileID: 2070420014}
   - component: {fileID: 2070420015}
+  - component: {fileID: 2070420016}
   m_Layer: 0
   m_Name: dungeon00
   m_TagString: Untagged
@@ -96753,6 +97837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 0
+  haveTeleport: 1
 --- !u!61 &2070420015
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -96798,6 +97883,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20, y: 11}
   m_EdgeRadius: 0
+--- !u!114 &2070420016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070420010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 2047032536}
 --- !u!1 &2072455548
 GameObject:
   m_ObjectHideFlags: 0
@@ -96916,6 +98014,7 @@ GameObject:
   - component: {fileID: 2080144988}
   - component: {fileID: 2080144987}
   - component: {fileID: 2080144990}
+  - component: {fileID: 2080144991}
   m_Layer: 0
   m_Name: dungeon03
   m_TagString: Untagged
@@ -96982,6 +98081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 3
+  haveTeleport: 1
 --- !u!4 &2080144989
 Transform:
   m_ObjectHideFlags: 0
@@ -97015,6 +98115,19 @@ MonoBehaviour:
   - {fileID: 538460482}
   - {fileID: 1078768315}
   enemies: []
+--- !u!114 &2080144991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080144986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1505730636}
 --- !u!1 &2088735614
 GameObject:
   m_ObjectHideFlags: 0
@@ -97026,6 +98139,7 @@ GameObject:
   - component: {fileID: 2088735615}
   - component: {fileID: 2088735617}
   - component: {fileID: 2088735616}
+  - component: {fileID: 2088735618}
   m_Layer: 0
   m_Name: dungeon09
   m_TagString: Untagged
@@ -97109,6 +98223,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 
   dungeonNum: 9
+  haveTeleport: 1
+--- !u!114 &2088735618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088735614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformTeleport: {fileID: 1411538151}
 --- !u!1 &2111703018
 GameObject:
   m_ObjectHideFlags: 0

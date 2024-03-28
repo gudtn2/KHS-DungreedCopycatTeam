@@ -7,6 +7,7 @@ public class DungeonName : MonoBehaviour
 {
     public string dungeonName;
     public int    dungeonNum;
+    public bool   haveTeleport;
 
     private void Awake()
     {

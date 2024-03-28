@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private float hurtRoutineDuration = 3f;
     [SerializeField]
     private float blinkDuration = 0.5f;
+
+    private Color zeroA = new Color(1, 1, 1, 0);
     private Color halfA = new Color(1, 1, 1, 0.5f);
     private Color fullA = new Color(1, 1, 1, 1);
     public bool isDie;
@@ -98,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         ChangeAnimation();
 
-        if (!isDie && !dungeonPortalController.isCollideToPlayer&& !onUI)
+        if (!isDie && !onUI)
         {
             boxCollider2D.offset = new Vector2(0, -0.1f);
             boxCollider2D.size = new Vector2(0.8f, 1.1f);
@@ -123,15 +125,6 @@ public class PlayerController : MonoBehaviour
         else if(onUI && movement.isGrounded)
         {
             movement.rigidbody.velocity = new Vector2(0, 0);
-        }
-
-        if (dungeonPortalController.isCollideToPlayer)
-        {
-            StartCoroutine("ChangePlayerAlpha");
-
-            // YS: 플레이어 Ground에 빠지는 현상 및 이동하던 방향으로 계속 이동현상 수정 
-            movement.rigidbody.velocity = new Vector2(0, 0);
-            this.transform.position = new Vector2(transform.position.x, -6.334974f);
         }
 
         //########################################################################################
@@ -256,24 +249,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ChangePlayerAlpha()
-    {
-        yield return new WaitForSeconds(0.8f);
-        Color color = spriteRenderer.color;
-        color.a = 0;
-        spriteRenderer.color = color;
-        weaponRenderer.color = color;
-      
-        StartCoroutine("BackPlayerAlpha");
-    }
-    private IEnumerator BackPlayerAlpha()
-    {
-        yield return new WaitForSeconds(2.2f);
-        Color color = spriteRenderer.color;
-        color.a = 1;
-        spriteRenderer.color = color;
-        weaponRenderer.color = color;
-    }
     //======================================================================================
     // YS: 플레이어 Collider
     //======================================================================================
