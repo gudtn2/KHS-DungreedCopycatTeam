@@ -91,6 +91,16 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private GameObject      doubleJumpDustPrefab;
 
+    [Header("DieEffect")]
+    private PoolManager     dieEffectPoolManager;
+    private PoolManager     dieEffect2PoolManager;
+    [SerializeField]
+    private GameObject      dieEffect2Prefab;
+    [SerializeField]
+    private GameObject      dieEffectPrefab;
+    [SerializeField]
+    private GameObject      dieUI;
+
 
     public bool             isLongJump { set; get; } = false;
 
@@ -110,6 +120,8 @@ public class Movement2D : MonoBehaviour
         dustPoolManager             = new PoolManager(dustPrefab);
         jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
         doubleJumpDustPoolManager   = new PoolManager(doubleJumpDustPrefab);
+        dieEffectPoolManager        = new PoolManager(dieEffectPrefab);
+        dieEffect2PoolManager       = new PoolManager(dieEffect2Prefab);
     }
     private void Start()
     {
@@ -129,6 +141,8 @@ public class Movement2D : MonoBehaviour
         dustPoolManager.DestroyObjcts();
         jumpDustPoolManager.DestroyObjcts();
         doubleJumpDustPoolManager.DestroyObjcts();
+        dieEffectPoolManager.DestroyObjcts();
+        dieEffect2PoolManager.DestroyObjcts();
     }
     private void FixedUpdate()
     {
@@ -316,6 +330,49 @@ public class Movement2D : MonoBehaviour
         doubleJumpDustEffect.transform.rotation = transform.rotation;
         doubleJumpDustEffect.GetComponent<EffectPool>().Setup(doubleJumpDustPoolManager);
     }
+
+    private void ActiveDieEffect()
+    {
+        GameObject dieEffect = dieEffectPoolManager.ActivePoolItem();
+        dieEffect.transform.position = transform.position;
+        dieEffect.transform.rotation = transform.rotation;
+        dieEffect.GetComponent<EffectPool>().Setup(dieEffectPoolManager);
+
+        StartCoroutine(ActiveDieEffect2());
+    }
+    private IEnumerator ActiveDieEffect2()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameObject dieEffect2 = dieEffect2PoolManager.ActivePoolItem();
+        dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
+        dieEffect2.transform.rotation = transform.rotation;
+        dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager) ;
+        this.gameObject.SetActive(false);
+    }
+
+
+
+    public IEnumerator Die()
+    {
+        // 플레이어가 죽은 시간 기록
+        PlayerDungeonData.instance.deathTime = Time.time;
+        Debug.Log(PlayerDungeonData.instance.deathTime);
+
+        // 플레이어가 사망한지 1초 뒤
+        yield return new WaitForSeconds(1);
+
+        PlayerDungeonData.instance.totalTime = PlayerDungeonData.instance.deathTime - PlayerDungeonData.instance.enterTime;
+        Debug.Log(PlayerDungeonData.instance.totalTime);
+
+        // GameOverUI 활성화
+        dieUI.SetActive(true);
+
+        // dieEffect 활성화
+        ActiveDieEffect();
+    }
+
+
+
     private void ActiveDashEffect()
     {
         if (ghostDelaySeconds > 0)

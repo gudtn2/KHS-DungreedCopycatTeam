@@ -26,7 +26,6 @@ public class DungeonPortal : MonoBehaviour
     {
         eatPlayer = true;
 
-        PlayerController.instance.onUI = true;
         PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
         PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
 
@@ -39,6 +38,10 @@ public class DungeonPortal : MonoBehaviour
         player.curSceneName = tranferMapName;
 
         FadeEffectController.instance.OnFade(FadeState.FadeOut);
+
+        // 던전에 들어가는 시간 기록
+        PlayerDungeonData.instance.enterTime = Time.time;
+        Debug.Log(PlayerDungeonData.instance.enterTime);
 
         StartCoroutine(ChangeScene());
     }

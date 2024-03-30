@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float blinkDuration = 0.5f;
 
-    private Color zeroA = new Color(1, 1, 1, 0);
     private Color halfA = new Color(1, 1, 1, 0.5f);
     private Color fullA = new Color(1, 1, 1, 1);
     public bool isDie;
@@ -46,7 +45,7 @@ public class PlayerController : MonoBehaviour
     public string curDungeonName;
     public int    curDungeonNum;
 
-    private Movement2D movement;
+    public Movement2D movement;
     private Animator ani;
     public SpriteRenderer spriteRenderer;
     public GameObject weaponDatabase;
@@ -124,7 +123,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(onUI && movement.isGrounded)
         {
-            movement.rigidbody.velocity = new Vector2(0, 0);
+            movement.rigidbody.velocity = Vector2.zero;
         }
 
         //########################################################################################
@@ -135,6 +134,18 @@ public class PlayerController : MonoBehaviour
             PlayerStats.instance.AddEXP(50);
         }
         weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(PlayerStats.instance.MaxHP);
+            StartCoroutine(HurtRoutine());
+            StartCoroutine(BlinkPlayer());
+
+            if(isDie)
+            {
+                StartCoroutine(movement.Die());
+            }
+        }
 
         //########################################################################################
         //########################################################################################
@@ -288,11 +299,14 @@ public class PlayerController : MonoBehaviour
             ChangeState(PlayerState.Jump);
             ani.SetBool("IsJump", true);
         }
+
         // 죽는 상태
         if (isDie)
         {
             ChangeState(PlayerState.Die);
             ani.SetBool("IsDie", true);
+
+
             if(!movement.isGrounded)
             {
                 movement.rigidbody.velocity = new Vector2(0,movement.rigidbody.velocity.y);
@@ -303,6 +317,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+
         // 기본 상태
         if (movement.isGrounded == true && movement.rigidbody.velocity.x == 0)
         {
@@ -314,4 +329,5 @@ public class PlayerController : MonoBehaviour
             ani.SetBool("IsJump", false);
         }
     }
+
 }

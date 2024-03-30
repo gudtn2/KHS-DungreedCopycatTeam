@@ -36,6 +36,7 @@ public class DungeonPortalController : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             ActiveDungeonPortal();
+            PlayerController.instance.onUI = true;
         }
     }
 }
