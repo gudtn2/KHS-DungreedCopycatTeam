@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!PlayerController.instance.onUI)
+        if(!PlayerController.instance.onUI && !PlayerController.instance.isDie)
         {
             UpdateSight();
         }

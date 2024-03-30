@@ -75,6 +75,8 @@ public class EnemyEffect : MonoBehaviour
             EnemyDieEvent(gameObject);
         }
 
+        PlayerDungeonData.instance.countKill++;
+
         Destroy(this.gameObject);
         yield return null;
     }
