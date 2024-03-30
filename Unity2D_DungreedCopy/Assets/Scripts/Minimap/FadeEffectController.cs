@@ -13,6 +13,9 @@ public class FadeEffectController : MonoBehaviour
     private Image           imageFade;
     private FadeState       fadeState;
 
+    // Fade 코루틴이 완료되었는지를 나타내는 변수
+    private bool isFading = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -34,8 +37,8 @@ public class FadeEffectController : MonoBehaviour
         switch (fadeState)
         {
             case FadeState.FadeIn:
+                Debug.Log("FadeIn");
                 StartCoroutine(Fade(1, 0));
-                StartCoroutine(DeactivateFadeImage());
                 break;
             case FadeState.FadeOut:
                 StartCoroutine(Fade(0, 1));
@@ -45,12 +48,6 @@ public class FadeEffectController : MonoBehaviour
                 StartCoroutine(FadeInOut());
                 break;
         }
-    }
-
-    private IEnumerator DeactivateFadeImage()
-    {
-        yield return new WaitForSeconds(fadeTime);
-        this.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeInOut()

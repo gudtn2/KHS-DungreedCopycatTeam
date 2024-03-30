@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState { Idle = 0, Walk, Jump, Die }   // YS: 플레이어 상태 
 public class PlayerController : MonoBehaviour
@@ -44,9 +45,11 @@ public class PlayerController : MonoBehaviour
     public string curSceneName;
     public string curDungeonName;
     public int    curDungeonNum;
+    [SerializeField]
+    private Transform startPos;
 
     public Movement2D movement;
-    private Animator ani;
+    public Animator ani;
     public SpriteRenderer spriteRenderer;
     public GameObject weaponDatabase;
     public SpriteRenderer weaponRenderer;
@@ -76,6 +79,10 @@ public class PlayerController : MonoBehaviour
             npc = FindObjectOfType<NPC>();
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
+            transform.position = startPos.position;
+
+            curSceneName = SceneManager.GetActiveScene().name;
+
             instance = this;
         }
         else
@@ -88,11 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         isDie = false;
         canAttack = true;
-
-        // 최초 시작지 이름을 마을로 설정
-        curSceneName = "Village";
     }
-
     private void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

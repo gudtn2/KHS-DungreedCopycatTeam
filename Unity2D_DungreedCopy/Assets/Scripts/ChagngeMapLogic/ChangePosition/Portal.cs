@@ -9,7 +9,7 @@ public class Portal : MonoBehaviour
     private PortalStartPoint        portalStartPoint;
 
     private PlayerController        player;
-    private FadeEffectController    fade;
+
     [Header("ÇØ´ç MarkCurMap »ðÀÔ")]
     [SerializeField]
     private MarkCurMap              markCurMap;
@@ -22,17 +22,15 @@ public class Portal : MonoBehaviour
     private void Awake()
     {
         player  = FindObjectOfType<PlayerController>();
-        fade    = FindObjectOfType<FadeEffectController>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.name == "Player")
         {
-            UIManager.instance.fadeOn = true;
+            PlayerController.instance.onUI = true;
 
             markCurMap.dungeonMapDir = dungeonMapMoveDir;
             nextDungeon.SetActive(true);
-            PlayerController.instance.onUI = true;
             MiniMapManager.instance.minimaps[player.curDungeonNum].SetActive(false);
             player.curDungeonName   = nextDungeon.GetComponent<DungeonName>().dungeonName;
             player.curDungeonNum = nextDungeon.GetComponent<DungeonName>().dungeonNum;

@@ -28,10 +28,9 @@ public class SceneStartPoint : MonoBehaviour
         if (startPoint == player.curSceneName)
         {
             fade.OnFade(FadeState.FadeIn);
-
             player.curDungeonName      = dungeonName;
 
-            PlayerController.instance.onUI = true;
+            PlayerController.instance.onUI = false;
             PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
             PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
 
@@ -68,4 +67,5 @@ public class SceneStartPoint : MonoBehaviour
 
         }
     }
+
 }

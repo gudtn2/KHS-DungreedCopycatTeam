@@ -64,9 +64,6 @@ public class TeleportController : MonoBehaviour
     // 먹을때 발동되는 애니메이션 이벤트
     public void HidePlayer()
     {
-        // Fade이미지 활성화
-        UIManager.instance.fadeOn = true;
-
         PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
         PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
 

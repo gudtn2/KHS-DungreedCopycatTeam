@@ -50,6 +50,9 @@ public class PlayerStats : StatManager
         WP_MINATK = 10;
         WP_MAXATK = 15;
         WP_ATS = 3;
+        gold = 500;
+        HP = MaxHP;
+        DC = MaxDC;
     }
 
     private void Awake()

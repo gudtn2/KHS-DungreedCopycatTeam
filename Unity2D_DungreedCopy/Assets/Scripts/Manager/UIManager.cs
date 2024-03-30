@@ -32,12 +32,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject      textNoGold;
 
-    [Header("ImageFade")]
-    [SerializeField]
-    private GameObject      fadeImage;
-    [HideInInspector]
-    public  bool            fadeOn = false;
-
     [Header("Acquired Item")]
     [SerializeField]
     private GameObject      AcquiredItemUI;         // 아이템을 먹을때 활성/비활성화
@@ -76,8 +70,6 @@ public class UIManager : MonoBehaviour
         UpdateTextLV();
 
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
-
-        fadeImage.SetActive(fadeOn);
     }
     private void UpdateImageHP()
     {
@@ -161,6 +153,4 @@ public class UIManager : MonoBehaviour
         // UI 비활성화
         AcquiredItemUI.SetActive(false);
     }
-
-
 }

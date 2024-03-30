@@ -21,6 +21,9 @@ public class GameOverUI : MonoBehaviour
 
     [SerializeField]
     private GameObject      button;
+    [SerializeField]
+    private GameObject      title;
+
     private void Awake()
     {
         this.gameObject.SetActive(false);
@@ -113,7 +116,6 @@ public class GameOverUI : MonoBehaviour
 
     public void ButtonFunction()
     {
-        FadeEffectController.instance.gameObject.SetActive(true);
         FadeEffectController.instance.OnFade(FadeState.FadeOut);
         StartCoroutine(ChangeScene());
     }
@@ -121,7 +123,10 @@ public class GameOverUI : MonoBehaviour
     private IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(FadeEffectController.instance.fadeTime);
+        this.gameObject.SetActive(false);
+        title.SetActive(false);
+        PlayerController.instance.curSceneName = transferSceneName;
         SceneManager.LoadScene(transferSceneName);
-        PlayerController.instance.transform.position = Vector2.zero;
+
     }
 }

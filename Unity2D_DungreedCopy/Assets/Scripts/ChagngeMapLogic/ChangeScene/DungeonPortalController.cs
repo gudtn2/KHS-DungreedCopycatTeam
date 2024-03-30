@@ -25,7 +25,8 @@ public class DungeonPortalController : MonoBehaviour
     private void ActiveDungeonPortal()
     {
         GameObject dungeonPortal = dungeonPortalPoolMnager.ActivePoolItem();
-        dungeonPortal.transform.position = new Vector3(player.transform.position.x, -1.5f,transform.position.z);
+        dungeonPortal.transform.position = new Vector3(player.transform.position.x,
+                                                       transform.position.y+5f);
         dungeonPortal.transform.rotation = transform.rotation;
         dungeonPortal.GetComponent<DungeonPortal>().Setup(dungeonPortalPoolMnager);
     }

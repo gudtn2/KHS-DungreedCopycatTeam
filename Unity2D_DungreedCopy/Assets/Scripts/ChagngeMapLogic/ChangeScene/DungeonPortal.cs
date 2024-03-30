@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DungeonPortal : MonoBehaviour
 {
+
+
     public bool                     eatPlayer = false;
     public string                   tranferMapName;   // 이동할 맵의 이름
 
@@ -28,8 +30,6 @@ public class DungeonPortal : MonoBehaviour
 
         PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
         PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
-
-        UIManager.instance.fadeOn = true;
     }
     public void FalseToEatPlayer()
     {
