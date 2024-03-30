@@ -10,7 +10,6 @@ public class Portal : MonoBehaviour
 
     private PlayerController        player;
     private FadeEffectController    fade;
-    
     [Header("ÇØ´ç MarkCurMap »ðÀÔ")]
     [SerializeField]
     private MarkCurMap              markCurMap;
@@ -34,8 +33,10 @@ public class Portal : MonoBehaviour
             markCurMap.dungeonMapDir = dungeonMapMoveDir;
             nextDungeon.SetActive(true);
             PlayerController.instance.onUI = true;
+            MiniMapManager.instance.minimaps[player.curDungeonNum].SetActive(false);
             player.curDungeonName   = nextDungeon.GetComponent<DungeonName>().dungeonName;
             player.curDungeonNum = nextDungeon.GetComponent<DungeonName>().dungeonNum;
+            MiniMapManager.instance.minimaps[player.curDungeonNum].SetActive(true);
             FadeEffectController.instance.OnFade(FadeState.FadeOut);
             StartCoroutine(portalStartPoint.ChangePlayerPosition());
         }
