@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     public bool isBossDie = false;
     [Header("보스가 완전히 죽었는지")]
     public bool bossOpentheStele = false;
-    public bool onUI;   // 플레이어의 움직임을 제한하기 위한 bool값
+
+    public bool dontMovePlayer = false;
 
     [Header("플레이어 공격 제어")]
     public bool     canAttack;          // 플레이어가 공격을 할 수 있는지 여부
@@ -98,11 +99,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        DontMovePlayer(dontMovePlayer);
+
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ChangeAnimation();
 
-        if (!isDie && !onUI)
+        if (!isDie && !dontMovePlayer && !PlayerDungeonData.instance.isMoving)
         {
             boxCollider2D.offset = new Vector2(0, -0.1f);
             boxCollider2D.size = new Vector2(0.8f, 1.1f);
@@ -120,19 +123,11 @@ public class PlayerController : MonoBehaviour
 
         if (movement.isDashing) return;
 
-        if(onUI && !movement.isGrounded)
-        {
-            movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
-        }
-        else if(onUI && movement.isGrounded)
-        {
-            movement.rigidbody.velocity = Vector2.zero;
-        }
 
         //########################################################################################
         // ▼ 실험용
         //########################################################################################
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             PlayerStats.instance.AddEXP(50);
         }
@@ -159,7 +154,6 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     // YS: 플레이어 움직임
     //======================================================================================
-
     public void UpdateMove()
     {
         float x = Input.GetAxis("Horizontal");
@@ -214,6 +208,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
         {
             movement.PlayDash();
+        }
+    }
+
+    private void DontMovePlayer(bool value)
+    {
+        // 멈춤과 동시에 공중에 있는 경우
+        if(value && !movement.isGrounded)
+        {
+            movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
+        }
+        // 멈춤과 동시에 땅에 있는 경우
+        else if(value && movement.isGrounded)
+        {
+            movement.rigidbody.velocity = Vector2.zero;
         }
     }
     //======================================================================================

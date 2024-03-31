@@ -7,17 +7,22 @@ public class PlayerDungeonData : MonoBehaviour
 {
     static public PlayerDungeonData instance;
     
-    public int   countKill = 0;
+    public int      countKill = 0;
+    public float    enterTime; // 던전 시작시간 기록
+    public float    deathTime; // 플레이어 죽은 시간 기록
+    public float    totalTime; // 플레이어가 살아남은 시간
+    public bool     isMoving = false;
 
-    public float enterTime; // 던전 시작시간 기록
-    public float deathTime; // 플레이어 죽은 시간 기록
-    public float totalTime; // 플레이어가 살아남은 시간
-
+    private Rigidbody2D     rigid;
+    private Movement2D      movement;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+
+            rigid       = GetComponent<Rigidbody2D>();
+            movement    = GetComponent<Movement2D>();
         }
         else
         {
@@ -25,6 +30,21 @@ public class PlayerDungeonData : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (isMoving && !movement.isGrounded)
+            rigid.velocity = new Vector3(0, rigid.velocity.y);
+        else if (isMoving && movement.isGrounded)
+            rigid.velocity = Vector3.zero;
+    }
+
+    public void ResetDungeonData()
+    {
+        countKill = 0;
+        enterTime = 0f;
+        deathTime = 0f;
+        totalTime = 0f;
+    }
     public void TimeChangeToText(TextMeshProUGUI textUI)
     {
         textUI.text = FormatTime(totalTime);

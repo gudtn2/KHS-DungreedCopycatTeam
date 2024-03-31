@@ -23,8 +23,10 @@ public class NPC : MonoBehaviour
         if(Input.GetKeyDown(fKey) && onKey)
         {
             inputKey = true;
-            PlayerController.instance.onUI = true;
             onKey = false;
+
+            PlayerController.instance.dontMovePlayer = true;
+
             DialogueManager.instance.OnDialogue(sentences, name);
         }
         

@@ -30,6 +30,8 @@ public class ImageGameOver : MonoBehaviour
 
         thisImage   = GetComponent<Image>();
         thisRect    = GetComponent<RectTransform>();
+
+        startY      = thisRect.anchoredPosition.y;   // 시작 Y좌표 설정
     }
 
     // 오브젝트가 활성화 되면
@@ -39,7 +41,7 @@ public class ImageGameOver : MonoBehaviour
         isLerping = true;
         StartCoroutine("ChangeAlpha");
 
-        startY = thisRect.anchoredPosition.y;   // 시작 Y좌표 설정
+        thisRect.anchoredPosition = new Vector3(thisRect.anchoredPosition.x, startY);
         StartCoroutine("ChangeRectPosY");
     }
 

@@ -30,7 +30,6 @@ public class PortalStartPoint : MonoBehaviour
             // 플레이어 위치 이동
             player.transform.position = this.transform.position;
 
-            PlayerController.instance.onUI = false;
 
             // 카메라 위치 이동
             mainCam.transform.position = new Vector3(this.transform.position.x,
@@ -44,6 +43,10 @@ public class PortalStartPoint : MonoBehaviour
 
             // 페이드 효과
             fade.OnFade(FadeState.FadeIn);
+
+            // 이동중 비활성화
+            PlayerController.instance.dontMovePlayer = false;
+            PlayerDungeonData.instance.isMoving = false;
 
             GameObject targetObject = GameObject.Find(startingMapName);
 

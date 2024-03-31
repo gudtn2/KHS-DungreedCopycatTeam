@@ -14,15 +14,12 @@ public class ParallaxBackgrounds : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     [SerializeField]
-    private Vector3 startVector;
 
     private Vector3 initialPosition;
 
     private void Awake()
     {
         initialPosition = transform.localPosition;
-
-        transform.localPosition = startVector;
 
         camTransform = Camera.main.transform;
         lastCamPos = camTransform.position;
@@ -56,10 +53,5 @@ public class ParallaxBackgrounds : MonoBehaviour
     private void OnEnable()
     {
         transform.localPosition = initialPosition;
-    }
-
-    private void OnDisable()
-    {
-        initialPosition = transform.localPosition;
     }
 }

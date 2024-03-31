@@ -23,8 +23,8 @@ public class MapController : MonoBehaviour
         UpdateDungeonMapUI();
         MapUI.SetActive(MapOn);
         
-        if(MapOn)   PlayerController.instance.onUI = true;
-        else        PlayerController.instance.onUI = false;
+        if(MapOn)   PlayerController.instance.dontMovePlayer = true;
+        else        PlayerController.instance.dontMovePlayer = false;
     }
 
     
@@ -90,7 +90,7 @@ public class MapController : MonoBehaviour
             PlayerController.instance.transform.position = targetTelPos.position;
 
             // 플레이어 이동 가능
-            PlayerController.instance.onUI = false;
+            PlayerController.instance.dontMovePlayer = false;
 
             // a 초기화
             PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);

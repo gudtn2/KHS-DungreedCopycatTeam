@@ -23,9 +23,12 @@ public class Swing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerController player = PlayerController.instance;
+        PlayerDungeonData data  = PlayerDungeonData.instance;
+
         UpdateSight();
 
-        if(PlayerController.instance.canAttack)
+        if(player.canAttack && !player.dontMovePlayer && !player.isDie && !data.isMoving)
         {
             SwingSword();
         }

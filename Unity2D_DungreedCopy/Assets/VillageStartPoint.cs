@@ -9,18 +9,26 @@ public class VillageStartPoint : MonoBehaviour
     private void Awake()
     {
         PlayerController player     = PlayerController.instance;
+        PlayerDungeonData data      = PlayerDungeonData.instance;
         FadeEffectController fade   = FadeEffectController.instance;
         MainCameraController cam    = MainCameraController.instance;
         
         if (startPoint == player.curSceneName)
         {
+            data.ResetDungeonData();
+
             player.transform.position = transform.position;
 
-            PlayerController.instance.isDie = false;
-            PlayerController.instance.ani.SetBool("IsDie",false);
+            player.isDie = false;
+            player.ani.SetBool("IsDie",false);
+            
+            if(player.spriteRenderer.color == Color.white) return;
+            else
+            {
+                player.spriteRenderer.color = new Color(1, 1, 1, 1);
+                player.weaponRenderer.color = new Color(1, 1, 1, 1);
+            }
 
-            PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
-            PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
 
             PlayerStats.instance.ResetAllStat();
 

@@ -123,10 +123,10 @@ public class GameOverUI : MonoBehaviour
     private IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(FadeEffectController.instance.fadeTime);
+        button.SetActive(false);
         this.gameObject.SetActive(false);
         title.SetActive(false);
         PlayerController.instance.curSceneName = transferSceneName;
         SceneManager.LoadScene(transferSceneName);
-
     }
 }

@@ -128,7 +128,6 @@ public class UIManager : MonoBehaviour
             StartCoroutine(OnBloodScreen());
         }
     }
-
     public void OnAcquiredItem(string itemName, Sprite itemImage)
     {
         // UI È°¼ºÈ­

@@ -24,7 +24,7 @@ public class ShopController : MonoBehaviour
             ani.Play("ShopHide");
             invenAni.Play("Hide");
             npc.inputKey = false;
-            PlayerController.instance.onUI = false;
+            PlayerController.instance.dontMovePlayer = false;
             DialogueManager.instance.onShop = false;
         }
     }

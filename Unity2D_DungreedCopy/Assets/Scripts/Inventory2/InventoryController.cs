@@ -10,7 +10,6 @@ public class InventoryController : MonoBehaviour
     private InventorySO     inventoryData;
 
     public List<InventoryItem> initialItems = new List<InventoryItem>();
-
     private void Start()
     {
         PrepareUI();
@@ -117,7 +116,6 @@ public class InventoryController : MonoBehaviour
         {
             if(inventoryUI.isActiveAndEnabled == false)
             {
-                PlayerController.instance.onUI = true;
                 inventoryUI.Show();
                 foreach (var item in inventoryData.GetCurrentInventoryState())
                 {
@@ -126,7 +124,6 @@ public class InventoryController : MonoBehaviour
             }
             else
             {
-                PlayerController.instance.onUI = false;
                 inventoryUI.Hide();
             }
         }

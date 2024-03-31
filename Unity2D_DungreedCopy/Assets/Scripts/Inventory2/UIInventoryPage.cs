@@ -27,11 +27,11 @@ public class UIInventoryPage : MonoBehaviour
 
     public event Action<int, int> OnSwapItems;
 
-    private Animator ani;
+    private Animator            ani;
 
     private void Awake()
     {
-        ani = GetComponent<Animator>();
+        ani     = GetComponent<Animator>();
         mouseFollower.Toggle(false);
         itemDescription.ResetDescription();
 
@@ -145,6 +145,8 @@ public class UIInventoryPage : MonoBehaviour
     {
         gameObject.SetActive(true);
         ani.Play("Show");
+        PlayerDungeonData.instance.isMoving = true;
+        PlayerController.instance.dontMovePlayer   = true;
         ResetSelection();
     }
 
@@ -165,6 +167,9 @@ public class UIInventoryPage : MonoBehaviour
     public void Hide()
     {
         ani.Play("Hide");
+
+        PlayerDungeonData.instance.isMoving = false;
+        PlayerController.instance.dontMovePlayer = false;
         ResetDraggedItem();
         StartCoroutine("RealDeactivate");
     }

@@ -41,7 +41,7 @@ public class SelectedTeleport : MonoBehaviour, IPointerEnterHandler, IPointerExi
             mapController.startTeleport.GetComponent<Animator>().SetBool("EatPlayer",true);
 
             // 플레이어 멈춤
-            PlayerController.instance.onUI = true;
+            PlayerController.instance.dontMovePlayer = true;
 
             // MapController에 해당 맵의 Telepoort정보 전달
             mapController.targetTeleport = targetTeleport.gameObject;

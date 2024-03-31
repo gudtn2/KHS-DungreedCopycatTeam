@@ -162,6 +162,6 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         }
         openDialogue = false;
         npc.inputKey = false;
-        PlayerController.instance.onUI = false;
+        PlayerController.instance.dontMovePlayer = false;
     }
 }
