@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 public class Movement2D : MonoBehaviour
@@ -101,19 +102,22 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private GameObject      dieUI;
 
+    [HideInInspector]
+    public GameObject      curPassingPlatform;
+
 
     public bool             isLongJump { set; get; } = false;
 
     [HideInInspector]
     public Rigidbody2D              rigidbody;
-    private BoxCollider2D           boxCollider2D;
+    private CapsuleCollider2D       capsulCollider2D;
     private PlayerStats             playerStats;
 
 
     private void Awake()
     {
         rigidbody           = GetComponent<Rigidbody2D>();
-        boxCollider2D       = GetComponent<BoxCollider2D>();
+        capsulCollider2D    = GetComponent<CapsuleCollider2D>();
         playerStats         = GetComponent<PlayerStats>();
         
         dashPoolManager             = new PoolManager(dashPrefab);
@@ -129,10 +133,6 @@ public class Movement2D : MonoBehaviour
 
         // YS: Dash변수 초기화
         curDashCount        = maxDashCount;
-
-        // YS: 레이어 초기화
-        playerLayer     = LayerMask.NameToLayer("Player");
-        platformLayer   = LayerMask.NameToLayer("PassingPlatform");
     }
     
     private void OnApplicationQuit()
@@ -155,14 +155,6 @@ public class Movement2D : MonoBehaviour
         {
             ActiveDashEffect();
         }
-        
-
-        if(isJump && rigidbody.velocity.y <= 0)
-        {
-            GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing(playerLayer,platformLayer);
-        }
-
-        Physics2D.IgnoreLayerCollision(playerLayer, LayerMask.NameToLayer("Platform"), false);
     }
     public void MoveTo(float x)
     {
@@ -200,23 +192,20 @@ public class Movement2D : MonoBehaviour
                 ActiveJumpDustEffect();
             }
 
-            // YS: 점프중 Platform 무시
-            if (rigidbody.velocity.y > 0)
-            {
-                GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing(playerLayer, platformLayer);
-            }
-            
             return true;
             
         }
         return false;
     }
 
-    public void DownJumpTo()
+    public IEnumerator DownJumpTo(float time)
     {
-        StartCoroutine(GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().PassingRoutain(playerLayer, platformLayer, downJumpTime));
-        rigidbody.velocity = Vector2.down * downJumpForce;
+        TilemapCollider2D platformCollider = curPassingPlatform.GetComponent<TilemapCollider2D>();
+        platformCollider.enabled = false;
+        yield return new WaitForSeconds(time);
+        platformCollider.enabled = true;
     }
+
     private void CheckSlope(RaycastHit2D hit)
     {
         if(hit)
@@ -270,6 +259,7 @@ public class Movement2D : MonoBehaviour
         mousePos.z = 0;
         dashDir = mousePos - transform.position;
         Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dashDir, dashDis);
+
         if(playerStats.DC > 0)
         {
             StartCoroutine(DashTo(moveTarget));
@@ -286,9 +276,10 @@ public class Movement2D : MonoBehaviour
         float t = 0f;
 
         Vector3 startingPos = transform.position;
-
-        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OnPassing(playerLayer, platformLayer);
-
+        if(curPassingPlatform != null)
+        {
+            StartCoroutine(DownJumpTo(0.25f));
+        }
         while (t <= 1.0f)
         {
             t += step;
@@ -297,8 +288,6 @@ public class Movement2D : MonoBehaviour
         }
         playerStats.timer = 0;
         isDashing = false;
-        GameObject.FindWithTag("PassingPlatform").GetComponent<Passing>().OffPassing(playerLayer, platformLayer);
-
     }
     //=====================================================================
     // YS: Player Effect Active
@@ -389,6 +378,23 @@ public class Movement2D : MonoBehaviour
             Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
             ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
             ghostDelaySeconds = ghostDelay;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("PassingPlatform"))
+        {
+            curPassingPlatform = collision.gameObject;
+            Debug.Log(curPassingPlatform);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("PassingPlatform"))
+        {
+            curPassingPlatform = null;
+            Debug.Log(curPassingPlatform);
         }
     }
 

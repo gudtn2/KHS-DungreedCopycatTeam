@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     public GameObject weaponDatabase;
     public SpriteRenderer weaponRenderer;
     private PlayerStats playerStats;
-    private BoxCollider2D boxCollider2D;
+    private CapsuleCollider2D capsulCollider2D;
 
     private DungeonPortalController dungeonPortalController;
 
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
             ani = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             playerStats = GetComponent<PlayerStats>();
-            boxCollider2D = GetComponent<BoxCollider2D>();
+            capsulCollider2D = GetComponent<CapsuleCollider2D>();
 
             npc = FindObjectOfType<NPC>();
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
@@ -107,8 +107,8 @@ public class PlayerController : MonoBehaviour
 
         if (!isDie && !dontMovePlayer && !PlayerDungeonData.instance.isMoving)
         {
-            boxCollider2D.offset = new Vector2(0, -0.1f);
-            boxCollider2D.size = new Vector2(0.8f, 1.1f);
+            capsulCollider2D.offset = new Vector2(0, -0.08f);
+            capsulCollider2D.size = new Vector2(0.8f, 1.2f);
             UpdateMove();
             UpdateJump();
             UpdateSight();
@@ -116,8 +116,8 @@ public class PlayerController : MonoBehaviour
         }
         else if(isDie)
         {
-            boxCollider2D.offset = new Vector2(0, 0);
-            boxCollider2D.size = new Vector2(1.2f, 0.7f);
+            capsulCollider2D.offset = new Vector2(0, 0.1f);
+            capsulCollider2D.size = Vector2.one;
         }
 
 
@@ -190,9 +190,12 @@ public class PlayerController : MonoBehaviour
         {
             movement.isLongJump = false;
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            movement.DownJumpTo();
+            if (movement.curPassingPlatform != null)
+            {
+                StartCoroutine(movement.DownJumpTo(0.5f));
+            }
         }
     }
     public void UpdateSight()
