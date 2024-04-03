@@ -76,8 +76,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 832934297
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3214941357186051684
@@ -187,4 +187,3 @@ MonoBehaviour:
   moveSpeed: 1.2
   alphaSpeed: 5
   destroyTime: 2
-  bullionController: {fileID: 4613850561037472890, guid: 5b928908b3d1da94e889f0a7b62e6146, type: 3}

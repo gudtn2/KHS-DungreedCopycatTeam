@@ -28,17 +28,19 @@ public class PlayerStats : StatManager
     private float   originCRI = 0.1f; // 크리티컬 확률(1이 100%)
 
     [Header("플레이어 스텟")]
-    public int      ATK; // 공격력
-    public int      DEF; // 방어력 
-    public float    ATS; // 공속(1초에 n번)
-    public float    CRI; // 크리티컬(1은 100%)
+    public int      ATK;            // 공격력
+    public int      DEF;            // 방어력 
+    public float    ATS;            // 공속(1초에 n번)
+    public float    CRI;            // 크리티컬(1은 100%)
+    public int      DashATK = 10;   // 대시 공격력
 
     [Header("무기 스텟")]
     public int WP_MINATK; 
     public int WP_MAXATK; 
     public int WP_DEF; 
     public float WP_ATS; 
-    public float WP_CRI; 
+    public float WP_CRI;
+    
 
     public void ResetAllStat()
     {
@@ -51,6 +53,7 @@ public class PlayerStats : StatManager
         WP_MAXATK = 15;
         WP_ATS = 3;
         gold = 500;
+        DashATK = 10;
         HP = MaxHP;
         DC = MaxDC;
     }

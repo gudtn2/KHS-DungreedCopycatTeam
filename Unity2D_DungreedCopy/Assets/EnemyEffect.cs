@@ -18,6 +18,8 @@ public class EnemyEffect : MonoBehaviour
     private GameObject  prefabDieEffect;
     [SerializeField]
     private GameObject  CanvasHP;           // CanvasEnemy GameObject
+    private bool        isGround;
+
 
     [Header("Text Effect")]
     [SerializeField]
@@ -33,11 +35,16 @@ public class EnemyEffect : MonoBehaviour
 
     private SpriteRenderer  spriteRenderer;
     private HPBar           healthBar;
+    private Movement2D      movement;
+    private Rigidbody2D     rigidbody;
 
     private void Awake()
     {
         spriteRenderer  = GetComponent<SpriteRenderer>();
+        rigidbody       = GetComponent<Rigidbody2D>();
         healthBar       = GetComponentInChildren<HPBar>();
+
+        movement = FindObjectOfType<Movement2D>();
 
         textPoolManager = new PoolManager(prefabDamageText);
         dieEffectPoolManager = new PoolManager(prefabDieEffect);
@@ -63,6 +70,17 @@ public class EnemyEffect : MonoBehaviour
             {
                 StartCoroutine("Die");
             }
+        }
+
+        if(isGround)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+            rigidbody.gravityScale = 0;
+        }
+        else
+        {
+            rigidbody.gravityScale = 1;
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y);
         }
     }
     private IEnumerator Die()
@@ -90,32 +108,60 @@ public class EnemyEffect : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 무기 공격시 무기의 정보 받아와 상호작용
         if(collision.gameObject.tag == "PlayerAttack")
         {
-            if(curHP > 0)
-            {
-                // ������ ������ ��츸 ü�¹� ���̵���
-                CanvasHP.SetActive(true);
+            WeponInfo weapon = collision.gameObject.GetComponent<WeponInfo>();
 
-                // �ǰݽ� �÷� ����
-                spriteRenderer.color = color;
+            TakeAttack(weapon.curATK, weapon.textColor);
+        }
+        
+        // 대시 공격시 PlayerStats에서 정보 받아와 상호작용
+        else if( movement.isDashing && collision.gameObject.tag == "Player")
+        {
+            PlayerStats player = PlayerStats.instance;
 
-                // �ǰ� ���� ���󺹱� �ڷ�ƾ �Լ� ����
-                StartCoroutine(ReturnColor());
+            TakeAttack(player.DashATK, Color.blue);
+        }
 
-                // �� ü�� ����
-                TakeDamage(collision.gameObject.GetComponent<WeponInfo>().curATK);
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        {
+            isGround = true;
+        }
+    }
 
-                // ������ �ؽ�Ʈ �ν��Ͻ� �Լ�
-                ActivateText(collision.gameObject.GetComponent<WeponInfo>().curATK,
-                            collision.gameObject.GetComponent<WeponInfo>().textColor);
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        {
+            isGround = false;
+        }
+    }
 
-                // �ǰݽ� ī�޶� ��鸲
-                MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
+    private void TakeAttack(int dam,Color textColor)
+    {
+        if(curHP >= 0)
+        {
+            // 첫 공격이 들어가는 순간부터 HP바 보이게
+            CanvasHP.SetActive(true);
 
-                // Enemy ü�¹� �ֽ�ȭ
-                healthBar.UpdateHPBar(curHP, maxHP);
-            }
+            // 타격받았을 때 Enemy색상 빨간색으로
+            spriteRenderer.color = color;
+
+            // Enemy 색상 원래 색상으 회귀
+            StartCoroutine(ReturnColor());
+
+            // HP 감소 함수
+            TakeDamage(dam);
+
+            // 타격 텍스트 Effect
+            ActivateText(dam, textColor);
+
+            // 카메라 흔들기
+            MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
+
+            // 현재 HP상태 UI에 업데이트
+            healthBar.UpdateHPBar(curHP, maxHP);
         }
     }
 
