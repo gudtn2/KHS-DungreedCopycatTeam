@@ -5147,6 +5147,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5440008726376744976, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.06
@@ -46195,6 +46199,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test_Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5440008726376744976, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.21
@@ -53556,6 +53564,10 @@ PrefabInstance:
     - target: {fileID: 5213468759700112197, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
       propertyPath: m_Name
       value: Test_Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5440008726376744976, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
       propertyPath: m_LocalPosition.x

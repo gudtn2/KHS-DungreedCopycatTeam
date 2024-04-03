@@ -90,7 +90,6 @@ public class PlayerStats : StatManager
     private void Update()
     {
         RecoveryDC();
-        LevelUP();
 
         GOLD = gold;
     }
@@ -157,16 +156,21 @@ public class PlayerStats : StatManager
     public void AddEXP(float grantedEXP)
     {
         curEXP += grantedEXP;
+
+        LevelUP();
     }
 
     private void LevelUP()
     {
-        if(curEXP >= targetEXP)
+        if (curEXP >= targetEXP)
         {
-            curEXP = curEXP - targetEXP;
             LV++;
+
+            curEXP = curEXP - targetEXP;
+
             targetEXP += (targetEXP * 0.5f);
         }
+        else return;
     }
 
     public void AddATK(int grantedAtk)
