@@ -16,25 +16,29 @@ public class ItemSpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject  SpawnItemPrefab;
 
-    private PoolManager ItemPoolManager;
-    
-    private void Awake()
-    {
-        ItemPoolManager = new PoolManager(SpawnItemPrefab);
+    private PoolManager thisPool;
 
+    private PoolManager ItemPoolManager;
+    public void Setup(PoolManager pool)
+    {
+        this.thisPool = pool;
+
+        ItemPoolManager = new PoolManager(SpawnItemPrefab);
+        StartCoroutine(SpawnCoin());
+        DeactivatePoolItem();
+    }
+    private IEnumerator DeactivatePoolItem()
+    {
+        yield return new WaitForSeconds(1);
+        thisPool.DeactivePoolItem(this.gameObject);
     }
 
     private void OnApplicationQuit()
     {
         ItemPoolManager.DestroyObjcts();
     }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            StartCoroutine(SpawnCoin());
-        }
-    }
+
+    
     private IEnumerator SpawnCoin()
     {
         int itemCount = Random.Range(minItemCount, maxItemCount);

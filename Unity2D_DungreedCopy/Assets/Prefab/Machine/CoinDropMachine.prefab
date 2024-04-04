@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4487590530f821f4b98736022f28f4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceX: 3
-  forceY: 3
-  minCoinCount: 0
-  maxCoinCount: 3
-  coinPrefab: {fileID: 4212197746597414875, guid: 22b42c7fc7bb8c94ea26f047d89da058, type: 3}
+  forceY: 0.5
+  minItemCount: 1
+  maxItemCount: 2
+  SpawnItemPrefab: {fileID: 250773811953849525, guid: 157db56b740aee340aa21b6415c00235, type: 3}

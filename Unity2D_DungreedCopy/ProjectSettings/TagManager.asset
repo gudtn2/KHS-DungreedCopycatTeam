@@ -35,8 +35,8 @@ TagManager:
   - NPC
   - Enemy
   - PlayerAttack
-  - 
-  - 
+  - BreakableObject
+  - BrokenObject
   - 
   - 
   - 
