@@ -90,6 +90,7 @@ public class PlayerStats : StatManager
     private void Update()
     {
         RecoveryDC();
+        LevelUP();
 
         GOLD = gold;
     }
@@ -157,7 +158,7 @@ public class PlayerStats : StatManager
     {
         curEXP += grantedEXP;
 
-        LevelUP();
+       
     }
 
     private void LevelUP()

@@ -45,6 +45,7 @@ public class PlayerDungeonData : MonoBehaviour
         enterTime = 0f;
         deathTime = 0f;
         totalTime = 0f;
+        totalEXP = 0;
     }
     public void TimeChangeToText(TextMeshProUGUI textUI)
     {

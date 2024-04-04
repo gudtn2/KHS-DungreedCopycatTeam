@@ -94,6 +94,7 @@ public class EnemyEffect : MonoBehaviour
         }
 
         PlayerDungeonData.instance.countKill++;
+        PlayerDungeonData.instance.totalEXP += 100;
 
         Destroy(this.gameObject);
         yield return null;
@@ -104,7 +105,6 @@ public class EnemyEffect : MonoBehaviour
         effect.transform.position = transform.position;
         effect.transform.rotation = transform.rotation;
         effect.GetComponent<EffectPool>().Setup(dieEffectPoolManager);
-        PlayerStats.instance.AddEXP(100);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

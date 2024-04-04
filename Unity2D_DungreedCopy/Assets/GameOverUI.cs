@@ -39,6 +39,8 @@ public class GameOverUI : MonoBehaviour
         FadeInExceptSelf();
 
         StartCoroutine(OnButton());
+
+        PlayerStats.instance.AddEXP(PlayerDungeonData.instance.totalEXP);
     }
 
     private void FadeInExceptSelf()

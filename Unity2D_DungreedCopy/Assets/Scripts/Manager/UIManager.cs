@@ -26,10 +26,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image[]         imageDC;
 
-    [Header("EXP")]
-    [SerializeField]
-    private Slider          expBar;
-
     [Header("GOLD")]
     [SerializeField]
     private TextMeshProUGUI textGOLD;
@@ -66,10 +62,6 @@ public class UIManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    private void Start()
-    {
-        expBar.minValue = 0;
-    }
     private void Update()
     {
         UpdateImageDC();
@@ -80,9 +72,6 @@ public class UIManager : MonoBehaviour
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
 
         PlayerStats playerStat = PlayerStats.instance;
-
-        expBar.value = playerStat.curEXP;
-        expBar.maxValue = playerStat.targetEXP;
     }
     private void UpdateImageHP()
     {
