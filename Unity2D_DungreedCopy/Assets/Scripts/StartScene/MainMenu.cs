@@ -6,12 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject canvas;
-
     public void OnClickNewGame()
     {
-        canvas.SetActive(true);
         SceneManager.LoadScene("Scene(Yuseop)");
     }
 
@@ -22,7 +18,6 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickExit()
     {
-        canvas.SetActive(false);
         SceneManager.LoadScene("StartScene");
     }
 
