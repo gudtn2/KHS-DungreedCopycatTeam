@@ -8,6 +8,15 @@ public class MainMenu : MonoBehaviour
 {
     public void OnClickNewGame()
     {
+        FadeEffectController.instance.OnFade(FadeState.FadeInOut);
+
+        StartCoroutine(ChangeScene());
+
+    }
+
+    private IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(FadeEffectController.instance.fadeTime);
         SceneManager.LoadScene("Scene(Yuseop)");
     }
 

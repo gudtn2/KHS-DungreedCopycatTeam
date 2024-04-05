@@ -75,6 +75,8 @@ public class UIManager : MonoBehaviour
         OnMenuUI();
 
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
+
+        PlayerStats playerStat = PlayerStats.instance;
     }
     private void UpdateImageHP()
     {

@@ -6,8 +6,6 @@ public class ItemSpawnManager : MonoBehaviour
 {
     [Header("Item 생성 변수")]
     [SerializeField]
-    private float       forceX;
-    [SerializeField]
     private float       forceY;
     [SerializeField]    
     private int         minItemCount;
@@ -16,32 +14,36 @@ public class ItemSpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject  SpawnItemPrefab;
 
-    private PoolManager ItemPoolManager;
-    
-    private void Awake()
-    {
-        ItemPoolManager = new PoolManager(SpawnItemPrefab);
+    private PoolManager thisPool;
 
+    private PoolManager ItemPoolManager;
+    public void Setup(PoolManager pool)
+    {
+        this.thisPool = pool;
+
+        ItemPoolManager = new PoolManager(SpawnItemPrefab);
+        StartCoroutine(SpawnCoin());
+        DeactivatePoolItem();
+    }
+    private IEnumerator DeactivatePoolItem()
+    {
+        yield return new WaitForSeconds(1);
+        thisPool.DeactivePoolItem(this.gameObject);
     }
 
     private void OnApplicationQuit()
     {
         ItemPoolManager.DestroyObjcts();
     }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            StartCoroutine(SpawnCoin());
-        }
-    }
+
+    
     private IEnumerator SpawnCoin()
     {
         int itemCount = Random.Range(minItemCount, maxItemCount);
         
         for (int i = 0; i < itemCount; i++)
         {
-            Vector3 targetPos   = new Vector3(Random.Range(-forceX, forceX), Random.Range(0f, forceY),0);
+            Vector3 targetPos   = new Vector3(0, Random.Range(0f, forceY),0);
             Vector3 dir         = targetPos - transform.position; 
 
             GameObject item = ItemPoolManager.ActivePoolItem();

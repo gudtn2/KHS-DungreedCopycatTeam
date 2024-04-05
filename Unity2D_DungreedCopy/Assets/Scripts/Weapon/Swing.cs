@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Swing : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
 
     public Transform SwingPos;
-    public GameObject SwingObj;
+    [SerializeField]
+    private  GameObject SwingObj;
 
     public EquipWeapon equipWeapon;
     [SerializeField]
@@ -15,9 +16,18 @@ public class Swing : MonoBehaviour
     [SerializeField]
     private bool swingWeapon;
 
+    private PoolManager swingPoolManager;
+
+    private SpearMove spearMove;
     void Awake()
     {
         equipWeapon = GetComponent<EquipWeapon>();
+
+        player = GameObject.Find("Player").transform;
+
+        spearMove = FindObjectOfType<SpearMove>();
+
+        swingPoolManager = new PoolManager(SwingObj);
     }
 
     // Update is called once per frame
@@ -63,12 +73,20 @@ public class Swing : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
-            StartCoroutine(PlayerController.instance.AbleToAttack());
             if (swingWeapon == true)
             {
                 sword.SwordPosition();
             }
+            else
+            {
+                spearMove.AttackMove();
+            }
+            //GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
+            GameObject swing = swingPoolManager.ActivePoolItem();
+            swing.transform.position = SwingPos.position;
+            swing.transform.rotation = transform.rotation;
+
+            StartCoroutine(PlayerController.instance.AbleToAttack());
         }
     }
 }

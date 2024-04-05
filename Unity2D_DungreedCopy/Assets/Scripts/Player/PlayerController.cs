@@ -127,10 +127,6 @@ public class PlayerController : MonoBehaviour
         //########################################################################################
         // ¡å ½ÇÇè¿ë
         //########################################################################################
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PlayerStats.instance.AddEXP(50);
-        }
         weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
         if(Input.GetKeyDown(KeyCode.K))
