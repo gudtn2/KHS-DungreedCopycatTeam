@@ -20,8 +20,8 @@ MonoBehaviour:
   <Name>k__BackingField: "\uC11D\uAD81"
   <Description>k__BackingField: "\uC5B4 \uC6D0\uAC70\uB9AC \uADF8\uAC70 \uC5B4"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 8535e42fd222ce44a819bf23d6bc34e4, type: 3}
-  <MinDamage>k__BackingField: 5
-  <MaxDamage>k__BackingField: 10
+  <MinDamage>k__BackingField: 50
+  <MaxDamage>k__BackingField: 55
   <AttckSpeed>k__BackingField: 3
   <Gold>k__BackingField: 150
   <DefaultParametersList>k__BackingField: []

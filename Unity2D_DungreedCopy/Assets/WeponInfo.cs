@@ -10,17 +10,16 @@ public class WeponInfo : MonoBehaviour
     [HideInInspector]
     public Color    textColor;
 
-    private PlayerStats stats;
     private System.Random random = new System.Random();
 
-    private void Awake()
+    private void OnEnable()
     {
-        stats = FindObjectOfType<PlayerStats>();
-
         CalculateDamage();
     }
     private void CalculateDamage()
     {
+        PlayerStats stats = PlayerStats.instance; 
+
         // 랜덤 공격력 계산
         int randomATK = Random.Range(stats.WP_MINATK, stats.WP_MAXATK + 1);
 
@@ -51,6 +50,6 @@ public class WeponInfo : MonoBehaviour
 
     public bool IsCritical()
     {
-        return (random.NextDouble() < stats.CRI);
+        return (random.NextDouble() < PlayerStats.instance.CRI);
     }
 }

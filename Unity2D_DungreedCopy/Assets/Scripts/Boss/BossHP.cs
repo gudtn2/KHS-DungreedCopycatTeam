@@ -46,6 +46,12 @@ public class BossHP : MonoBehaviour
             BossTakeDamage(collision.gameObject.GetComponent<WeponInfo>().curATK);
             MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
         }
+
+        if (collision.gameObject.tag == "Player" && PlayerController.instance.movement.isDashing)
+        {
+            BossTakeDamage(PlayerStats.instance.DashATK);
+            MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
+        }
     }
 
 

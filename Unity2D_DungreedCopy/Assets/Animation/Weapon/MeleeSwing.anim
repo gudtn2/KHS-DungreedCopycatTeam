@@ -77,7 +77,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.25
-    functionName: DestroySwing
+    functionName: DeactivateEffect
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 72b2d09cf3b0970418103aa34e8c3652, type: 3}
     floatParameter: 0

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5553292322088550636}
   - component: {fileID: 2339763879524301753}
   - component: {fileID: 6236410898546339318}
-  - component: {fileID: 9020853373511280245}
   - component: {fileID: -608927318136603748}
+  - component: {fileID: 2782256458599630416}
   m_Layer: 0
   m_Name: Stab
   m_TagString: PlayerAttack
@@ -154,18 +154,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3125, y: 2.5}
   m_EdgeRadius: 0
---- !u!114 &9020853373511280245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6801643961169610218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72b2d09cf3b0970418103aa34e8c3652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-608927318136603748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +168,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curATK: 0
   textColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &2782256458599630416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801643961169610218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734292a19a4c8c84f89fdc8dede78c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

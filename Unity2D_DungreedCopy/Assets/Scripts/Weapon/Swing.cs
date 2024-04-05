@@ -85,6 +85,7 @@ public class Swing : MonoBehaviour
             GameObject swing = swingPoolManager.ActivePoolItem();
             swing.transform.position = SwingPos.position;
             swing.transform.rotation = transform.rotation;
+            swing.GetComponent<EffectPool>().Setup(swingPoolManager);
 
             StartCoroutine(PlayerController.instance.AbleToAttack());
         }

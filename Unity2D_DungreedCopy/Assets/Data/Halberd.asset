@@ -16,13 +16,13 @@ MonoBehaviour:
   <Melee>k__BackingField: 1
   <Range>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <Code>k__BackingField: 0
+  <Code>k__BackingField: 3
   <Name>k__BackingField: "\uD560\uBC84\uB4DC"
   <Description>k__BackingField: "\uC6B0\uC8FC\uC758 \uAE30\uC6B4\uC774 \uB2F4\uAE34
     \uAC80..."
   <ItemImage>k__BackingField: {fileID: 21300000, guid: a65b8dded030604429ebac33ed182223, type: 3}
   <MinDamage>k__BackingField: 25
   <MaxDamage>k__BackingField: 30
-  <AttckSpeed>k__BackingField: 5
+  <AttckSpeed>k__BackingField: 1.2
   <Gold>k__BackingField: 3000
   <DefaultParametersList>k__BackingField: []
