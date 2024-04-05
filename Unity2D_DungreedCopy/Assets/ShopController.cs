@@ -19,7 +19,7 @@ public class ShopController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && DialogueManager.instance.onShop == true)
+        if(Input.GetKeyDown(KeyCode.Escape) && DialogueManager.instance.onShop)
         {
             ani.Play("ShopHide");
             invenAni.Play("Hide");
