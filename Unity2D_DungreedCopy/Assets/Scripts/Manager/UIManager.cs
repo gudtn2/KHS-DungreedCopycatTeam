@@ -43,6 +43,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private PlayerStats         playerStats;
 
+    [SerializeField]
+    private GameObject menuUI;   // 메뉴창
+    [SerializeField]
+    private bool menuUIon;
     private void Awake()
     {
         if(instance == null)
@@ -68,6 +72,7 @@ public class UIManager : MonoBehaviour
         UpdateImageHP();
         UpdateTextGold();
         UpdateTextLV();
+        OnMenuUI();
 
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
     }
@@ -151,5 +156,20 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         // UI 비활성화
         AcquiredItemUI.SetActive(false);
+    }
+
+    public void OnMenuUI()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && DialogueManager.instance.onShop == false)
+        {
+            menuUI.SetActive(menuUIon);
+            menuUIon = !menuUIon;
+        }
+    }
+
+    public void OnMenuUIButton()
+    {
+        menuUI.SetActive(menuUIon);
+        menuUIon = !menuUIon;
     }
 }
