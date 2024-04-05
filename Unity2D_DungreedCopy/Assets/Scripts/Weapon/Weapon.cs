@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour
 
     public Transform player;
 
+    private void Awake()
+    {
+        player = GameObject.Find("Player").transform;
+    }
     // Update is called once per frame
     void Update()
     {
