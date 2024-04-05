@@ -21,7 +21,7 @@ public class GoldItemController : MonoBehaviour
         
         rigid = GetComponent<Rigidbody2D>();
 
-        rigid.velocity = new Vector3(dir.x, dir.y, 0);
+        rigid.velocity = new Vector3(0, dir.y, 0);
     }
 
     private void Awake()
