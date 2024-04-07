@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainCameraController : MonoBehaviour
 {
@@ -58,6 +59,11 @@ public class MainCameraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if(MySceneManager.instance.CurSceneIsStartScene())
+        {
+            transform.position = new Vector3(0, 0, transform.position.z);
+        }
+
         if(playerController.playerMeetsBoss == false && playerController.isBossDie == false)
         {
             ChasePlayer();
@@ -149,4 +155,6 @@ public class MainCameraController : MonoBehaviour
         Vector3 targetPos = new Vector3(player.position.x, player.position.y, this.transform.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPos, smooting);
     }
+
+    
 }

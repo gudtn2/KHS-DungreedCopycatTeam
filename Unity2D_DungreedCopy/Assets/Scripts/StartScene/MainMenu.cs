@@ -28,6 +28,7 @@ public class MainMenu : MonoBehaviour
     public void OnClickExit()
     {
         SceneManager.LoadScene("StartScene");
+        
     }
 
     public void OnClickQuit()

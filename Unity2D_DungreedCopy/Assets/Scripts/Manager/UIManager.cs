@@ -44,7 +44,10 @@ public class UIManager : MonoBehaviour
     private PlayerStats         playerStats;
 
     [SerializeField]
-    private GameObject menuUI;   // 메뉴창
+    private GameObject menuUI;          // 메뉴창
+    [SerializeField]
+    private GameObject exitCeckUI;      // 나가기 확인창
+
     [SerializeField]
     private bool menuUIon;
     private void Awake()
@@ -173,5 +176,10 @@ public class UIManager : MonoBehaviour
     {
         menuUI.SetActive(menuUIon);
         menuUIon = !menuUIon;
+    }
+
+    public void OffExitCeck()
+    {
+        exitCeckUI.SetActive(false);
     }
 }

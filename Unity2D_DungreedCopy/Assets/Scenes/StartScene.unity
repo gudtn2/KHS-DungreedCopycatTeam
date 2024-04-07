@@ -287,6 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0cf63775ddfaa4ebcc1ba552a1df35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originPos: {x: 0, y: 0, z: 1}
+  originRot: {x: 0, y: 0, z: 0}
   moveSpeed: 0.03
 --- !u!1 &644109764
 GameObject:
@@ -794,6 +796,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0cf63775ddfaa4ebcc1ba552a1df35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originPos: {x: 0, y: 0, z: 0}
+  originRot: {x: 0, y: 0, z: 0}
   moveSpeed: 0.05
 --- !u!1 &1560604538
 GameObject:

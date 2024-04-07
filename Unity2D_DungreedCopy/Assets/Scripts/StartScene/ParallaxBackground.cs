@@ -5,6 +5,10 @@ using UnityEngine;
 public class ParallaxBackground : MonoBehaviour
 {
     [SerializeField]
+    private Vector3 originPos;
+    [SerializeField]
+    private Vector3 originRot;
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
     private float moveSpeed = 0.1f;
     private Material material;
@@ -13,6 +17,13 @@ public class ParallaxBackground : MonoBehaviour
     {
         material = GetComponent<Renderer>().material;
     }
+
+    private void OnEnable()
+    {
+        transform.position = originPos;
+        transform.rotation = Quaternion.Euler(originRot);
+    }
+
     // Update is called once per frame
     void Update()
     {
