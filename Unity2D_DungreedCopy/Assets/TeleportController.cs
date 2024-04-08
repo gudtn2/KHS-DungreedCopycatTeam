@@ -9,7 +9,7 @@ public class TeleportController : MonoBehaviour
     private KeyCode     fKey = KeyCode.F;
     private Vector3     keyPos;
     private bool        onKey;
-    public bool        inputKey;
+    public bool         inputKey;
 
     private GameObject      instantiatedKey;
     private PoolManager     keyPoolManager;
@@ -17,6 +17,8 @@ public class TeleportController : MonoBehaviour
 
     private void Awake()
     {
+        this.gameObject.SetActive(false);
+
         keyPoolManager = new PoolManager(prefabKey);
 
         mapController = FindObjectOfType<MapController>();

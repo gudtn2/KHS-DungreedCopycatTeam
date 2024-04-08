@@ -168,8 +168,6 @@ public class PlayerController : MonoBehaviour
 
         movement.MoveTo(x);
         movement.isWalk = true;
-
-
     }
 
     public void UpdateJump()

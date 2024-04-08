@@ -10,7 +10,7 @@ public class DoorDungeon : MonoBehaviour
     [SerializeField]
     private GameObject[]        enemies;
 
-    private List<GameObject>    curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
+    public List<GameObject>    curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
     private void OnEnable()
     {
         if(enemies != null)

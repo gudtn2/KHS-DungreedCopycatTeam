@@ -17,6 +17,7 @@ public class MapController : MonoBehaviour
 
     public GameObject MapUI;
     public bool MapOn = false;
+
     void Update()
     {
         DontActivateDungeonMap();
@@ -34,9 +35,19 @@ public class MapController : MonoBehaviour
         {
             MapOn = true;
         }
-        else if(Input.GetKeyUp(KeyCode.Tab))
+        else if( Input.GetKeyUp(KeyCode.Tab))
         {
-            MapOn = false;
+            if(startTeleport == null)
+            {
+                MapOn = false;
+            }
+            else
+            {
+                if(!startTeleport.GetComponent<TeleportController>().inputKey)
+                {
+                    MapOn = false;
+                }
+            }
         }
     }
 

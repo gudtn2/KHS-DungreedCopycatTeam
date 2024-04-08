@@ -921,6 +921,7 @@ MonoBehaviour:
   doors:
   - {fileID: 1125709775}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &81674531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,6 +934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 81674530}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1664115946}
 --- !u!1 &94970945
 GameObject:
@@ -1870,6 +1874,7 @@ MonoBehaviour:
   doors:
   - {fileID: 575406293}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &206323984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1882,6 +1887,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 206323983}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1566126170}
 --- !u!1 &215887847
 GameObject:
@@ -3084,6 +3092,7 @@ MonoBehaviour:
   - {fileID: 1005002140}
   - {fileID: 1637772621}
   enemies: []
+  curMapEnemies: []
 --- !u!1 &312936555
 GameObject:
   m_ObjectHideFlags: 0
@@ -4138,6 +4147,7 @@ MonoBehaviour:
   - {fileID: 2111703018}
   - {fileID: 1869503217}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &397455005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4150,6 +4160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 397455004}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1799910934}
 --- !u!1 &407937196
 GameObject:
@@ -5572,6 +5585,7 @@ MonoBehaviour:
   - {fileID: 1916610691}
   - {fileID: 2055340546}
   enemies: []
+  curMapEnemies: []
 --- !u!1 &537931179
 GameObject:
   m_ObjectHideFlags: 0
@@ -6581,6 +6595,7 @@ MonoBehaviour:
   - {fileID: 1899554645}
   - {fileID: 483205995}
   enemies: []
+  curMapEnemies: []
 --- !u!1 &613842207
 GameObject:
   m_ObjectHideFlags: 0
@@ -12447,6 +12462,68 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1001 &818076264
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2080144989}
+    m_Modifications:
+    - target: {fileID: 5213468759700112197, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_Name
+      value: Test_Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+--- !u!4 &818076265 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+  m_PrefabInstance: {fileID: 818076264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &821573002
 GameObject:
   m_ObjectHideFlags: 0
@@ -12556,6 +12633,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1815024909}
 --- !u!1 &854173420
 GameObject:
@@ -48746,6 +48826,7 @@ MonoBehaviour:
   doors:
   - {fileID: 1703947628}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &1139478936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48758,6 +48839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 1139478935}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 969337871}
 --- !u!1001 &1158347825
 PrefabInstance:
@@ -56834,6 +56918,7 @@ MonoBehaviour:
   - {fileID: 1645478950}
   enemies:
   - {fileID: 1449312805}
+  curMapEnemies: []
 --- !u!1 &1774807235
 GameObject:
   m_ObjectHideFlags: 0
@@ -56946,6 +57031,7 @@ MonoBehaviour:
   doors:
   - {fileID: 566032571}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &1774807240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56958,6 +57044,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 1774807239}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1594601721}
 --- !u!1001 &1776693754
 PrefabInstance:
@@ -57293,6 +57382,68 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8404606485701455931, guid: 4926ec2ed25f24f43ac7601408c2a22d, type: 3}
   m_PrefabInstance: {fileID: 1795843089}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1798218324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2080144989}
+    m_Modifications:
+    - target: {fileID: 5213468759700112197, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_Name
+      value: Test_Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+--- !u!4 &1798218325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7297066235328847637, guid: e364a4baf66c5e9469e0575a6a527a5a, type: 3}
+  m_PrefabInstance: {fileID: 1798218324}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1799910933
 GameObject:
@@ -58403,6 +58554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 519462424}
 --- !u!1 &1856579079
 GameObject:
@@ -58512,6 +58666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 390147455}
 --- !u!1 &1860870047
 GameObject:
@@ -96213,6 +96370,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 1546321823}
   - {fileID: 950744785}
+  curMapEnemies: []
 --- !u!1 &2055340546
 GameObject:
   m_ObjectHideFlags: 0
@@ -96863,6 +97021,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 2047032536}
 --- !u!1 &2072455548
 GameObject:
@@ -97066,6 +97227,8 @@ Transform:
   - {fileID: 1533689573}
   - {fileID: 1878836563}
   - {fileID: 407937197}
+  - {fileID: 818076265}
+  - {fileID: 1798218325}
   m_Father: {fileID: 1170387009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2080144990
@@ -97084,6 +97247,7 @@ MonoBehaviour:
   - {fileID: 538460482}
   - {fileID: 1078768315}
   enemies: []
+  curMapEnemies: []
 --- !u!114 &2080144991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97096,6 +97260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 2080144990}
+  dungeonName: 
+  haveDoor: 1
   transformTeleport: {fileID: 1505730636}
 --- !u!1 &2088735614
 GameObject:
@@ -97206,6 +97373,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6deb70e191d3b84781a785e1716e7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  dungeonName: 
+  haveDoor: 0
   transformTeleport: {fileID: 1411538151}
 --- !u!1 &2111703018
 GameObject:
