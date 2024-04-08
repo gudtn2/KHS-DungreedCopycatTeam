@@ -29,7 +29,6 @@ public class VillageStartPoint : MonoBehaviour
                 player.weaponRenderer.color = new Color(1, 1, 1, 1);
             }
 
-
             PlayerStats.instance.ResetAllStat();
 
             fade.OnFade(FadeState.FadeIn);

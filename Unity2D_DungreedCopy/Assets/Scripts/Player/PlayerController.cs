@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool isBossDie = false;
     [Header("보스가 완전히 죽었는지")]
     public bool bossOpentheStele = false;
-
+    [Header("플레이어가 움직일 수 있는지")]
     public bool dontMovePlayer = false;
 
     [Header("플레이어 공격 제어")]
@@ -105,20 +105,23 @@ public class PlayerController : MonoBehaviour
 
         ChangeAnimation();
 
-        if (!isDie && !dontMovePlayer && !PlayerDungeonData.instance.isMoving)
+        if (dontMovePlayer == false)
         {
-            capsulCollider2D.offset = new Vector2(0, -0.08f);
-            capsulCollider2D.size = new Vector2(0.8f, 1.2f);
-            UpdateMove();
-            UpdateJump();
-            UpdateSight();
-            UpdateDash();
-        }
-        else if(isDie)
-        {
-            capsulCollider2D.offset = new Vector2(0, 0.1f);
-            capsulCollider2D.size = Vector2.one;
-        }
+            if (!isDie && !dontMovePlayer && !PlayerDungeonData.instance.isMoving)
+            {
+                capsulCollider2D.offset = new Vector2(0, -0.08f);
+                capsulCollider2D.size = new Vector2(0.8f, 1.2f);
+                UpdateMove();
+                UpdateJump();
+                UpdateSight();
+                UpdateDash();
+            }
+            else if (isDie)
+            {
+                capsulCollider2D.offset = new Vector2(0, 0.1f);
+                capsulCollider2D.size = Vector2.one;
+            }
+        }      
 
 
         if (movement.isDashing) return;
