@@ -7,8 +7,7 @@ public class MySceneManager : MonoBehaviour
 {
     public static MySceneManager instance;
 
-    [SerializeField]
-    private string curSceneName;
+    public string curSceneName;
 
     private GameObject player;
     private GameObject mainCanvas;

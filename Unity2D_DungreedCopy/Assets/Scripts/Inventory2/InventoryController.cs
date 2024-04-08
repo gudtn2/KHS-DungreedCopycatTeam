@@ -112,7 +112,11 @@ public class InventoryController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) && PlayerDungeonData.instance.isFighting)
+        {
+            UIManager.instance.StartCoroutine("OnNotificationTxt");
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
         {
             if(inventoryUI.isActiveAndEnabled == false)
             {

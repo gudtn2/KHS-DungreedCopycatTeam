@@ -8,12 +8,12 @@ public class MapController : MonoBehaviour
 
     [Header("던전 맵")]
     [SerializeField]
-    private GameObject[]        dungeonMaps;
-    public List<string>         dungeonNames;
+    private GameObject[] dungeonMaps;
+    public List<string> dungeonNames;
 
     [Header("Teleport")]
-    public GameObject    startTeleport;
-    public GameObject    targetTeleport;
+    public GameObject startTeleport;
+    public GameObject targetTeleport;
 
     public GameObject MapUI;
     public bool MapOn = false;
@@ -22,27 +22,43 @@ public class MapController : MonoBehaviour
         DontActivateDungeonMap();
         UpdateDungeonMapUI();
         MapUI.SetActive(MapOn);
-        
-        if(MapOn)   PlayerController.instance.dontMovePlayer = true;
-        else        PlayerController.instance.dontMovePlayer = false;
     }
 
-    
+
     private void DontActivateDungeonMap()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (PlayerDungeonData.instance.isFighting)
+            {
+                UIManager.instance.StartCoroutine("OnNotificationTxt");
+                return;
+            }
             MapOn = true;
+            PlayerController.instance.dontMovePlayer = true;
         }
-        else if(Input.GetKeyUp(KeyCode.Tab))
+        else if (Input.GetKeyUp(KeyCode.Tab))
         {
-            MapOn = false;
+            if (startTeleport == null)
+            {
+                MapOn = false;
+                PlayerController.instance.dontMovePlayer = false;
+            }
+            else
+            {
+                if (!startTeleport.GetComponent<TeleportController>().inputKey)
+                {
+                    MapOn = false;
+                    PlayerController.instance.dontMovePlayer = false;
+                }
+            }
         }
     }
 
     public void OffDungeonMap()
     {
         MapOn = false;
+        PlayerController.instance.dontMovePlayer = false;
         startTeleport.GetComponent<TeleportController>().inputKey = false;
     }
 
@@ -50,7 +66,7 @@ public class MapController : MonoBehaviour
     {
         for (int i = 0; i < dungeonMaps.Length; ++i)
         {
-            if(dungeonNames.Contains(dungeonMaps[i].name))
+            if (dungeonNames.Contains(dungeonMaps[i].name))
             {
                 dungeonMaps[i].SetActive(true);
             }
@@ -79,7 +95,7 @@ public class MapController : MonoBehaviour
 
         // 던전 정보 재설정
         PlayerController.instance.curDungeonName = targetDungeonName.dungeonName;
-        PlayerController.instance.curDungeonNum  = targetDungeonName.dungeonNum;
+        PlayerController.instance.curDungeonNum = targetDungeonName.dungeonNum;
 
         if (PlayerController.instance.curDungeonName == targetDungeonName.dungeonName)
         {
