@@ -50,6 +50,7 @@ public class DoorDungeon : MonoBehaviour
     }
     private void CloseTheDoor()
     {
+        PlayerDungeonData.instance.isFighting = true;
         for (int i = 0; i < doors.Length; ++i)
         {
             // 문 닫는 이미지
@@ -62,6 +63,7 @@ public class DoorDungeon : MonoBehaviour
 
     private void OpenTheDoor()
     {
+        PlayerDungeonData.instance.isFighting = false;
         for (int i = 0; i < doors.Length; ++i)
         {
             // 문 여는 이미지

@@ -49,7 +49,11 @@ public class UIManager : MonoBehaviour
     private GameObject exitCeckUI;      // 나가기 확인창
 
     [SerializeField]
-    private bool menuUIon;
+    private bool menuUIon = true;
+    [SerializeField]
+    private GameObject notificationTxt;     // UI사용 불가능 알림
+    [SerializeField]
+    private GameObject[] menuButtons;
     private void Awake()
     {
         if(instance == null)
@@ -76,6 +80,7 @@ public class UIManager : MonoBehaviour
         UpdateTextGold();
         UpdateTextLV();
         OnMenuUI();
+        ChangeButton();
 
         textHP.text = (int)playerStats.HP + "/" + (int)playerStats.MaxHP;
 
@@ -181,5 +186,32 @@ public class UIManager : MonoBehaviour
     public void OffExitCeck()
     {
         exitCeckUI.SetActive(false);
+    }
+
+    public IEnumerator OnNotificationTxt()
+    {
+        notificationTxt.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        notificationTxt.SetActive(false);
+    }
+
+    public void ChangeButton()
+    {
+        if (MySceneManager.instance.curSceneName == "Scene(Yuseop)")
+        {
+            menuButtons[0].SetActive(true);
+            menuButtons[1].SetActive(false);
+        }
+        else if (MySceneManager.instance.curSceneName == "Original")
+        {
+            menuButtons[0].SetActive(false);
+            menuButtons[1].SetActive(true);
+        }
+    }
+
+    public void ChangeScene()
+    {
+        PlayerController.instance.dontMovePlayer = true;
+        StartCoroutine(PlayerController.instance.movement.Die());
     }
 }
