@@ -5,8 +5,7 @@ using UnityEngine;
 public class ItemSpawnManager : MonoBehaviour
 {
     [Header("Item 생성 변수")]
-    [SerializeField]
-    private float       forceY;
+    private float       forceY= 8f;
     [SerializeField]    
     private int         minItemCount;
     [SerializeField]    
@@ -43,7 +42,7 @@ public class ItemSpawnManager : MonoBehaviour
         
         for (int i = 0; i < itemCount; i++)
         {
-            Vector3 targetPos   = new Vector3(0, Random.Range(0f, forceY),0);
+            Vector3 targetPos   = new Vector3(transform.position.x, transform.position.y +Random.Range(forceY * 0.5f, forceY),0);
             Vector3 dir         = targetPos - transform.position; 
 
             GameObject item = ItemPoolManager.ActivePoolItem();
