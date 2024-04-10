@@ -155,10 +155,13 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     public void UpdateMove()
     {
+        // 수평 이동
         float x = Input.GetAxis("Horizontal");
 
+        // 정지 상태가 아닐 때
         if (x != 0)
         {
+            // 현재 방향 대입
             lastMoveDirX = Mathf.Sign(x);
             movement.rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -171,8 +174,6 @@ public class PlayerController : MonoBehaviour
 
         movement.MoveTo(x);
         movement.isWalk = true;
-
-
     }
 
     public void UpdateJump()
@@ -193,7 +194,7 @@ public class PlayerController : MonoBehaviour
         {
             if (movement.curPassingPlatform != null)
             {
-                StartCoroutine(movement.DownJumpTo(0.5f));
+                StartCoroutine(movement.DownJumpTo(0.5f,5));
             }
         }
     }

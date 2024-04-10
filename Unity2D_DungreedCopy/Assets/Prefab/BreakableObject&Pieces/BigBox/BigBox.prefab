@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8975942229938102130}
   - component: {fileID: 6690849623793349566}
   - component: {fileID: 303694334329304920}
+  - component: {fileID: 8857503154934575874}
   m_Layer: 0
   m_Name: BigBox
   m_TagString: Untagged
@@ -173,3 +174,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piecesPrefab: {fileID: 8489494369110830586, guid: 4a3f98520533e0c4f91ba28bfee3f565, type: 3}
   coinMachinePrefab: {fileID: 8203628958282060129, guid: 89c5cf1906a3f5242b3f175863b9921b, type: 3}
+--- !u!114 &8857503154934575874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6903695925825071030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc03114febece94e881e0301c29bf4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

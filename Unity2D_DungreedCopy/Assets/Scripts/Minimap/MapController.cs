@@ -11,17 +11,23 @@ public class MapController : MonoBehaviour
     private GameObject[] dungeonMaps;
     public List<string> dungeonNames;
 
+    [Header("미니 맵")]
+    [SerializeField]
+    private GameObject  miniMap;
+
     [Header("Teleport")]
     public GameObject startTeleport;
     public GameObject targetTeleport;
 
     public GameObject MapUI;
     public bool MapOn = false;
+
     void Update()
     {
         DontActivateDungeonMap();
         UpdateDungeonMapUI();
         MapUI.SetActive(MapOn);
+        miniMap.SetActive(!PlayerController.instance.dontMovePlayer);
     }
 
 
@@ -82,7 +88,7 @@ public class MapController : MonoBehaviour
     {
 
         // 타겟이 되는 텔레포트의 위치 받아오기
-        Transform targetTelPos = targetTeleport.GetComponent<TeleportDungeon>().transformTeleport;
+        Transform targetTelPos = targetTeleport.GetComponent<TeleportDungeon>().teleport.transform;
         // 타겟이 되는 던전의 이름 
         DungeonName targetDungeonName = targetTeleport.GetComponent<DungeonName>();
 

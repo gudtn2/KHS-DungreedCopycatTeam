@@ -8,12 +8,14 @@ public class TeleportController : MonoBehaviour
     private GameObject  prefabKey;
     private KeyCode     fKey = KeyCode.F;
     private Vector3     keyPos;
-    private bool        onKey;
-    public bool        inputKey;
+    [SerializeField]
+    private bool        onKey = false;
+    public bool         inputKey;
 
     private GameObject      instantiatedKey;
     private PoolManager     keyPoolManager;
     private MapController   mapController;
+    private SpriteRenderer  spriteRenderer;
 
     private void Awake()
     {
@@ -21,12 +23,19 @@ public class TeleportController : MonoBehaviour
 
         mapController = FindObjectOfType<MapController>();
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         keyPos = new Vector3(-0.2f, 1.5f);
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(UIEffectManager.instance.UIFade(spriteRenderer,0,1)); 
         CreateKey();
     }
 
     private void Update()
     {
+
         if(onKey && Input.GetKeyDown(fKey))
         {
             mapController.MapOn = true;
@@ -73,6 +82,4 @@ public class TeleportController : MonoBehaviour
         // £À
         StartCoroutine(mapController.ChangePosPlayer());
     }
-
-    
 }

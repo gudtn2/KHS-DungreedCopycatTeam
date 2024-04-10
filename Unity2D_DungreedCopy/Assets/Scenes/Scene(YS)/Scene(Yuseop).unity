@@ -3420,6 +3420,7 @@ RectTransform:
   - {fileID: 1466178800}
   - {fileID: 1115661287}
   - {fileID: 1841547390}
+  - {fileID: 1231233599}
   - {fileID: 1178961069}
   - {fileID: 449627258}
   - {fileID: 1810020599}
@@ -3451,6 +3452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323302cf66ec8df4db4f18d907138db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateUI:
+  - {fileID: 1786568062}
+  - {fileID: 1466178799}
+  - {fileID: 1115661286}
   textLV: {fileID: 2057403187}
   imageHP: {fileID: 1655186287}
   imageBloodScreen: {fileID: 834706617}
@@ -8528,6 +8533,7 @@ MonoBehaviour:
   dieUI: {fileID: 916357309}
   curPassingPlatform: {fileID: 0}
   rigidbody: {fileID: 0}
+  capsulCollider2D: {fileID: 0}
 --- !u!114 &841347854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10596,7 +10602,7 @@ Transform:
   m_GameObject: {fileID: 1085413675}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11335,7 +11341,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1991068298}
-  - {fileID: 1231233599}
   m_Father: {fileID: 139662601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -12021,11 +12026,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1673996952}
-  m_Father: {fileID: 1178961069}
+  m_Father: {fileID: 139662601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 110}
+  m_AnchoredPosition: {x: 1200, y: -70}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1232780151
@@ -22019,5 +22024,5 @@ SceneRoots:
   - {fileID: 1942411757}
   - {fileID: 1913019251}
   - {fileID: 1248816915}
-  - {fileID: 1149523139}
   - {fileID: 1345638105}
+  - {fileID: 1149523139}

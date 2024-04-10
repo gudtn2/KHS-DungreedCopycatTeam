@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TeleportDungeon : MonoBehaviour
 {
-    public Transform transformTeleport;
+    public GameObject teleport;
 }

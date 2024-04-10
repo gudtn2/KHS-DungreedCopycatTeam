@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 961843539
+  m_SortingLayer: 6
   m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: e6547b43c25f69b4a9c0a1fcbae82f67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -124,7 +124,6 @@ MonoBehaviour:
   dam: 3
   moveSpeed: 6
   bossBulletEffectPrefab: {fileID: 6487522415779275869, guid: b11c101accb09114da0039822756c0af, type: 3}
-  thisBound: {fileID: 0}
 --- !u!58 &5768399804710150828
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -7,16 +7,32 @@ public class DoorDungeon : MonoBehaviour
 {
     [SerializeField]
     private GameObject[]        doors;
+    public List<GameObject>     curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
     [SerializeField]
-    private GameObject[]        enemies;
+    private bool                exsistTel;
+    [SerializeField]
+    private GameObject          curTel;
+    [SerializeField]
+    private int                 enemiesCount;
 
-    private List<GameObject>    curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
+    private void Awake()
+    {
+        foreach(Transform child in transform)
+        {
+            if(child.CompareTag("Enemy"))
+            {
+                curMapEnemies.Add(child.gameObject);
+            }
+        }
+
+        enemiesCount = curMapEnemies.Count;
+    }
     private void OnEnable()
     {
-        if(enemies != null)
+
+        if (enemiesCount > 0)
         {
-            // enemies를 List에 삽입
-            curMapEnemies.AddRange(enemies);
+            PlayerDungeonData.instance.isFighting = true;
 
             CloseTheDoor();
 
@@ -30,40 +46,67 @@ public class DoorDungeon : MonoBehaviour
                 doors[i].SetActive(false);
             }
         }
+        
+        // dungeon에 Teleport가 존재하면
+        if (exsistTel)
+        {
+            curTel = this.gameObject.GetComponent<TeleportDungeon>().teleport;
+            curTel.SetActive(false);
+        }
+        else
+        {
+            curTel.SetActive(true);
+        }
     }
     private void OnDisable()
     {
-        // 이벤트 핸들러 해제
-        EnemyEffect.EnemyDieEvent -= HandleEnemyDieEvent;
     }
 
-    private void HandleEnemyDieEvent(GameObject enemy)
+    private void Update()
+    {
+        if(PlayerController.instance.curDungeonName != this.gameObject.name)
+        {
+            // 이벤트 핸들러 해제
+            EnemyEffect.EnemyDieEvent -= this.GetComponent<DoorDungeon>().HandleEnemyDieEvent;
+        }
+    }
+
+    public void HandleEnemyDieEvent(GameObject enemy)
     {
         // 적이 죽었을 때 리스트에서 제거
         curMapEnemies.Remove(enemy);
+        enemiesCount -= 1;
 
         // 모든 적이 죽었다면 문을 열어줌
-        if (curMapEnemies.Count == 0)
+        if (enemiesCount == 0)
         {
             OpenTheDoor();
+
+            if (exsistTel)
+            {
+                curTel.SetActive(true);
+                Debug.Log("던전 내 모든 적이 죽었습니다.");
+            }
+            else return;
         }
     }
     private void CloseTheDoor()
     {
-        PlayerDungeonData.instance.isFighting = true;
         for (int i = 0; i < doors.Length; ++i)
         {
+            doors[i].SetActive(true);
+
             // 문 닫는 이미지
             doors[i].GetComponent<Animator>().SetTrigger("CloseTheDoor");
 
             // 콜라이더 활성화
             doors[i].GetComponent<BoxCollider2D>().enabled = true;
         }
+        PlayerDungeonData.instance.isFighting = true;
     }
 
     private void OpenTheDoor()
     {
-        PlayerDungeonData.instance.isFighting = false;
         for (int i = 0; i < doors.Length; ++i)
         {
             // 문 여는 이미지
@@ -72,6 +115,7 @@ public class DoorDungeon : MonoBehaviour
             // 콜라이더 비활성화
             doors[i].GetComponent<BoxCollider2D>().enabled = false;
         }
+        PlayerDungeonData.instance.isFighting = false;
     }
 
 

@@ -30,6 +30,11 @@ public class Swing : MonoBehaviour
         swingPoolManager = new PoolManager(SwingObj);
     }
 
+    private void OnApplicationQuit()
+    {
+        swingPoolManager.DestroyObjcts();
+    }
+
     // Update is called once per frame
     void Update()
     {
