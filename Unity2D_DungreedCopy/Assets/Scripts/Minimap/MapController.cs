@@ -83,7 +83,7 @@ public class MapController : MonoBehaviour
     {
 
         // 타겟이 되는 텔레포트의 위치 받아오기
-        Transform targetTelPos = targetTeleport.GetComponent<TeleportDungeon>().transformTeleport;
+        Transform targetTelPos = targetTeleport.GetComponent<TeleportDungeon>().teleport.transform;
         // 타겟이 되는 던전의 이름 
         DungeonName targetDungeonName = targetTeleport.GetComponent<DungeonName>();
 

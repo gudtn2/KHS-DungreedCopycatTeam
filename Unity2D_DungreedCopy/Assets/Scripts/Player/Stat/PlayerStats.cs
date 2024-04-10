@@ -52,7 +52,6 @@ public class PlayerStats : StatManager
         WP_MINATK = 10;
         WP_MAXATK = 15;
         WP_ATS = 3;
-        gold = 500;
         DashATK = 10;
         HP = MaxHP;
         DC = MaxDC;
@@ -91,8 +90,6 @@ public class PlayerStats : StatManager
     {
         RecoveryDC();
         LevelUP();
-
-        GOLD = gold;
     }
 
     public void UseDC()

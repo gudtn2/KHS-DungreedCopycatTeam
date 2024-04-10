@@ -52,7 +52,7 @@ public abstract class StatManager : MonoBehaviour
     {
         HP      = MaxHP;
         DC      = MaxDC;
-        GOLD    = 0;
+        GOLD    = 500;
         LV      = 1;
     }
 }

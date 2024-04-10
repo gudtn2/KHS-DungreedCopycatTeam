@@ -9,11 +9,23 @@ public class DoorDungeon : MonoBehaviour
     private GameObject[]        doors;
     [SerializeField]
     private GameObject[]        enemies;
+    [HideInInspector]
+    public List<GameObject>     curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
+    [SerializeField]
+    private bool                exsistTel;
+    [SerializeField]
+    private GameObject          curTel;
 
-    public List<GameObject>    curMapEnemies   = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
     private void OnEnable()
     {
-        if(enemies != null)
+        //if (exsistTel)
+        //{
+        //    curTel = this.gameObject.GetComponent<TeleportDungeon>().teleport;
+        //    curTel.SetActive(false);
+        //}
+        //else return;
+
+        if (enemies != null)
         {
             // enemies를 List에 삽입
             curMapEnemies.AddRange(enemies);
@@ -22,6 +34,8 @@ public class DoorDungeon : MonoBehaviour
 
             // EnemyDieEvent에 이벤트 핸들러 등록
             EnemyEffect.EnemyDieEvent += HandleEnemyDieEvent;
+
+            
         }
         else
         {
@@ -53,6 +67,8 @@ public class DoorDungeon : MonoBehaviour
         PlayerDungeonData.instance.isFighting = true;
         for (int i = 0; i < doors.Length; ++i)
         {
+            doors[i].SetActive(true);
+
             // 문 닫는 이미지
             doors[i].GetComponent<Animator>().SetTrigger("CloseTheDoor");
 
@@ -72,6 +88,8 @@ public class DoorDungeon : MonoBehaviour
             // 콜라이더 비활성화
             doors[i].GetComponent<BoxCollider2D>().enabled = false;
         }
+
+        //curTel.SetActive(true);
     }
 
 
