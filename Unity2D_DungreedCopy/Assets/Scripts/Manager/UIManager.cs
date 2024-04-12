@@ -184,6 +184,14 @@ public class UIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape) && DialogueManager.instance.onShop == false)
         {
+            if (menuUIon == true)
+            {
+                Time.timeScale = 0f; 
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
             menuUI.SetActive(menuUIon);
             menuUIon = !menuUIon;
         }
@@ -191,6 +199,14 @@ public class UIManager : MonoBehaviour
 
     public void OnMenuUIButton()
     {
+        if (menuUIon == true)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
         menuUI.SetActive(menuUIon);
         menuUIon = !menuUIon;
     }

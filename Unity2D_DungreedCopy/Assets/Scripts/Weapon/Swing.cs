@@ -91,7 +91,7 @@ public class Swing : MonoBehaviour
             swing.transform.position = SwingPos.position;
             swing.transform.rotation = transform.rotation;
             swing.GetComponent<EffectPool>().Setup(swingPoolManager);
-
+            AudioManager.Instance.PlaySFX("Swing");
             StartCoroutine(PlayerController.instance.AbleToAttack());
         }
     }
