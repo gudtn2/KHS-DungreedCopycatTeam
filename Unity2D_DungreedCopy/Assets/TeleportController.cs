@@ -8,6 +8,7 @@ public class TeleportController : MonoBehaviour
     private GameObject  prefabKey;
     private KeyCode     fKey = KeyCode.F;
     private Vector3     keyPos;
+    [SerializeField]
     private bool        onKey = false;
     public bool         inputKey;
 

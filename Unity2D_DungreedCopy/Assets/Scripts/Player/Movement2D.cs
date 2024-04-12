@@ -102,14 +102,13 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private GameObject      dieUI;
 
-    [HideInInspector]
-    public GameObject      curPassingPlatform;
-
+    public GameObject       curPassingPlatform;
 
     public bool             isLongJump { set; get; } = false;
 
     [HideInInspector]
     public Rigidbody2D              rigidbody;
+    [SerializeField]
     private CapsuleCollider2D       capsulCollider2D;
     private PlayerStats             playerStats;
 
@@ -198,12 +197,23 @@ public class Movement2D : MonoBehaviour
         return false;
     }
 
-    public IEnumerator DownJumpTo(float time)
+    public IEnumerator DownJumpTo(float time,float speed)
     {
-        TilemapCollider2D platformCollider = curPassingPlatform.GetComponent<TilemapCollider2D>();
-        platformCollider.enabled = false;
-        yield return new WaitForSeconds(time);
-        platformCollider.enabled = true;
+        CompositeCollider2D platformCollider = curPassingPlatform.GetComponent<CompositeCollider2D>();
+
+        Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, true);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < time)
+        {
+            // 적절한 속도로 아래로 이동
+            transform.Translate(speed * Vector3.down * Time.deltaTime);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, false);
     }
 
     private void CheckSlope(RaycastHit2D hit)
@@ -276,10 +286,11 @@ public class Movement2D : MonoBehaviour
         float t = 0f;
 
         Vector3 startingPos = transform.position;
-        if(curPassingPlatform != null)
+        if (curPassingPlatform != null)
         {
-            StartCoroutine(DownJumpTo(0.25f));
+            StartCoroutine(DownJumpTo(0.25f,10));
         }
+        
         while (t <= 1.0f)
         {
             t += step;

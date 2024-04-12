@@ -11,6 +11,10 @@ public class MapController : MonoBehaviour
     private GameObject[] dungeonMaps;
     public List<string> dungeonNames;
 
+    [Header("¹Ì´Ï ¸Ê")]
+    [SerializeField]
+    private GameObject  miniMap;
+
     [Header("Teleport")]
     public GameObject startTeleport;
     public GameObject targetTeleport;
@@ -23,6 +27,7 @@ public class MapController : MonoBehaviour
         DontActivateDungeonMap();
         UpdateDungeonMapUI();
         MapUI.SetActive(MapOn);
+        miniMap.SetActive(!PlayerController.instance.dontMovePlayer);
     }
 
 

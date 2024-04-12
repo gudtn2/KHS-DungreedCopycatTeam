@@ -3452,6 +3452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323302cf66ec8df4db4f18d907138db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateUI:
+  - {fileID: 1786568062}
+  - {fileID: 1466178799}
+  - {fileID: 1115661286}
   textLV: {fileID: 2057403187}
   imageHP: {fileID: 1655186287}
   imageBloodScreen: {fileID: 834706617}
@@ -8529,6 +8533,7 @@ MonoBehaviour:
   dieUI: {fileID: 916357309}
   curPassingPlatform: {fileID: 0}
   rigidbody: {fileID: 0}
+  capsulCollider2D: {fileID: 0}
 --- !u!114 &841347854
 MonoBehaviour:
   m_ObjectHideFlags: 0

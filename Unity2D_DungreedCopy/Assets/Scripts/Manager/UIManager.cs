@@ -4,8 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum UIType
+{
+    PlayerUI,
+    MapUI,
+    InvenUI,
+}
+
 public class UIManager : MonoBehaviour
 {
+
+    #region UI오브젝트
+    public GameObject[]     playerStateUI;
+    #endregion
+
     static public UIManager instance;
 
     [Header("LV")]
