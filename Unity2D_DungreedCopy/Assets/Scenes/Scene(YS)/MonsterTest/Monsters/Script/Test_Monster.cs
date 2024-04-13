@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class MonstterData
 {
     public float curHP;         // 현재 체력
@@ -17,13 +18,16 @@ public class MonstterData
     public Color originColor;   // 기본 컬러
     public Color hitColor;      // 피격시 컬러
 
+    public GameObject           canvasHP;
+
+    public HPBar                hpBar;
     public SpriteRenderer       spriteRenderer;
     public CapsuleCollider2D    capsuleCollider2D;
     public Rigidbody2D          rigidbody2D;
     public Animator             animator;
 }
 
-[System.Serializable]
+[Serializable]
 public class EffectData
 {
     public GameObject  prefabDieEffect;    // 죽음시 나타나는 이펙트
@@ -38,10 +42,10 @@ public abstract class Test_Monster : MonoBehaviour
     #endregion
 
     #region 이펙트 Pools
-    protected PoolManager spawnEffectPool;  
     protected PoolManager dieEffectPool;
     protected PoolManager damageTextPool;
     #endregion
+
 
     protected void Awake()
     {
@@ -49,6 +53,8 @@ public abstract class Test_Monster : MonoBehaviour
         monData.capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         monData.rigidbody2D = GetComponent<Rigidbody2D>();
         monData.animator = GetComponent<Animator>();
+        monData.canvasHP = transform.GetChild(0).gameObject;
+        monData.hpBar = monData.canvasHP.GetComponentInChildren<HPBar>();
     }
 
     public virtual void CheckGround()
@@ -66,9 +72,6 @@ public abstract class Test_Monster : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(rayOrigin,
                                              monData.capsuleCollider2D.bounds.size,
                                              0, rayDir, ratDis, LayerMask.GetMask("Platform"));
-        // 레이를 디버그로 표시
-        Debug.DrawRay(rayOrigin, rayDir * 0.02f, Color.red);
-        
         if(hit.collider != null)
         {
             monData.isGround = true;
@@ -98,12 +101,55 @@ public abstract class Test_Monster : MonoBehaviour
         damageTextPool  = new PoolManager(monEffectData.prefabDamageTest);
     }
 
-    // 클론을 실질적으로 생성해주는 메서드
-    protected virtual void ActivateEffect(Transform transform, PoolManager pool)
+    // dieEffect 생성 메서드
+    protected virtual void ActivateDieEffect(Transform transform)
     {
-        GameObject prefab = pool.ActivePoolItem();
-        prefab.transform.position = transform.position;
-        prefab.transform.rotation = transform.rotation;
-        prefab.GetComponent<EffectPool>().Setup(pool);
+        GameObject dieEffect = dieEffectPool.ActivePoolItem();
+        dieEffect.transform.position = transform.position;
+        dieEffect.transform.rotation = transform.rotation;
+        dieEffect.GetComponent<EffectPool>().Setup(dieEffectPool);
+    }
+
+    protected virtual void TakeAttack(int dam,Color textColor)
+    {
+        if (monData.curHP >= 0)
+        {
+            // 첫 공격이 들어가는 순간부터 HP바 보이게
+            monData.canvasHP.SetActive(true);
+
+            // 타격받았을 때 Enemy색상 빨간색으로
+            monData.spriteRenderer.color = monData.hitColor;
+
+            // Enemy 색상 원래 색상으 회귀
+            StartCoroutine(ReturnColor());
+
+            // HP 감소 함수
+            TakeDamage(dam);
+
+            // 타격 텍스트 Effect
+            ActivateText(dam, textColor);
+
+            // 카메라 흔들기
+            MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
+
+            // 현재 HP상태 UI에 업데이트
+            monData.hpBar.UpdateHPBar(monData.curHP, monData.maxHP);
+        }
+    }
+    private IEnumerator ReturnColor()
+    {
+        yield return new WaitForSeconds(0.3f);
+        monData.spriteRenderer.color = monData.originColor;
+    }
+    private void TakeDamage(int dam)
+    {
+        monData.curHP -= dam;
+    }
+    private void ActivateText(int damage, Color color)
+    {
+        GameObject dam = damageTextPool.ActivePoolItem();
+        dam.transform.position = transform.position;
+        dam.transform.rotation = transform.rotation;
+        dam.GetComponent<DamageText>().Setup(damageTextPool, damage, color);
     }
 }

@@ -320,42 +320,6 @@ public class BossPattern : MonoBehaviour
         bossHead.GetComponent<Animator>().SetBool("IsHeadAttack", false);
         ChangeBossState(BossState.Idle);
     }
-    //private IEnumerator HeadAttack()
-    //{
-    //    int fireAngle = 0;  // 초기값은 0도
-    //    
-    //    GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", true);
-    //
-    //    yield return new WaitForSeconds(0.03f);
-    //    isHeadAttack = true;
-    //
-    //    while (isHeadAttack == true)
-    //    {
-    //
-    //        for (int i = 0; i < fireDirCount; ++i)
-    //        {
-    //            fireAngle += i + 90;
-    //
-    //            GameObject tempObj = headAttackPoolManager.ActivePoolItem();
-    //
-    //            Vector2 dir = new Vector2(Mathf.Cos(fireAngle * Mathf.Deg2Rad), Mathf.Sin(fireAngle * Mathf.Deg2Rad));
-    //
-    //            tempObj.transform.right = dir;
-    //            tempObj.transform.position = headAttackTransform.position;
-    //            tempObj.GetComponent<BossHeadBullet>().Setup(headAttackPoolManager);
-    //        }
-    //
-    //
-    //        yield return new WaitForSeconds(fireRateTime);
-    //
-    //        fireAngle += angleInterval;
-    //
-    //        if (fireAngle > 360) fireAngle -= 360;
-    //    }
-    //    GameObject.Find("BossHead").GetComponent<Animator>().SetBool("IsHeadAttack", false);
-    //
-    //    ChangeBossState(BossState.Idle);
-    //}
 
     public void ChangeBossState(BossState newState)
     {

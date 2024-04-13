@@ -7,7 +7,7 @@ public class SpawnMonster : MonoBehaviour
     [SerializeField]
     private GameObject  prefabSpawn;
     [SerializeField]
-    private int         monNum; //창조될 몬스터의 index
+    private int         monNum; // 0:BigBat
 
     private PoolManager spawnPool;
 

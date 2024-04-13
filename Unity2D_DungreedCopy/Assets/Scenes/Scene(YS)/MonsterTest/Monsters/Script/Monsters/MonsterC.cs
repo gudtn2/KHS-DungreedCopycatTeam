@@ -5,21 +5,11 @@ using UnityEngine;
 public class MonsterC : Test_Monster
 {
     private PoolManager pool;
-    private GameObject canvasHP;
-    private HPBar hpBar;
-
-    private Vector3 footPos;
-    private float   radious;
-
-   
 
     public override void InitValueSetting()
     {
         base.SetupEffectPools();
         monData.capsuleCollider2D.isTrigger = true;
-
-       canvasHP = transform.GetChild(0).gameObject;
-        hpBar = canvasHP.GetComponentInChildren<HPBar>();
 
         monData.maxHP = 70;
         monData.moveSpeed = 7;
@@ -37,17 +27,32 @@ public class MonsterC : Test_Monster
         base.Awake();
         InitValueSetting();
 
-        footPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
-        radious = 0.5f;
+        monData.hpBar.UpdateHPBar(monData.curHP, monData.maxHP);
+
+        // 처음 생성된 적의 canvasHP 비활성화
+        monData.canvasHP.SetActive(false);
     }
 
     private void Update()
     {
         CheckGround();
     }
-    private void OnDrawGizmos()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(footPos, radious);
+        // 무기 공격시 무기의 정보 받아와 상호작용
+        if (collision.gameObject.tag == "PlayerAttack")
+        {
+            WeponInfo weapon = collision.gameObject.GetComponent<WeponInfo>();
+
+            TakeAttack(weapon.curATK, weapon.textColor);
+        }
+
+        // 대시 공격시 PlayerStats에서 정보 받아와 상호작용
+        else if (PlayerController.instance.movement.isDashing && collision.gameObject.tag == "Player")
+        {
+            PlayerStats player = PlayerStats.instance;
+
+            TakeAttack(player.DashATK, Color.blue);
+        }
     }
 }
