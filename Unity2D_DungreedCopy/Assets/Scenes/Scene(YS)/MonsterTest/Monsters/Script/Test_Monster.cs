@@ -53,9 +53,22 @@ public abstract class Test_Monster : MonoBehaviour
 
     public virtual void CheckGround()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(monData.capsuleCollider2D.bounds.center,
+
+        // 레이캐스트를 위한 시작점과 방향 설정
+        Vector2 rayOrigin   = monData.capsuleCollider2D.bounds.center;
+        Vector2 rayDir      = Vector2.down;
+
+        float ratDis = 0.02f;
+
+        // 레이를 그리기 위한 끝점 계산
+        Vector2 rayEnd = rayOrigin + rayDir * ratDis;
+
+        RaycastHit2D hit = Physics2D.BoxCast(rayOrigin,
                                              monData.capsuleCollider2D.bounds.size,
-                                             0, Vector2.down, 0.02f, LayerMask.GetMask("Platform"));
+                                             0, rayDir, ratDis, LayerMask.GetMask("Platform"));
+        // 레이를 디버그로 표시
+        Debug.DrawRay(rayOrigin, rayDir * 0.02f, Color.red);
+        
         if(hit.collider != null)
         {
             monData.isGround = true;
