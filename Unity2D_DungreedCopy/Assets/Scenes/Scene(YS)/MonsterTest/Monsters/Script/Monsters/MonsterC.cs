@@ -41,7 +41,7 @@ public class MonsterC : Test_Monster
         radious = 0.5f;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         CheckGround();
     }

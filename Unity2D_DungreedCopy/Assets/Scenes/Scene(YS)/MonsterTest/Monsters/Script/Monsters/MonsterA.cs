@@ -38,7 +38,7 @@ public class MonsterA : Test_Monster
         footPos = new Vector2(transform.position.x, transform.position.y - 1f);
         radious = 0.5f;
     }
-    private void FixedUpdate()
+    private void Update()
     {
         CheckGround();
 
