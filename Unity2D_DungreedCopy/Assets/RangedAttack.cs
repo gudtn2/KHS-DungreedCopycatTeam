@@ -10,12 +10,20 @@ public class RangedAttack: MonoBehaviour
     private float       arrowSpeed = 50f;  // 화살의 속도
     private Transform   arrowSpawn;
 
-    private PoolManager arrowpoolManager;        
+    private PoolManager arrowpoolManager;
+
+    public bool isSmoke;
+
+    private SpearMove spearMove;
+
+    [SerializeField]
+    private Animator smokePos, shotPos;
 
     private void Awake()
     {
         arrowpoolManager = new PoolManager(arrowPrefab);
         arrowSpawn = transform.GetChild(0).GetComponent<Transform>();
+        spearMove = FindObjectOfType<SpearMove>();
     }
 
     private void OnApplicationQuit()
@@ -31,6 +39,12 @@ public class RangedAttack: MonoBehaviour
         {
             Fire();
             StartCoroutine(PlayerController.instance.AbleToAttack());
+            if(isSmoke == true)
+            {
+                spearMove.AttackRotate();
+                smokePos.SetTrigger("OnSmoke");
+                shotPos.SetTrigger("OnShot");
+            }            
         }
     }
     void Fire()
