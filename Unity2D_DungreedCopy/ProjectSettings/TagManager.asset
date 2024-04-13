@@ -67,11 +67,11 @@ TagManager:
   - name: Objects
     uniqueID: 2553740329
     locked: 0
-  - name: Enemy
-    uniqueID: 2739260671
-    locked: 0
   - name: NPC
     uniqueID: 709684633
+    locked: 0
+  - name: Enemy
+    uniqueID: 2739260671
     locked: 0
   - name: Effect
     uniqueID: 961843539
