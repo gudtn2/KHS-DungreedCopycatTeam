@@ -11,11 +11,15 @@ public class SpearMove : MonoBehaviour
 
     private Vector2         start; 
     private Vector2         target;
+    private Vector3 startRotation;
+    private Vector3 targetRotation;
 
     private void Start()
     {
         start   = new Vector2(transform.localPosition.x, transform.localPosition.y);
         target  = new Vector2(transform.localPosition.x + 0.3f, transform.localPosition.y);
+        startRotation = new Vector3(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z);
+        targetRotation = new Vector3(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + 20.0f);
     }
 
     public void AttackMove()
@@ -23,6 +27,13 @@ public class SpearMove : MonoBehaviour
         transform.localPosition = target;
 
         StartCoroutine(ReturnMove());
+    }
+
+    public void AttackRotate()
+    {
+        transform.localRotation = Quaternion.Euler(targetRotation);
+
+        StartCoroutine(ReturnRotate());
     }
 
     private IEnumerator ReturnMove()
@@ -41,5 +52,23 @@ public class SpearMove : MonoBehaviour
             yield return null;
         }
         transform.localPosition = start;
+    }
+
+    private IEnumerator ReturnRotate()
+    {
+        float time = 0;
+
+        while (time < returnTime)
+        {
+            time += Time.deltaTime;
+
+            float t = time / returnTime;
+            float curve = returnCurve.Evaluate(t);
+
+            transform.localRotation = Quaternion.Lerp(Quaternion.Euler(targetRotation), Quaternion.Euler(startRotation), curve);
+
+            yield return null;
+        }
+        transform.localRotation = Quaternion.Euler(startRotation);
     }
 }
