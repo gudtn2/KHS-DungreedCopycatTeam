@@ -122,7 +122,7 @@ public class PlayerStats : StatManager
 
         onHPEvent.Invoke(preHP, HP);
 
-        if(HP == 0)
+        if(HP <= 0)
         {
             //IsDie
             playerController.isDie = true;

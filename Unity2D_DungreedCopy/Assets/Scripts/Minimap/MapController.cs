@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MapController : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class MapController : MonoBehaviour
     public GameObject MapUI;
     public bool MapOn = false;
 
+    private void Awake()
+    {
+        miniMap = transform.GetChild(0).gameObject;
+    }
+
     void Update()
     {
         DontActivateDungeonMap();
@@ -29,8 +35,6 @@ public class MapController : MonoBehaviour
         MapUI.SetActive(MapOn);
         miniMap.SetActive(!PlayerController.instance.dontMovePlayer);
     }
-
-
     private void DontActivateDungeonMap()
     {
         if (Input.GetKeyDown(KeyCode.Tab))

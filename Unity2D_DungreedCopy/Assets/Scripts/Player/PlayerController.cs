@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public bool isHurt;
     [SerializeField]
-    private float hurtRoutineDuration = 3f;
+    private float hurtRoutineDuration = 2f;
     [SerializeField]
     private float blinkDuration = 0.5f;
 
@@ -255,10 +255,11 @@ public class PlayerController : MonoBehaviour
             if (!isHurt)
             {
                 isHurt = true;
+                StartCoroutine("HurtRoutine");
             }
         }
     }
-    public IEnumerator HurtRoutine()
+    private IEnumerator HurtRoutine()
     {
         yield return new WaitForSeconds(hurtRoutineDuration);
         isHurt = false;
@@ -271,6 +272,17 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.color = halfA;
             yield return new WaitForSeconds(blinkDuration);
             spriteRenderer.color = fullA;
+        }
+    }
+
+    public void PlayerDamaged(float monAtt)
+    {
+        TakeDamage(monAtt);
+        StartCoroutine(BlinkPlayer());
+
+        if (isDie)
+        {
+            StartCoroutine(movement.Die());
         }
     }
 
