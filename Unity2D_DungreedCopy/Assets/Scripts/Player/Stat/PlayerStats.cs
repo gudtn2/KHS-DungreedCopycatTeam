@@ -124,8 +124,6 @@ public class PlayerStats : StatManager
 
         if(HP <= 0)
         {
-            //IsDie
-            playerController.isDie = true;
             return true;
         }
         return false;

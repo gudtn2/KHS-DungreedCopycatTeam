@@ -60,14 +60,14 @@ public class BatBullet : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("Player"))
             {
-                PlayerController.instance.PlayerDamaged(10);
+                PlayerController.instance.TakeDamage(10);
             }
         }
         else if(this.gameObject.name == "BansheeBullet(Clone)")
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                PlayerController.instance.PlayerDamaged(5);
+                PlayerController.instance.TakeDamage(5);
             }
         }
     }

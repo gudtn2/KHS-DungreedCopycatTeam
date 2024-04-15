@@ -338,8 +338,6 @@ public class Movement2D : MonoBehaviour
         dieEffect.transform.rotation = transform.rotation;
         dieEffect.GetComponent<EffectPool>().Setup(dieEffectPoolManager);
 
-        PlayerController.instance.spriteRenderer.color = new Color(1,1,1, 0);
-        PlayerController.instance.weaponRenderer.color = new Color(1,1,1, 0);
         StartCoroutine(ActiveDieEffect2());
     }
     private IEnumerator ActiveDieEffect2()
@@ -349,6 +347,8 @@ public class Movement2D : MonoBehaviour
         dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
         dieEffect2.transform.rotation = transform.rotation;
         dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager) ;
+        PlayerController.instance.spriteRenderer.color = new Color(1,1,1, 0);
+        PlayerController.instance.weaponRenderer.color = new Color(1,1,1, 0);
     }
 
 

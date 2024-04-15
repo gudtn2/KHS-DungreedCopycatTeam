@@ -206,7 +206,7 @@ public class MonsterC : Test_Monster
         // LittleGhost가 공격중인 상태에서 Player와 부딪히면?
         else if(collision.gameObject.tag == "Player" && attacking)
         {
-            PlayerController.instance.PlayerDamaged(5);
+            PlayerController.instance.TakeDamage(5);
         }
     }
 

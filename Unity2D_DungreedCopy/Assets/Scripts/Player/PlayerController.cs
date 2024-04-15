@@ -244,18 +244,23 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float mon_Att)
     {
-        bool isDie = playerStats.DecreaseHP(mon_Att);
+        if(!isDie)
+        {
+            bool die = playerStats.DecreaseHP(mon_Att);
 
-        if (isDie)
-        {
-            StartCoroutine(movement.Die());
-        }
-        else
-        {
-            if (!isHurt)
+            if (die)
             {
-                isHurt = true;
-                StartCoroutine("HurtRoutine");
+                isDie = true;
+                StartCoroutine(movement.Die());
+            }
+            else
+            {
+                if (!isHurt)
+                {
+                    isHurt = true;
+                    StartCoroutine(BlinkPlayer());
+                    StartCoroutine(HurtRoutine());
+                }
             }
         }
     }
@@ -275,17 +280,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlayerDamaged(float monAtt)
-    {
-        TakeDamage(monAtt);
-        StartCoroutine(BlinkPlayer());
-
-        if (isDie)
-        {
-            StartCoroutine(movement.Die());
-        }
-    }
-
     //======================================================================================
     // YS: 플레이어 Collider
     //======================================================================================
@@ -294,8 +288,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Monster" && !isHurt)
         {
             TakeDamage(20f);
-            StartCoroutine(HurtRoutine());
-            StartCoroutine(BlinkPlayer());
         }
         else if (collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
         {

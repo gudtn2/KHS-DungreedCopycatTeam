@@ -58,10 +58,7 @@ public class WhiteSword : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            if (!PlayerController.instance.isDie)
-            {
-                PlayerController.instance.PlayerDamaged(swordAtt);
-            }
+            PlayerController.instance.TakeDamage(swordAtt);
         }
 
         if(collision.gameObject.CompareTag("Platform"))
