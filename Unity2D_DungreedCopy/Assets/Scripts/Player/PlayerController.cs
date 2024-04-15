@@ -279,6 +279,11 @@ public class PlayerController : MonoBehaviour
     {
         TakeDamage(monAtt);
         StartCoroutine(BlinkPlayer());
+
+        if (isDie)
+        {
+            StartCoroutine(movement.Die());
+        }
     }
 
     //======================================================================================

@@ -11,10 +11,13 @@ public class MonsterFactory : MonoBehaviour
     private GameObject  monsterB;
     [SerializeField]
     private GameObject  monsterC;
+    [SerializeField]
+    private GameObject monsterD;
 
     private PoolManager monsterAPool;
     private PoolManager monsterBPool;
     private PoolManager monsterCPool;
+    private PoolManager monsterDPool;
     #endregion
     [SerializeField]
     private int             number;     // 생성할 몬스터의 번혼
@@ -27,6 +30,7 @@ public class MonsterFactory : MonoBehaviour
         monsterAPool = new PoolManager(monsterA);
         monsterBPool = new PoolManager(monsterB);
         monsterCPool = new PoolManager(monsterC);
+        monsterDPool = new PoolManager(monsterD);
 
         number = num;
     }
@@ -53,6 +57,13 @@ public class MonsterFactory : MonoBehaviour
             monC.transform.position = transform.position;
             monC.transform.rotation = transform.rotation;
             monC.GetComponent<MonsterC>().Setup(monsterCPool);
+        }
+        else if (number == 3)
+        {
+            GameObject monD = monsterDPool.ActivePoolItem();
+            monD.transform.position = transform.position;
+            monD.transform.rotation = transform.rotation;
+            monD.GetComponent<MonsterD>().Setup(monsterDPool);
         }
     }
     public void DeactivateSapwnEffect()
