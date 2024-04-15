@@ -19,6 +19,7 @@ public class RangedAttack: MonoBehaviour
     [SerializeField]
     private Animator smokePos, shotPos;
 
+    public string sfxName;
     private void Awake()
     {
         arrowpoolManager = new PoolManager(arrowPrefab);
@@ -39,6 +40,7 @@ public class RangedAttack: MonoBehaviour
         {
             Fire();
             StartCoroutine(PlayerController.instance.AbleToAttack());
+            AudioManager.Instance.PlaySFX(sfxName);
             if(isSmoke == true)
             {
                 spearMove.AttackRotate();
