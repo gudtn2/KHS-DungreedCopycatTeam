@@ -357,13 +357,11 @@ public class Movement2D : MonoBehaviour
     {
         // 플레이어가 죽은 시간 기록
         PlayerDungeonData.instance.deathTime = Time.time;
-        Debug.Log(PlayerDungeonData.instance.deathTime);
 
         // 플레이어가 사망한지 1초 뒤
         yield return new WaitForSeconds(1);
 
         PlayerDungeonData.instance.totalTime = PlayerDungeonData.instance.deathTime - PlayerDungeonData.instance.enterTime;
-        Debug.Log(PlayerDungeonData.instance.totalTime);
 
         // GameOverUI 활성화
         dieUI.SetActive(true);
