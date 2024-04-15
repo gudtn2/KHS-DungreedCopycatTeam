@@ -276,11 +276,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public void PlayerDamaged(float monAtt)
-    {
-        TakeDamage(monAtt);
-        StartCoroutine(BlinkPlayer());
-
-        if (isDie)
+    {        
+        if(!isDie)
+        {
+            TakeDamage(monAtt);
+            StartCoroutine(BlinkPlayer());
+        }
+        else if (isDie)
         {
             StartCoroutine(movement.Die());
         }
