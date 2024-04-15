@@ -14,7 +14,7 @@ public class LaserCollider : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            playerStats.DecreaseHP(10);
+            PlayerController.instance.PlayerDamaged(8);
         }
     }
 }

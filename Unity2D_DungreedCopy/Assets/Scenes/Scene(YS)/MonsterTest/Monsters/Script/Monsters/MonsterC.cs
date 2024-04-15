@@ -18,7 +18,14 @@ public class MonsterC : Test_Monster
 
     [Header("Chase 변수")]
     [SerializeField]
-    private float checkPlayerRadius;
+    private float   chaseRadius;
+    [SerializeField]
+    private float   attackRadius;
+    [SerializeField]
+    private bool    canAttack = false; 
+    [SerializeField]
+    private float   dis;
+    private bool    attacking = false;  // 공격중임을 알리는 변수로 쫒을 때는 UpdateSight 적용하지 않기 위함 
 
     private PoolManager pool;
 
@@ -28,7 +35,7 @@ public class MonsterC : Test_Monster
         monData.capsuleCollider2D.isTrigger = true;
 
         monData.maxHP = 20;
-        monData.moveSpeed = 5;
+        monData.moveSpeed = 2;
         monData.isDie = false;
         monData.isGround = false;
         monData.originColor = Color.white;
@@ -79,20 +86,66 @@ public class MonsterC : Test_Monster
     {
         while(true)
         {
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, checkPlayerRadius, Vector2.right, 0, LayerMask.GetMask("Player"));
-            
-            // => 계산 함수 
+            CalculateDisToTargetAndselectState();
+
             yield return null;
         }
     }
 
-    private void CalculateDistanceToTarget()
+    private IEnumerator Chase()
     {
-        // Idle => 이 함수에서 거리 검사 
-        // chaseRadius로 표적이 Circle 내로 들어오면 Chase
-        // attackRadius로 표적이 Circle 내로 들어오면 ChaseAttack
+        float canAttackDuration = 3;
+        float time = 0;
+
+        while (true) 
+        {
+            // 플레이어 위치 파악해서 존나 따라감
+            transform.position = Vector2.MoveTowards(transform.position, PlayerController.instance.transform.position, monData.moveSpeed * Time.deltaTime);
+
+            CalculateDisToTargetAndselectState();
+
+            time += Time.deltaTime;
+            
+            if(time > canAttackDuration)
+            {
+                canAttack = true;
+            }
+            yield return null;
+        }
+
     }
 
+    private IEnumerator ChaseAttack()
+    {
+        float attackDuration = 1.5f;  // 공격 지속 시간 (초)
+        float time = 0f;            // 경과 시간
+
+        Vector3 target = PlayerController.instance.transform.position;
+        Vector3 dir = target - transform.position;
+
+        monData.animator.SetBool("IsAttack", true);
+
+        attacking = true;
+        // 공격 지속 시간 동안에만 이동
+        while (true)
+        {
+            // 코루틴 들어올때 받아온 플레이어의 방향으로 원래속도의 1.5배의 속도로 쫒아간다.
+            transform.position += dir * monData.moveSpeed * 1.5f * Time.deltaTime;
+
+            // 경과 시간 업데이트
+            time += Time.deltaTime;
+
+            
+            if(time > attackDuration)
+            {
+                canAttack = false;
+                attacking = false;  
+                monData.animator.SetBool("IsAttack", false);
+                CalculateDisToTargetAndselectState();
+            }
+            yield return null;
+        }
+    }
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
@@ -111,6 +164,28 @@ public class MonsterC : Test_Monster
 
         yield return null;
     }
+
+    private void CalculateDisToTargetAndselectState()
+    {
+        dis = Vector2.Distance(PlayerController.instance.transform.position, transform.position);
+
+        // 쫒을수 있는 거리 내에 있으면
+        if(dis <= chaseRadius && !canAttack)
+        {
+            ChangeState(State.Chase);
+        }
+        // 모든 거리에서 벗어나면 => Idle
+        else if(dis > chaseRadius && !canAttack)
+        {
+            ChangeState(State.Idle);
+        }
+        // 공격 거리 내에 들어오면 => Attack
+        else if(dis <= attackRadius && canAttack)
+        {
+            ChangeState(State.ChaseAttack);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 무기 공격시 무기의 정보 받아와 상호작용
@@ -128,17 +203,26 @@ public class MonsterC : Test_Monster
 
             TakeAttack(player.DashATK, Color.blue);
         }
+
+        // LittleGhost가 공격중인 상태에서 Player와 부딪히면?
+        else if(collision.gameObject.tag == "Player" && attacking)
+        {
+            PlayerController.instance.PlayerDamaged(5);
+        }
     }
 
     private void UpdateSight()
     {
-        if (PlayerController.instance.transform.position.x > transform.position.x)
+        if(!attacking)
         {
-            monData.spriteRenderer.flipX = false;
-        }
-        else
-        {
-            monData.spriteRenderer.flipX = true;
+            if (PlayerController.instance.transform.position.x > transform.position.x)
+            {
+                monData.spriteRenderer.flipX = false;
+            }
+            else
+            {
+                monData.spriteRenderer.flipX = true;
+            }
         }
     }
     public void ChangeState(State newState)
@@ -153,5 +237,12 @@ public class MonsterC : Test_Monster
 
         // 새로운 상태 재생
         StartCoroutine(monState.ToString());
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, chaseRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }
