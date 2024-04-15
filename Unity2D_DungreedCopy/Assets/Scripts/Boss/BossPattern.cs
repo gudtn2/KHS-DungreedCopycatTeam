@@ -91,6 +91,7 @@ public class BossPattern : MonoBehaviour
     private UIEffectManager         uiEffectManager;
     private MainCameraController    mainCam;
     private PlayerController        playerController;
+    private BossHP                  bossHP;
 
     private void OnEnable()
     {
@@ -110,10 +111,13 @@ public class BossPattern : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
         boss = GetComponent<BossController>();
+        bossHP = GetComponent<BossHP>();
 
         uiEffectManager     = FindObjectOfType<UIEffectManager>();
         mainCam             = FindObjectOfType<MainCameraController>();
         playerController    = FindObjectOfType<PlayerController>();
+
+        imageBossDieEffect.gameObject.SetActive(false);
     }
     private void OnApplicationQuit()
     {
@@ -138,7 +142,18 @@ public class BossPattern : MonoBehaviour
                 }
             }
         }
+
+        CheckDie();
     }
+
+    private void CheckDie()
+    {
+        if(bossHP.curHP <= 0)
+        {
+            ChangeBossState(BossState.Die);
+        }
+    }
+
     private IEnumerator Idle()
     {
         yield return new WaitForSeconds(5f);
@@ -151,19 +166,21 @@ public class BossPattern : MonoBehaviour
         while (true)
         {
             // "Idle"일때 하는 행동
-
             yield return null;
         }
     }
 
     private IEnumerator Die()
     {
+        imageBossDieEffect.gameObject.SetActive(true);
         imageBossDieEffect.color = Color.white;
 
         yield return StartCoroutine(uiEffectManager.UIFade(imageBossDieEffect, 1, 0));
 
         yield return new WaitForSeconds(1f);
+        imageBossDieEffect.gameObject.SetActive(false);
 
+        StartCoroutine(ChangeCamPos());
         PlayExplosionEffect(transform.position + new Vector3(0.5f, -1f, 0), Quaternion.identity, new Vector3(2f, 2f, 2f));
 
         yield return new WaitForSeconds(1f);
@@ -189,6 +206,15 @@ public class BossPattern : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private IEnumerator ChangeCamPos()
+    {
+        while(true)
+        {
+            StartCoroutine(MainCameraController.instance.ChangeView(transform, 0.5f));
+            yield return null;
+        }
     }
     private void PlayExplosionEffect(Vector3 position, Quaternion rotation,Vector3 scale)
     {
@@ -229,7 +255,7 @@ public class BossPattern : MonoBehaviour
 
         while (count >= 0)
         {
-            count--;
+             count--;
 
             int randomIndex = Random.Range(0, 2);
 

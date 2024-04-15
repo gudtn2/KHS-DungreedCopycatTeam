@@ -14,7 +14,10 @@ public class LaserCollider : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            PlayerController.instance.PlayerDamaged(8);
+            if (!PlayerController.instance.isDie)
+            {
+                PlayerController.instance.PlayerDamaged(10);
+            }
         }
     }
 }

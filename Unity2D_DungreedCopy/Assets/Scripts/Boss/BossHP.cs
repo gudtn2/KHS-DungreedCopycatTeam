@@ -32,11 +32,6 @@ public class BossHP : MonoBehaviour
 
         StopCoroutine(HitColorAnimation());
         StartCoroutine(HitColorAnimation());
-
-        if(curHP <= 0)
-        {
-            bossPattern.ChangeBossState(BossState.Die);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

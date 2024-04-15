@@ -57,9 +57,12 @@ public class BossHeadBullet : MonoBehaviour
 
             // Effect 활성화
             ActivateBossBulletEffect();
-            
+
             // Player에게 데미지 주는 로직
-            playerStats.DecreaseHP(dam);
+            if(!PlayerController.instance.isDie)
+            {
+                PlayerController.instance.PlayerDamaged(10);
+            }
         }
     }
 

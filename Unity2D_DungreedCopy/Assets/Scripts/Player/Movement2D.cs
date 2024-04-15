@@ -338,6 +338,8 @@ public class Movement2D : MonoBehaviour
         dieEffect.transform.rotation = transform.rotation;
         dieEffect.GetComponent<EffectPool>().Setup(dieEffectPoolManager);
 
+        PlayerController.instance.spriteRenderer.color = new Color(1,1,1, 0);
+        PlayerController.instance.weaponRenderer.color = new Color(1,1,1, 0);
         StartCoroutine(ActiveDieEffect2());
     }
     private IEnumerator ActiveDieEffect2()
@@ -347,8 +349,6 @@ public class Movement2D : MonoBehaviour
         dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
         dieEffect2.transform.rotation = transform.rotation;
         dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager) ;
-        PlayerController.instance.spriteRenderer.color = new Color(1,1,1, 0);
-        PlayerController.instance.weaponRenderer.color = new Color(1,1,1, 0);
     }
 
 
@@ -357,16 +357,14 @@ public class Movement2D : MonoBehaviour
     {
         // 플레이어가 죽은 시간 기록
         PlayerDungeonData.instance.deathTime = Time.time;
-        Debug.Log(PlayerDungeonData.instance.deathTime);
 
         // 플레이어가 사망한지 1초 뒤
         yield return new WaitForSeconds(1);
 
         PlayerDungeonData.instance.totalTime = PlayerDungeonData.instance.deathTime - PlayerDungeonData.instance.enterTime;
-        Debug.Log(PlayerDungeonData.instance.totalTime);
 
         // GameOverUI 활성화
-        dieUI.SetActive(true);
+        dieUI.SetActive(true); 
 
         // dieEffect 활성화
         ActiveDieEffect();

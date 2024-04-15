@@ -56,8 +56,6 @@ public class BatBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ★ 차후 몬스터 완성되면 주석 지우고 코드 활성화
-
         if(this.gameObject.name == "BatBullet(Clone)")
         {
             if(collision.gameObject.CompareTag("Player"))

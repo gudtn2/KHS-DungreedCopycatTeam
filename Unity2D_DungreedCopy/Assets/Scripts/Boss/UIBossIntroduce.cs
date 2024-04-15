@@ -36,8 +36,25 @@ public class UIBossIntroduce : MonoBehaviour
         TextBossNameUI.text = stringBossName;
         TextBossNicknameUI.text = stringBossNickname;
     }
+
+    private void Update()
+    {
+        if(PlayerController.instance.isBossDie)
+        {
+            bossLifeObj.SetActive(false);
+        }
+        
+        if(PlayerController.instance.isDie)
+        {
+            bossLifeObj.SetActive(false);
+            BossIntroduceImageBottom.gameObject.SetActive(false);
+        }
+
+    }
+
     public IEnumerator OnIntroduceBoss(float start,float end)
     {
+        PlayerController.instance.dontMovePlayer = true;
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageTop, start, end));
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageBottom, start, end));
 
@@ -48,8 +65,7 @@ public class UIBossIntroduce : MonoBehaviour
     }
     public IEnumerator OffIntroduceBoss(float start, float end)
     {
-        isAliveTheBoss = true;
-        bossLifeObj.SetActive(isAliveTheBoss);
+        bossLifeObj.SetActive(true);
 
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageTop, start, end));
         StartCoroutine(uiEffectManager.UIFade(BossIntroduceImageBottom, start, end));
@@ -57,5 +73,6 @@ public class UIBossIntroduce : MonoBehaviour
         StartCoroutine(uiEffectManager.UIFade(TextBossNameUI, start, end));
         StartCoroutine(uiEffectManager.UIFade(TextBossNicknameUI, start, end));
         yield return null;
+        PlayerController.instance.dontMovePlayer = false;
     }
 }

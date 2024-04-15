@@ -23,7 +23,7 @@ public class MonsterC : Test_Monster
     private float   attackRadius;
     [SerializeField]
     private bool    canAttack = false; 
-    [SerializeField]
+
     private float   dis;
     private bool    attacking = false;  // 공격중임을 알리는 변수로 쫒을 때는 UpdateSight 적용하지 않기 위함 
 
@@ -112,7 +112,6 @@ public class MonsterC : Test_Monster
             }
             yield return null;
         }
-
     }
 
     private IEnumerator ChaseAttack()
@@ -130,7 +129,7 @@ public class MonsterC : Test_Monster
         while (true)
         {
             // 코루틴 들어올때 받아온 플레이어의 방향으로 원래속도의 1.5배의 속도로 쫒아간다.
-            transform.position += dir * monData.moveSpeed * 1.5f * Time.deltaTime;
+            transform.position += dir * monData.moveSpeed * 1.2f * Time.deltaTime;
 
             // 경과 시간 업데이트
             time += Time.deltaTime;

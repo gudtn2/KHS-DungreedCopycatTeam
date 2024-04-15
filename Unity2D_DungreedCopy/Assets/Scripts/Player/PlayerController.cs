@@ -246,9 +246,9 @@ public class PlayerController : MonoBehaviour
     {
         bool isDie = playerStats.DecreaseHP(mon_Att);
 
-        if (isDie == true)
+        if (isDie)
         {
-            Debug.Log("GameOver");
+            StartCoroutine(movement.Die());
         }
         else
         {
@@ -279,11 +279,6 @@ public class PlayerController : MonoBehaviour
     {
         TakeDamage(monAtt);
         StartCoroutine(BlinkPlayer());
-
-        if (isDie)
-        {
-            StartCoroutine(movement.Die());
-        }
     }
 
     //======================================================================================
