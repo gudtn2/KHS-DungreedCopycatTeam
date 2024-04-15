@@ -8,9 +8,11 @@ public class Arrow : MonoBehaviour
     private GameObject  hitEffect;
     [SerializeField]
     private float       deactivateTime;
-
+        [SerializeField]
+    private bool ispierce;
     private PoolManager poolManager;
     private PoolManager hitEffectPoolManager;
+
     public void Setup(PoolManager newPool)
     {
         this.poolManager = newPool;
@@ -27,16 +29,38 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Enemy")
+        if (!ispierce)
         {
-            poolManager.DeactivePoolItem(this.gameObject);
+            if (collision.gameObject.tag == "Enemy")
+            {
+                poolManager.DeactivePoolItem(this.gameObject);
 
-            HitEffect();
+                HitEffect();
+            }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+            {
+                poolManager.DeactivePoolItem(this.gameObject);
+            }
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        else if(ispierce)
         {
-            poolManager.DeactivePoolItem(this.gameObject);
+            if (collision.gameObject.tag == "Enemy")
+            {
+                HitEffect();
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+                {
+                    poolManager.DeactivePoolItem(this.gameObject);
+                }
+            }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+            {
+                HitEffect();
+
+                poolManager.DeactivePoolItem(this.gameObject);
+            }
+
         }
+        
     }
     private IEnumerator DeactivateArrow()
     {
