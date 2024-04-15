@@ -35,12 +35,10 @@ public class BatBullet : MonoBehaviour
         {
             if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Player");
                 isExplosion = true;
             }
             else if (hit.collider.CompareTag("Platform"))
             {
-                Debug.Log("Platform");
                 isExplosion = true;
             }
         }
