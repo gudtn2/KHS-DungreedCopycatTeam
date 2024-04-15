@@ -29,8 +29,6 @@ public class MonsterB : Test_Monster
         base.SetupEffectPools();
 
         monData.maxHP = 60;
-        monData.moveSpeed = 5;
-        monData.jumpForce = 5;
         monData.isDie = false;
         monData.isGround = false;
         monData.originColor = Color.white;
