@@ -70,13 +70,6 @@ public class BatBullet : MonoBehaviour
                 PlayerController.instance.TakeDamage(5);
             }
         }
-        else if (this.gameObject.name == "RedBatBullet(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                PlayerController.instance.TakeDamage(10);
-            }
-        }
     }
 
 
