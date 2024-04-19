@@ -8,7 +8,16 @@ public class EffectPool : MonoBehaviour
     public void Setup(PoolManager poolManager)
     {
         this.poolManager = poolManager;
+
+        StartCoroutine(DeactivateRoutain());
     }
+
+    private IEnumerator DeactivateRoutain()
+    {
+        yield return new WaitForSeconds(3f);
+        DeactivateEffect();
+    }
+
     public void DeactivateEffect()
     {
         poolManager.DeactivePoolItem(gameObject);

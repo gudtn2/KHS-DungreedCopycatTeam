@@ -13,7 +13,7 @@ public class BrokenPieces : MonoBehaviour
     }
     private void OnEnable()
     {
-        float randomY = Random.Range(0, 0.8f);
+        float randomY = Random.Range(0, 1f);
         float flyForce = Random.Range(1, 4);
 
         Vector3 dir = new Vector3(PlayerController.instance.lastMoveDirX, randomY, 0);

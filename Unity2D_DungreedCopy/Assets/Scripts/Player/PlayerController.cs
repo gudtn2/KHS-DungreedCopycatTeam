@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
         {
             if (movement.curPassingPlatform != null)
             {
-                StartCoroutine(movement.DownJumpTo(0.5f,5));
+                StartCoroutine(movement.DownJumpTo(0.5f,3));
             }
         }
     }
