@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6332937383719071661}
   - component: {fileID: 362556438908219187}
   - component: {fileID: 5182603223917588987}
-  - component: {fileID: 2905607056259655223}
   - component: {fileID: 4035531561225077056}
+  - component: {fileID: -6668347269721754815}
   m_Layer: 0
   m_Name: RedBatBullet
   m_TagString: Untagged
@@ -144,20 +144,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3125
---- !u!114 &2905607056259655223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743223488068427115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2279c72786ff6f643b9af9716ec817e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputSpeed: 5
-  radius: 0.25
 --- !u!50 &4035531561225077056
 Rigidbody2D:
   serializedVersion: 4
@@ -185,3 +171,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6668347269721754815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743223488068427115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272bdd88db1a9a040a41c1421c7f2320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSpeed: 5
+  radius: 0.25

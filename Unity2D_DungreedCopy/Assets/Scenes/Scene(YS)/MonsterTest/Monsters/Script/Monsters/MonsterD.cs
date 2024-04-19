@@ -24,7 +24,8 @@ public class MonsterD : Test_Monster
     #endregion
 
     private PoolManager pool;
-    public GameObject bulltPos;
+    public GameObject bulletPos;
+
     public override void InitValueSetting()
     {
         base.SetupEffectPools();
@@ -107,13 +108,13 @@ public class MonsterD : Test_Monster
     }
     private IEnumerator Attack()
     {
-        int roundNum = 23;
+        int roundNum = 16;
         
         monData.animator.SetBool("IsAttack", true);
 
        for (int index = 0; index < roundNum; index++)
         {
-
+            yield return new WaitForSeconds(0.05f);
             GameObject bullet = bulletPool.ActivePoolItem();
             bullet.transform.position = transform.position;
             bullet.transform.rotation = Quaternion.identity;
@@ -121,14 +122,14 @@ public class MonsterD : Test_Monster
             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
             Vector3 dirVec = new Vector3(Mathf.Cos(Mathf.PI * 2 * index / roundNum) * 1.8f, Mathf.Sin(Mathf.PI * 2 * index / roundNum) * 1.8f);
             bullet.transform.position = transform.position + dirVec;
-            //rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse);
+            //rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse); 
+            bullet.GetComponent<RedBatBullet>().Setup(bulletPool, bulletPos);
 
-            rigid.velocity = bulltPos.transform.right * 5;
             Debug.Log(dirVec);
             if (index >= roundNum - 1)
             {
+                RedBatBullet.fullCharge = true;
                 yield return new WaitForSeconds(3f);
-
                 monData.animator.SetBool("IsAttack", false);
                 ChangeState(State.Idle);
             }

@@ -2,33 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatBullet : MonoBehaviour
+public class RedBatBullet : MonoBehaviour
 {
     [SerializeField]
-    private float       inputSpeed;
-    private float       speed;
+    private float inputSpeed;
     [SerializeField]
-    private float       radius;
+    private float radius;
     private PoolManager pool;
-    private Animator    ani;
-    private Vector3     dir;
+    private Animator ani;
+    private Rigidbody2D rigid;
 
-    private bool        isExplosion = false;
+    private bool isExplosion = false;
 
-    public void Setup(PoolManager newPool,Vector3 newDir)
+    public GameObject bulletPos;
+    public static bool fullCharge;
+
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+        fullCharge = false;
+    }
+
+    public void Setup(PoolManager newPool, GameObject pos)
     {
         pool = newPool;
         ani = GetComponent<Animator>();
-
-        dir = newDir;
+        bulletPos = pos;
 
         Invoke("DeactivateEffect", 5);
     }
 
     private void Update()
     {
-        transform.position += dir * speed * Time.deltaTime;
-
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, Vector2.zero);
 
         foreach (RaycastHit2D hit in hits)
@@ -43,27 +48,30 @@ public class BatBullet : MonoBehaviour
             }
         }
 
-        if (isExplosion)
+        if (fullCharge)
         {
-            speed = 0;
-            ani.SetBool("OnEffect",true);
+            if (isExplosion)
+            {
+                rigid.velocity = Vector2.zero;
+                ani.SetBool("OnEffect", true);
+            }
+            else
+            rigid.velocity = bulletPos.transform.right * 5;
         }
-        else
-        {
-            speed = inputSpeed;
-        }
+        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(this.gameObject.name == "BatBullet(Clone)")
+        if (this.gameObject.name == "BatBullet(Clone)")
         {
-            if(collision.gameObject.CompareTag("Player"))
+            if (collision.gameObject.CompareTag("Player"))
             {
                 PlayerController.instance.TakeDamage(10);
             }
         }
-        else if(this.gameObject.name == "BansheeBullet(Clone)")
+        else if (this.gameObject.name == "BansheeBullet(Clone)")
         {
             if (collision.gameObject.CompareTag("Player"))
             {
@@ -82,8 +90,9 @@ public class BatBullet : MonoBehaviour
 
     public void DeactivateEffect()
     {
-        ani.SetBool("OnEffect",false);
+        ani.SetBool("OnEffect", false);
         isExplosion = false;
         pool.DeactivePoolItem(this.gameObject);
+        fullCharge = false;
     }
 }
