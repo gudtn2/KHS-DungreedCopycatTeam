@@ -4,21 +4,10 @@ using UnityEngine;
 
 public class MonsterFactory : MonoBehaviour
 {
-    #region 생성가능 몬스터 프리팹/ PoolManager
     [SerializeField]
-    private GameObject  monsterA;
-    [SerializeField]
-    private GameObject  monsterB;
-    [SerializeField]
-    private GameObject  monsterC;
-    [SerializeField]
-    private GameObject monsterD;
+    private GameObject[]    monPrefabs;
+    private PoolManager[]   monPools;
 
-    private PoolManager monsterAPool;
-    private PoolManager monsterBPool;
-    private PoolManager monsterCPool;
-    private PoolManager monsterDPool;
-    #endregion
     [SerializeField]
     private int             number;     // 생성할 몬스터의 번혼
 
@@ -26,44 +15,46 @@ public class MonsterFactory : MonoBehaviour
     public void Setup(int num,PoolManager newPool)
     {
         this.pool = newPool;
-
-        monsterAPool = new PoolManager(monsterA);
-        monsterBPool = new PoolManager(monsterB);
-        monsterCPool = new PoolManager(monsterC);
-        monsterDPool = new PoolManager(monsterD);
-
         number = num;
+
+        monPools = new PoolManager[monPrefabs.Length];
+        for (int i = 0; i < monPrefabs.Length; ++i)
+        {
+            monPools[i] = new PoolManager(monPrefabs[i]);
+        }
     }
 
     public void ActivateMonster()
     {
-        if (number == 0)
+        if(number >= 0 && number < monPrefabs.Length)
         {
-            GameObject monA = monsterAPool.ActivePoolItem();
-            monA.transform.position = transform.position;
-            monA.transform.rotation = transform.rotation;
-            monA.GetComponent<MonsterA>().Setup(monsterAPool);
+            GameObject mon = monPools[number].ActivePoolItem();
+            mon.transform.position = transform.position;
+            mon.transform.rotation = transform.rotation;
+
+            switch (number)
+            {
+                case 0:
+                    mon.GetComponent<MonsterA>().Setup(monPools[number]);
+                    break;
+                case 1:
+                    mon.GetComponent<MonsterB>().Setup(monPools[number]);
+                    break;
+                case 2:
+                    mon.GetComponent<MonsterC>().Setup(monPools[number]);
+                    break;
+                case 3:
+                    mon.GetComponent<MonsterD>().Setup(monPools[number]);
+                    break;
+                case 4:
+                    mon.GetComponent<MonsterE>().Setup(monPools[number]);
+                    break;
+            }
+
         }
-        else if(number == 1)
+        else
         {
-            GameObject monB = monsterBPool.ActivePoolItem();
-            monB.transform.position = transform.position;
-            monB.transform.rotation = transform.rotation;
-            monB.GetComponent<MonsterB>().Setup(monsterBPool);
-        }
-        else if(number == 2)
-        {
-            GameObject monC = monsterCPool.ActivePoolItem();
-            monC.transform.position = transform.position;
-            monC.transform.rotation = transform.rotation;
-            monC.GetComponent<MonsterC>().Setup(monsterCPool);
-        }
-        else if (number == 3)
-        {
-            GameObject monD = monsterDPool.ActivePoolItem();
-            monD.transform.position = transform.position;
-            monD.transform.rotation = transform.rotation;
-            monD.GetComponent<MonsterD>().Setup(monsterDPool);
+            Debug.LogError("없는 몬스터 넘버를 기입하셨습니다.");
         }
     }
     public void DeactivateSapwnEffect()

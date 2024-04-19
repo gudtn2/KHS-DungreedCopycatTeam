@@ -18,25 +18,26 @@ public class WeponInfo : MonoBehaviour
     }
     private void CalculateDamage()
     {
-        PlayerStats stats = PlayerStats.instance; 
+        PlayerStats stats = PlayerStats.instance;
 
-        // 랜덤 공격력 계산
-        int randomATK = Random.Range(stats.WP_MINATK, stats.WP_MAXATK + 1);
+        if (stats != null)
+        {
+            // 랜덤 공격력 계산
+            int randomATK = Random.Range(stats.WP_MINATK, stats.WP_MAXATK + 1);
 
-        //크리티컬 발동시
-        if (IsCritical())
-        {
-            // 크리티컬시 공격력 = 최대 무기피해 + (최대무기피해 * 0.5) + 플레이어 공격력
-            curATK = stats.WP_MAXATK + (int)(stats.WP_MAXATK * 0.5f) + stats.ATK;
-            Debug.Log("크리티컬 발동!. 공격력: " + curATK);
-            textColor = Color.yellow;
-        }
-        else
-        {
-            // 일반공격시 공격력 = 최대 무기피해 + 플레이어 공격력
-            curATK = randomATK + stats.ATK;
-            Debug.Log("공격력: " + curATK);
-            textColor = Color.white;
+            //크리티컬 발동시
+            if (IsCritical())
+            {
+                // 크리티컬시 공격력 = 최대 무기피해 + (최대무기피해 * 0.5) + 플레이어 공격력
+                curATK = stats.WP_MAXATK + (int)(stats.WP_MAXATK * 0.5f) + stats.ATK;
+                textColor = Color.yellow;
+            }
+            else
+            {
+                // 일반공격시 공격력 = 최대 무기피해 + 플레이어 공격력
+                curATK = randomATK + stats.ATK;
+                textColor = Color.white;
+            }
         }
     }
 

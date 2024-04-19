@@ -166,22 +166,28 @@ public class MonsterC : Test_Monster
 
     private void CalculateDisToTargetAndselectState()
     {
-        dis = Vector2.Distance(PlayerController.instance.transform.position, transform.position);
+        PlayerController player = PlayerController.instance;
 
-        // 쫒을수 있는 거리 내에 있으면
-        if(dis <= chaseRadius && !canAttack)
+        if(player != null)
         {
-            ChangeState(State.Chase);
-        }
-        // 모든 거리에서 벗어나면 => Idle
-        else if(dis > chaseRadius && !canAttack)
-        {
-            ChangeState(State.Idle);
-        }
-        // 공격 거리 내에 들어오면 => Attack
-        else if(dis <= attackRadius && canAttack)
-        {
-            ChangeState(State.ChaseAttack);
+            Vector3 target = player.transform.position; 
+            dis = Vector2.Distance(target, transform.position);
+
+            // 쫒을수 있는 거리 내에 있으면
+            if(dis <= chaseRadius && !canAttack)
+            {
+                ChangeState(State.Chase);
+            }
+            // 모든 거리에서 벗어나면 => Idle
+            else if(dis > chaseRadius && !canAttack)
+            {
+                ChangeState(State.Idle);
+            }
+            // 공격 거리 내에 들어오면 => Attack
+            else if(dis <= attackRadius && canAttack)
+            {
+                ChangeState(State.ChaseAttack);
+            }
         }
     }
 

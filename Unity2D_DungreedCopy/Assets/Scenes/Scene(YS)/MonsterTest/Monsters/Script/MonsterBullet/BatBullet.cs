@@ -5,25 +5,26 @@ using UnityEngine;
 public class BatBullet : MonoBehaviour
 {
     [SerializeField]
-    private float       inputSpeed;
-    private float       speed;
+    private float inputSpeed;
+    private float speed;
     [SerializeField]
-    private float       radius;
+    private float radius;
     private PoolManager pool;
-    private Animator    ani;
-    private Vector3     dir;
+    private Animator ani;
+    private Vector3 dir;
 
-    private bool        isExplosion = false;
+    private bool isExplosion = false;
 
-    public void Setup(PoolManager newPool,Vector3 newDir)
+    public void Setup(PoolManager newPool, Vector3 newDir)
     {
         pool = newPool;
         ani = GetComponent<Animator>();
 
         dir = newDir;
 
-        Invoke("DeactivateEffect", 5);
+        StartCoroutine(DeactivateEffectRoutain());
     }
+
 
     private void Update()
     {
@@ -33,11 +34,7 @@ public class BatBullet : MonoBehaviour
 
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider.CompareTag("Player"))
-            {
-                isExplosion = true;
-            }
-            else if (hit.collider.CompareTag("Platform"))
+            if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
             {
                 isExplosion = true;
             }
@@ -46,7 +43,7 @@ public class BatBullet : MonoBehaviour
         if (isExplosion)
         {
             speed = 0;
-            ani.SetBool("OnEffect",true);
+            ani.SetBool("OnEffect", true);
         }
         else
         {
@@ -56,18 +53,25 @@ public class BatBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(this.gameObject.name == "BatBullet(Clone)")
+        if (this.gameObject.name == "BatBullet(Clone)")
         {
-            if(collision.gameObject.CompareTag("Player"))
+            if (collision.gameObject.CompareTag("Player"))
             {
                 PlayerController.instance.TakeDamage(10);
             }
         }
-        else if(this.gameObject.name == "BansheeBullet(Clone)")
+        else if (this.gameObject.name == "BansheeBullet(Clone)")
         {
             if (collision.gameObject.CompareTag("Player"))
             {
                 PlayerController.instance.TakeDamage(5);
+            }
+        }
+        else if (this.gameObject.name == "SmallBatBullet(Clone)")
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                PlayerController.instance.TakeDamage(3);
             }
         }
     }
@@ -75,8 +79,25 @@ public class BatBullet : MonoBehaviour
 
     public void DeactivateEffect()
     {
-        ani.SetBool("OnEffect",false);
+        ani.SetBool("OnEffect", false);
         isExplosion = false;
         pool.DeactivePoolItem(this.gameObject);
+    }
+
+    private IEnumerator DeactivateEffectRoutain()
+    {
+        float time      = 0f;
+        float duration  = 3f;
+        while(!isExplosion)
+        {
+            time += Time.deltaTime;
+
+            if(time >= duration)
+            {
+                DeactivateEffect();
+            }
+
+            yield return null;
+        }
     }
 }

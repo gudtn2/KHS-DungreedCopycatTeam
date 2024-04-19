@@ -7,7 +7,12 @@ public class SpawnMonster : MonoBehaviour
     [SerializeField]
     private GameObject  prefabSpawn;
     [SerializeField]
-    private int         monNum; // 0:BigBat
+    private int         monNum;
+    // 0: BigBat
+    // 1: Banshee
+    // 2: LittleGhost
+    // 3: RedBigBat
+    // 4: RedBat
 
     private PoolManager spawnPool;
 

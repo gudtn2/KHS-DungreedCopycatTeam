@@ -119,8 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c53d8aeea91c24c8e47f5dda12b560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterA: {fileID: 7713911475635890338, guid: a69b56d61fde7d641a0573cf7d83b2d6, type: 3}
-  monsterB: {fileID: 7713911475635890338, guid: c15a24cd2a605c14a8183c8ae378cebb, type: 3}
-  monsterC: {fileID: 7713911475635890338, guid: dd41f5b384a84c94e93becff58d60840, type: 3}
-  monsterD: {fileID: 553965935317475635, guid: 38780e77a8df0534e834243dec4a70e3, type: 3}
+  monPrefabs:
+  - {fileID: 7713911475635890338, guid: a69b56d61fde7d641a0573cf7d83b2d6, type: 3}
+  - {fileID: 7713911475635890338, guid: c15a24cd2a605c14a8183c8ae378cebb, type: 3}
+  - {fileID: 7713911475635890338, guid: dd41f5b384a84c94e93becff58d60840, type: 3}
+  - {fileID: 553965935317475635, guid: 38780e77a8df0534e834243dec4a70e3, type: 3}
+  - {fileID: 7713911475635890338, guid: 7232401e4da25ef4dbbcf459d0cba33f, type: 3}
   number: 0

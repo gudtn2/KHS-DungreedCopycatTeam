@@ -78,6 +78,10 @@ public class Swing : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            GameObject swing = swingPoolManager.ActivePoolItem();
+            swing.transform.position = SwingPos.position;
+            swing.transform.rotation = transform.rotation;
+            swing.GetComponent<EffectPool>().Setup(swingPoolManager);
             if (swingWeapon == true)
             {
                 sword.SwordPosition();
@@ -86,11 +90,6 @@ public class Swing : MonoBehaviour
             {
                 spearMove.AttackMove();
             }
-            //GameObject instantSwing = Instantiate(SwingObj, SwingPos.position, transform.rotation);
-            GameObject swing = swingPoolManager.ActivePoolItem();
-            swing.transform.position = SwingPos.position;
-            swing.transform.rotation = transform.rotation;
-            swing.GetComponent<EffectPool>().Setup(swingPoolManager);
             AudioManager.Instance.PlaySFX("Swing");
             StartCoroutine(PlayerController.instance.AbleToAttack());
         }
