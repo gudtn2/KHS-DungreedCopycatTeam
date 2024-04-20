@@ -16,21 +16,28 @@ public class MonsterG1 : Test_Monster
     }
     public State monState;
 
-    //#region Bullet
-    //[SerializeField]
-    //private GameObject prefabBullet;
-    //private PoolManager bulletPool;
-    //#endregion
     [SerializeField]
-    private float   chaseRadius;
+    private float chaseRadius;
     [SerializeField]
-    private float   attackRadius;
-    private float   rayDis = 0.95f;
-    private float   dis;
-    private bool    isMove = false;
-    private float   dirX;
-    private float   moveX;
-    private bool    isAttacking;
+    private float attackRadius;
+    [SerializeField]
+    private float maxWanderDis;
+    private float rayDis = 0.95f;
+    private float dis;
+    
+    // 공격 관련
+    private GameObject      attackCollider;
+    private BoxCollider2D   attackBoxCollider;
+
+    #region 점프를 위한 벽 채크 변수
+    private Vector3 seeDir;
+    [SerializeField]
+    private float seeRayDis;
+    #endregion 
+
+
+    private float moveX;
+    private bool isAttacking;
 
 
 
@@ -41,7 +48,7 @@ public class MonsterG1 : Test_Monster
         base.SetupEffectPools();
         monData.capsuleCollider2D.isTrigger = true;
 
-        monData.maxHP = 20;
+        monData.maxHP = 50;
         monData.moveSpeed = 3;
         monData.isDie = false;
         monData.isGround = false;
@@ -55,6 +62,10 @@ public class MonsterG1 : Test_Monster
         this.pool = newPool;
 
         base.Awake();
+
+        attackCollider = transform.GetChild(1).gameObject;
+        attackBoxCollider = attackCollider.GetComponent<BoxCollider2D>();
+        attackBoxCollider.enabled = false;
 
         InitValueSetting();
 
@@ -77,10 +88,6 @@ public class MonsterG1 : Test_Monster
 
     private void FixedUpdate()
     {
-        // 플레이어 방향을 바라보도록
-        UpdateSight();
-        
-
         if (monData.curHP <= 0 && !monData.isDie)
         {
             monData.isDie = true;
@@ -93,7 +100,7 @@ public class MonsterG1 : Test_Monster
 
         monData.isGround = IsGrounded();
 
-        if(!monData.isGround)
+        if (!monData.isGround)
         {
             monData.rigidbody2D.velocity = new Vector3(0, -9.8f);
         }
@@ -101,12 +108,10 @@ public class MonsterG1 : Test_Monster
         {
             monData.rigidbody2D.velocity = new Vector3(moveX, 0);
         }
-
     }
 
     private IEnumerator Idle()
     {
-        monData.animator.SetBool("IsMove", false);
         while (true)
         {
             CalculateDisToTargetAndselectState();
@@ -117,32 +122,89 @@ public class MonsterG1 : Test_Monster
         }
     }
 
-    private IEnumerator Chase()
+    private IEnumerator Wander()
     {
+        float monX = transform.position.x;
+        float randomX = Random.Range(monX - maxWanderDis, monX + maxWanderDis);
 
+        // 목표지점 설정
+        Vector3 target = new Vector3(randomX, transform.position.y);
+        Vector3 dir = (target - transform.position).normalized;
+        float disThreshold = 0.01f;
         monData.animator.SetBool("IsMove", true);
-        while (true)
+
+        while (Vector2.Distance(target, transform.position) > disThreshold)
         {
             CalculateDisToTargetAndselectState();
 
+            if(dir.x >= 0)
+            {
+                monData.spriteRenderer.flipX = false;
+            }
+            else
+            {
+                monData.spriteRenderer.flipX = true;
+            }
 
-            moveX = dirX * monData.moveSpeed;
-            
+            moveX = dir.x * monData.moveSpeed * Time.deltaTime;
+            transform.position += moveX * Vector3.right;
+
             yield return null;
         }
-    } 
+        monData.animator.SetBool("IsMove", false);
+        yield return new WaitForSeconds(2f);
+        ChangeState(State.Idle);
+    }
+
+    private IEnumerator Chase()
+    {
+        monData.animator.SetBool("IsMove", true);
+        while (true)
+        {
+            UpdateSight();
+
+            moveX = seeDir.x * (monData.moveSpeed * 1.2f);
+
+            CalculateDisToTargetAndselectState();
+            yield return null;
+        }
+
+        moveX = 0;
+        monData.animator.SetBool("IsMove", false);
+
+    }
 
     private IEnumerator Attack()
     {
         isAttacking = true;
         monData.animator.SetBool("IsAttack", true);
-        while(isAttacking)
+        while (isAttacking)
         {
-            monData.rigidbody2D.velocity = Vector2.zero;
+            moveX = 0;
+
+            // 왼쪽 바라보고 있을 때
+            if(monData.spriteRenderer.flipX)
+            {
+                attackCollider.transform.localPosition = new Vector2(-1.5f, attackCollider.transform.localPosition.y);
+            }
+            // 오른쪽 바라보고 있을 때
+            else
+            {
+                attackCollider.transform.localPosition = new Vector2(1.5f, attackCollider.transform.localPosition.y);
+            }
+
             yield return null;
         }
-
     }
+    public void EnableAttackCollider()
+    {
+        attackBoxCollider.enabled = true;
+    }
+    public void DisableAttackCollider()
+    {
+        attackBoxCollider.enabled = false;
+    }
+
     public void CutAni()
     {
         isAttacking = false;
@@ -160,14 +222,14 @@ public class MonsterG1 : Test_Monster
             dis = Vector2.Distance(target, transform.position);
 
             // 쫒을수 있는 거리 내에 있으면
-            if (dis <= chaseRadius && dis >attackRadius)
+            if (dis <= chaseRadius && dis > attackRadius)
             {
                 ChangeState(State.Chase);
             }
             // 모든 거리에서 벗어나면 => Idle
             else if (dis > chaseRadius)
             {
-                ChangeState(State.Idle);
+                ChangeState(State.Wander);
             }
             else if (dis <= attackRadius)
             {
@@ -218,18 +280,15 @@ public class MonsterG1 : Test_Monster
 
     private void UpdateSight()
     {
-        if(!isAttacking)
+        if (PlayerController.instance.transform.position.x > transform.position.x)
         {
-            if (PlayerController.instance.transform.position.x > transform.position.x)
-            {
-                monData.spriteRenderer.flipX = false;
-                dirX = 1;
-            }
-            else
-            {
-                monData.spriteRenderer.flipX = true;
-                dirX = -1;
-            }
+            monData.spriteRenderer.flipX = false;
+            seeDir = Vector3.right;
+        }
+        else
+        {
+            monData.spriteRenderer.flipX = true;
+            seeDir = Vector3.left;
         }
     }
     private bool IsGrounded()
