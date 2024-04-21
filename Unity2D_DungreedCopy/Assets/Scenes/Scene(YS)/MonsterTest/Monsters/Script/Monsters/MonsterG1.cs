@@ -9,7 +9,6 @@ public class MonsterG1 : Test_Monster
     {
         None,
         Idle,
-        Wander,
         Chase,
         Attack,
         Die,
@@ -112,6 +111,8 @@ public class MonsterG1 : Test_Monster
 
     private IEnumerator Idle()
     {
+        monData.animator.SetBool("IsMove", false);
+
         while (true)
         {
             CalculateDisToTargetAndselectState();
@@ -121,41 +122,6 @@ public class MonsterG1 : Test_Monster
             yield return null;
         }
     }
-
-    private IEnumerator Wander()
-    {
-        float monX = transform.position.x;
-        float randomX = Random.Range(monX - maxWanderDis, monX + maxWanderDis);
-
-        // 목표지점 설정
-        Vector3 target = new Vector3(randomX, transform.position.y);
-        Vector3 dir = (target - transform.position).normalized;
-        float disThreshold = 0.01f;
-        monData.animator.SetBool("IsMove", true);
-
-        while (Vector2.Distance(target, transform.position) > disThreshold)
-        {
-            CalculateDisToTargetAndselectState();
-
-            if(dir.x >= 0)
-            {
-                monData.spriteRenderer.flipX = false;
-            }
-            else
-            {
-                monData.spriteRenderer.flipX = true;
-            }
-
-            moveX = dir.x * monData.moveSpeed * Time.deltaTime;
-            transform.position += moveX * Vector3.right;
-
-            yield return null;
-        }
-        monData.animator.SetBool("IsMove", false);
-        yield return new WaitForSeconds(2f);
-        ChangeState(State.Idle);
-    }
-
     private IEnumerator Chase()
     {
         monData.animator.SetBool("IsMove", true);
@@ -168,9 +134,7 @@ public class MonsterG1 : Test_Monster
             CalculateDisToTargetAndselectState();
             yield return null;
         }
-
         moveX = 0;
-        monData.animator.SetBool("IsMove", false);
 
     }
 
@@ -229,7 +193,7 @@ public class MonsterG1 : Test_Monster
             // 모든 거리에서 벗어나면 => Idle
             else if (dis > chaseRadius)
             {
-                ChangeState(State.Wander);
+                ChangeState(State.Idle);
             }
             else if (dis <= attackRadius)
             {

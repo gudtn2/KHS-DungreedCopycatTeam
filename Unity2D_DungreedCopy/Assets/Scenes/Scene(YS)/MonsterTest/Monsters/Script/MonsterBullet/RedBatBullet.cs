@@ -5,30 +5,31 @@ using UnityEngine;
 public class RedBatBullet : MonoBehaviour
 {
     [SerializeField]
-    private float inputSpeed;
+    private float inputSpeed;             // inputSpeed => speed에 적용
     [SerializeField]
-    private float radius;
+    private float radius;                 // ray의 반지름
+    private bool isExplosion = false;    // 폭발 애니 재생 여부
+    public GameObject bulletPos;
+    //public static bool      fullCharge;
+
     private PoolManager pool;
     private Animator ani;
     private Rigidbody2D rigid;
+    private MonsterD parent;
 
-    private bool isExplosion = false;
-
-    public GameObject bulletPos;
-    public static bool fullCharge;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        fullCharge = false;
+        //fullCharge = false;
     }
 
-    public void Setup(PoolManager newPool, GameObject pos)
+    public void Setup(PoolManager newPool, GameObject pos, GameObject parentBody)
     {
         pool = newPool;
         ani = GetComponent<Animator>();
         bulletPos = pos;
-
+        parent = parentBody.GetComponent<MonsterD>();
         Invoke("DeactivateEffect", 5);
     }
 
@@ -48,42 +49,28 @@ public class RedBatBullet : MonoBehaviour
             }
         }
 
-        if (fullCharge)
+        // 모든 bullet이 생성된 상탠
+        if (parent.fullCharge)
         {
+            // 물체에 부딪힌 상태 
             if (isExplosion)
             {
                 rigid.velocity = Vector2.zero;
                 ani.SetBool("OnEffect", true);
             }
+            // 물체에 부딪히지 않은 상태 
             else
-            rigid.velocity = bulletPos.transform.right * 5;
+                rigid.velocity = bulletPos.transform.right * 5;
         }
-        
+
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (this.gameObject.name == "BatBullet(Clone)")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                PlayerController.instance.TakeDamage(10);
-            }
-        }
-        else if (this.gameObject.name == "BansheeBullet(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                PlayerController.instance.TakeDamage(5);
-            }
-        }
-        else if (this.gameObject.name == "RedBatBullet(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                PlayerController.instance.TakeDamage(10);
-            }
+            PlayerController.instance.TakeDamage(10);
         }
     }
 
@@ -93,6 +80,7 @@ public class RedBatBullet : MonoBehaviour
         ani.SetBool("OnEffect", false);
         isExplosion = false;
         pool.DeactivePoolItem(this.gameObject);
-        fullCharge = false;
+        parent.explosionCount++;
+        //fullCharge = false;
     }
 }

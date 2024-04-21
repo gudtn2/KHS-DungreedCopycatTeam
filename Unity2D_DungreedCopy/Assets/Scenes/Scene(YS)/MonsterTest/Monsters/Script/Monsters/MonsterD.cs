@@ -20,11 +20,14 @@ public class MonsterD : Test_Monster
     #region Bullet
     [SerializeField]
     private GameObject prefabBullet;
+    public int explosionCount = 0; // 불렛이 터진 숫자 확인을 위함
+    public bool fullCharge = false;
     private PoolManager bulletPool;
     #endregion
 
     private PoolManager pool;
     public GameObject bulletPos;
+
 
     public override void InitValueSetting()
     {
@@ -99,6 +102,13 @@ public class MonsterD : Test_Monster
                 ChangeState(State.Die);
             }
         }
+
+        // 불렛이 모두 터진 상태
+        if (explosionCount >= 16)
+        {
+            fullCharge = false;
+            explosionCount = 0;
+        }
     }
 
     private IEnumerator Idle()
@@ -109,10 +119,10 @@ public class MonsterD : Test_Monster
     private IEnumerator Attack()
     {
         int roundNum = 16;
-        
+
         monData.animator.SetBool("IsAttack", true);
 
-       for (int index = 0; index < roundNum; index++)
+        for (int index = 0; index < roundNum; index++)
         {
             yield return new WaitForSeconds(0.05f);
             GameObject bullet = bulletPool.ActivePoolItem();
@@ -123,12 +133,12 @@ public class MonsterD : Test_Monster
             Vector3 dirVec = new Vector3(Mathf.Cos(Mathf.PI * 2 * index / roundNum) * 1.8f, Mathf.Sin(Mathf.PI * 2 * index / roundNum) * 1.8f);
             bullet.transform.position = transform.position + dirVec;
             //rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse); 
-            bullet.GetComponent<RedBatBullet>().Setup(bulletPool, bulletPos);
+            bullet.GetComponent<RedBatBullet>().Setup(bulletPool, bulletPos, this.gameObject);
 
             Debug.Log(dirVec);
             if (index >= roundNum - 1)
             {
-                RedBatBullet.fullCharge = true;
+                fullCharge = true;
                 yield return new WaitForSeconds(3f);
                 monData.animator.SetBool("IsAttack", false);
                 ChangeState(State.Idle);
