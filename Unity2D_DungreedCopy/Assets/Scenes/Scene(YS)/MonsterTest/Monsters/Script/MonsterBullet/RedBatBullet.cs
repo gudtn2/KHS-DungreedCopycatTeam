@@ -16,6 +16,7 @@ public class RedBatBullet : MonoBehaviour
     private Animator ani;
     private Rigidbody2D rigid;
     private MonsterD parent;
+    private bool shoot = false;
 
 
     private void Awake()
@@ -59,11 +60,12 @@ public class RedBatBullet : MonoBehaviour
                 ani.SetBool("OnEffect", true);
             }
             // 물체에 부딪히지 않은 상태 
-            else
+            else if (shoot == false)
+            {
                 rigid.velocity = bulletPos.transform.right * 5;
+                shoot = true;
+            }
         }
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,6 +83,7 @@ public class RedBatBullet : MonoBehaviour
         isExplosion = false;
         pool.DeactivePoolItem(this.gameObject);
         parent.explosionCount++;
+        shoot = false;
         //fullCharge = false;
     }
 }
