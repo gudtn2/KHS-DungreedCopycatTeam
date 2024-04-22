@@ -162,14 +162,6 @@ public class MonsterD : Test_Monster
         yield return null;
     }
 
-    private void ActivateBullet(Vector3 dir)
-    {
-        GameObject bullet = bulletPool.ActivePoolItem();
-        bullet.transform.position = transform.position;
-        bullet.transform.rotation = transform.rotation;
-        bullet.GetComponent<BatBullet>().Setup(bulletPool, dir);
-    }
-
     private void UpdateSight()
     {
         if (PlayerController.instance.transform.position.x > transform.position.x)
