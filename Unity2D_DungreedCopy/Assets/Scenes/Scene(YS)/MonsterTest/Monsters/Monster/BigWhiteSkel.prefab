@@ -564,10 +564,9 @@ MonoBehaviour:
     prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
     prefabDamageTest: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
   monState: 0
-  chaseRadius: 5
-  attackRadius: 1
-  maxWanderDis: 3
-  seeRayDis: 1.5
+  jumpForce: 10
+  chaseDis: 15
+  attackDis: 1
 --- !u!95 &7943752012977995479
 Animator:
   serializedVersion: 5

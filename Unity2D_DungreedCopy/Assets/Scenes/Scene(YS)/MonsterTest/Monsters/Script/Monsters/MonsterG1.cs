@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,32 +15,27 @@ public class MonsterG1 : Test_Monster
     }
     public State monState;
 
+    //움직임관련
     [SerializeField]
-    private float chaseRadius;
+    private float       jumpForce;
+    private float       gravity = -9.8f;
+    private Vector3     vel     = Vector3.zero;
+    private Vector3     seeDir  = Vector3.zero;
+    private bool        Jumping;
+    private Color       colorDebugGround;
+
+    // 거리
     [SerializeField]
-    private float attackRadius;
+    private float chaseDis;
     [SerializeField]
-    private float maxWanderDis;
-    private float rayDis = 0.95f;
-    private float dis;
-    
+    private float attackDis;
+
     // 공격 관련
     private GameObject      attackCollider;
     private BoxCollider2D   attackBoxCollider;
+    private bool            isAttacking;
 
-    #region 점프를 위한 벽 채크 변수
-    private Vector3 seeDir;
-    [SerializeField]
-    private float seeRayDis;
-    #endregion 
-
-
-    private float moveX;
-    private bool isAttacking;
-
-
-
-    private PoolManager pool;
+    private PoolManager     pool;
 
     public override void InitValueSetting()
     {
@@ -72,8 +67,6 @@ public class MonsterG1 : Test_Monster
 
         // 처음 생성된 적의 canvasHP 비활성화
         monData.canvasHP.SetActive(false);
-
-        //bulletPool = new PoolManager(prefabBullet);
     }
     private void OnEnable()
     {
@@ -84,9 +77,9 @@ public class MonsterG1 : Test_Monster
         StopCoroutine(monState.ToString());
         monState = State.None;
     }
-
     private void FixedUpdate()
     {
+        #region Die
         if (monData.curHP <= 0 && !monData.isDie)
         {
             monData.isDie = true;
@@ -96,17 +89,37 @@ public class MonsterG1 : Test_Monster
                 ChangeState(State.Die);
             }
         }
+        #endregion
 
-        monData.isGround = IsGrounded();
+        // 바닥을 향해 레이 발사
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.95f, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.down * 0.95f, colorDebugGround);
 
-        if (!monData.isGround)
+        if(hit.collider != null)
         {
-            monData.rigidbody2D.velocity = new Vector3(0, -9.8f);
+            monData.isGround = true;
+            colorDebugGround = Color.green;
         }
         else
         {
-            monData.rigidbody2D.velocity = new Vector3(moveX, 0);
+            monData.isGround = false;
+            colorDebugGround = Color.red;
         }
+        
+        if(!monData.isGround)
+        {
+            vel.y += gravity * Time.deltaTime;
+        }
+        else if(monData.isGround && !Jumping)
+        {
+            vel.y = 0;
+        }
+        else if (monData.isGround)
+        {
+            Jumping = false;
+        }
+        transform.position += vel * Time.deltaTime;
+        
     }
 
     private IEnumerator Idle()
@@ -115,27 +128,81 @@ public class MonsterG1 : Test_Monster
 
         while (true)
         {
-            CalculateDisToTargetAndselectState();
+            vel.x = 0;
 
-            moveX = 0;
+            // Idle 인 경우 행동
+            CalculateDisToTargetAndselectState();
 
             yield return null;
         }
     }
+
     private IEnumerator Chase()
     {
         monData.animator.SetBool("IsMove", true);
-        while (true)
+        while(true)
         {
+            // 타겟을 바라보도록
             UpdateSight();
 
-            moveX = seeDir.x * (monData.moveSpeed * 1.2f);
+            CheckWall();
 
+            CheckPosY();
+
+            // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
+
+            //transform.Translate(seeDir * monData.moveSpeed * Time.deltaTime);
+
             yield return null;
         }
-        moveX = 0;
+    }
 
+    private void CheckPosY()
+    {
+        if(PlayerController.instance.transform.position.y > transform.position.y +1)
+        {
+            if(monData.isGround && !Jumping)
+            {
+                vel.x = seeDir.x * monData.moveSpeed;
+                Jump();
+            }
+        }
+    }
+    
+    private void CheckWall()
+    {
+        // Raycast 발사를 위한 시작점과 방향 설정
+        Vector3 rayOrigin = transform.position; // 캐릭터에서 시작
+        Vector3 rayDir = seeDir;                // 레이 방향 = 바라보는 방향
+
+        // Raycast 발사
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDir, 1f, LayerMask.GetMask("Platform"));
+
+        // 디버그를 위한 Ray 그리기
+        Debug.DrawRay(rayOrigin, rayDir * 1f, Color.red);
+
+        // Platform 충돌 확인
+        if (hit.collider != null)
+        {
+            vel.x = 0;
+            if (monData.isGround && !Jumping)
+            {
+                Jump();
+            }
+            //else if (!monData.isGround) return;
+        }
+        else
+        {
+            // 타겟의 방향으로 이동
+            vel.x = seeDir.x * monData.moveSpeed;
+        }
+    }
+
+    private void Jump()
+    {
+        vel.y = jumpForce;
+        Jumping = true;
     }
 
     private IEnumerator Attack()
@@ -144,7 +211,7 @@ public class MonsterG1 : Test_Monster
         monData.animator.SetBool("IsAttack", true);
         while (isAttacking)
         {
-            moveX = 0;
+            vel.x = 0;
 
             // 왼쪽 바라보고 있을 때
             if(monData.spriteRenderer.flipX)
@@ -183,27 +250,24 @@ public class MonsterG1 : Test_Monster
         if (player != null)
         {
             Vector3 target = player.transform.position;
-            dis = Vector2.Distance(target, transform.position);
+            float dis = Vector2.Distance(target, transform.position);
 
             // 쫒을수 있는 거리 내에 있으면
-            if (dis <= chaseRadius && dis > attackRadius)
+            if (dis <= chaseDis&& dis > attackDis)
             {
                 ChangeState(State.Chase);
             }
             // 모든 거리에서 벗어나면 => Idle
-            else if (dis > chaseRadius)
+            else if (dis > chaseDis)
             {
                 ChangeState(State.Idle);
             }
-            else if (dis <= attackRadius)
+            else if (dis <= attackDis)
             {
                 ChangeState(State.Attack);
             }
         }
     }
-
-
-
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
@@ -244,20 +308,10 @@ public class MonsterG1 : Test_Monster
 
     private void UpdateSight()
     {
-        if (PlayerController.instance.transform.position.x > transform.position.x)
-        {
-            monData.spriteRenderer.flipX = false;
-            seeDir = Vector3.right;
-        }
-        else
-        {
-            monData.spriteRenderer.flipX = true;
-            seeDir = Vector3.left;
-        }
-    }
-    private bool IsGrounded()
-    {
-        return Physics2D.Raycast(transform.position, Vector2.down, rayDis, LayerMask.GetMask("Platform"));
+        bool isRight = PlayerController.instance.transform.position.x >= transform.position.x;
+        monData.spriteRenderer.flipX = !isRight;
+
+        seeDir = isRight ? Vector3.right : Vector3.left;
     }
 
     public void ChangeState(State newState)
@@ -272,12 +326,5 @@ public class MonsterG1 : Test_Monster
 
         // 새로운 상태 재생
         StartCoroutine(monState.ToString());
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, chaseRadius);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }
