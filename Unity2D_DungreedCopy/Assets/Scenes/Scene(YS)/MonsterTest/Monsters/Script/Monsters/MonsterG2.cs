@@ -35,6 +35,7 @@ public class MonsterG2 : Test_Monster
     private bool    isDashing = false;
     [SerializeField]
     private bool    collideToPlayer = false;
+    private bool    disableToDash = false;
 
 
     // 공격 관련
@@ -159,7 +160,15 @@ public class MonsterG2 : Test_Monster
             {
                 yield return new WaitForSeconds(2f);
                 UpdateSight();
-                ChangeState(State.Dash);
+
+                if(disableToDash)
+                {
+                    ChangeState(State.Attack);
+                }
+                else
+                {
+                    ChangeState(State.Dash);
+                }
             }
 
             yield return null;
@@ -177,6 +186,15 @@ public class MonsterG2 : Test_Monster
             if(dis <= findTargetDis)
             {
                 findTarget = true;
+            }
+
+            if(targetPos.x <= transform.position.x + 2 && targetPos.x >= transform.position.x - 2)
+            {
+                disableToDash = true;
+            }
+            else
+            {
+                disableToDash = false;
             }
         }
     }
@@ -199,14 +217,28 @@ public class MonsterG2 : Test_Monster
 
             vel.x = seeDir.x * startSpeed * curveValue;
 
-            if(duration <= time)
+            if (collideToPlayer)
+            {
+                PlayerController.instance.dontMovePlayer = true;
+
+            }
+
+            if (duration <= time)
             {
                 isDashing = false;
+                StartCoroutine(RoutainDontMovePlayer());
                 ChangeState(State.Attack);
             }
             yield return null;
         }
     }
+
+    private IEnumerator RoutainDontMovePlayer()
+    {
+        yield return new WaitForSeconds(2);
+        PlayerController.instance.dontMovePlayer = false;
+    }
+
     private IEnumerator Attack()
     {
         monData.animator.SetBool("IsDash", false);
@@ -313,5 +345,8 @@ public class MonsterG2 : Test_Monster
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, findTargetDis);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, new Vector3(4,10));
+
     }
 }

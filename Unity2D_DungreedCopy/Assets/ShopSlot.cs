@@ -30,7 +30,7 @@ public class ShopSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, 
     {
         baseImage   = GetComponent<Image>();
 
-        discriptionUI = GameObject.Find("Canvas/InventoryUI/InventoryDescription");
+        discriptionUI = GameObject.Find("MainCanvas/InventoryUI/InventoryDescription");
     }
     private void Start()
     {
