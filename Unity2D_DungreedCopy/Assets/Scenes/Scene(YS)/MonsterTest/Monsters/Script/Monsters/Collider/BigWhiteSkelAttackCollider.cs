@@ -6,9 +6,11 @@ public class BigWhiteSkelAttackCollider : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        string parentObjectName = transform.parent.name;
+
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.instance.TakeDamage(10);
+            PlayerController.instance.TakeDamage(15);
         }
     }
 }

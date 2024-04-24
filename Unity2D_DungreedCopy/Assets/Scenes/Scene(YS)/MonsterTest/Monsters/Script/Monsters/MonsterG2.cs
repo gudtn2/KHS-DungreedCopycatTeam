@@ -31,12 +31,16 @@ public class MonsterG2 : Test_Monster
     private float   findTargetDis;
     [SerializeField]
     private bool    findTarget;
-    
+    [SerializeField]
     private bool    isDashing = false;
+    [SerializeField]
+    private bool    collideToPlayer = false;
+
 
     // 공격 관련
     private GameObject      attackCollider;
     private BoxCollider2D   attackBoxCollider;
+    private Vector3         thrustPos;
 
     private PoolManager     pool;
 
@@ -60,7 +64,7 @@ public class MonsterG2 : Test_Monster
 
         base.Awake();
 
-        attackCollider = transform.GetChild(1).gameObject;
+        attackCollider  = transform.GetChild(1).gameObject;
         attackBoxCollider = attackCollider.GetComponent<BoxCollider2D>();
         attackBoxCollider.enabled = false;
 
@@ -83,7 +87,7 @@ public class MonsterG2 : Test_Monster
     private void FixedUpdate()
     {
         CalaulateDisToTarget();
-
+        ChangeThrustPos();
         #region Die
         if (monData.curHP <= 0 && !monData.isDie)
         {
@@ -120,9 +124,28 @@ public class MonsterG2 : Test_Monster
             vel.y = 0;
         }
 
+        if (collideToPlayer)
+        {
+            PlayerController.instance.transform.position = thrustPos;
+        }
+
         transform.position += vel * Time.deltaTime;
         
     }
+
+    private void ChangeThrustPos()
+    {
+        if (seeDir == Vector3.left)
+        //if (monData.spriteRenderer.flipX)
+        {
+            thrustPos = new Vector3(transform.position.x - 1.5f, transform.position.y - 0.7f);
+        }
+        else
+        {
+            thrustPos = new Vector3(transform.position.x + 1.5f, transform.position.y - 0.7f);
+        }
+    }
+
     #region 상태
     private IEnumerator Idle()
     {
@@ -159,23 +182,27 @@ public class MonsterG2 : Test_Monster
     }
     private IEnumerator Dash()
     {
+        monData.animator.SetBool("IsDash", true);
+
         float time = 0;
         float duration = 1;
 
-        float startSpeed = monData.moveSpeed * 2; // 처음 속도 저장
-
-        monData.animator.SetBool("IsDash", true);
+        float startSpeed = monData.moveSpeed * 4; // 처음 속도 저장
+        yield return new WaitForSeconds(0.2f);
+        isDashing = true;
         while (isDashing)
         {
             time += Time.deltaTime;
+
             float t = Mathf.Clamp01(time / duration);
             float curveValue = dashCurve.Evaluate(t);
+
             vel.x = seeDir.x * startSpeed * curveValue;
 
             if(duration <= time)
             {
-                ChangeState(State.Attack);
                 isDashing = false;
+                ChangeState(State.Attack);
             }
             yield return null;
         }
@@ -184,6 +211,7 @@ public class MonsterG2 : Test_Monster
     {
         monData.animator.SetBool("IsDash", false);
         yield return new WaitForSeconds(0.5f);
+        collideToPlayer = false;
         monData.animator.SetBool("IsAttack", true);
         while (true)
         {
@@ -192,10 +220,14 @@ public class MonsterG2 : Test_Monster
             yield return null;
         }
     }
-
+    public void EnableAttackCollider()
+    {
+        attackBoxCollider.enabled = true;
+    }
     public void CutAni()
     {
         monData.animator.SetBool("IsAttack", false);
+        attackBoxCollider.enabled = false;
         ChangeState(State.Idle);
     }
 
@@ -236,12 +268,30 @@ public class MonsterG2 : Test_Monster
 
             TakeAttack(player.DashATK, Color.blue);
         }
+
+        // Dash중 플레이어와 부딪히면
+        if(isDashing && collision.gameObject.tag == "Player")
+        {
+            collideToPlayer = true;
+            PlayerController.instance.TakeDamage(15);
+        }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // Dash중 플레이어와 부딪히면
+        if (isDashing && collision.gameObject.tag == "Player")
+        {
+            collideToPlayer = true;
+        }
+    }
+
 
     private void UpdateSight()
     {
         bool isRight = PlayerController.instance.transform.position.x >= transform.position.x;
         monData.spriteRenderer.flipX = !isRight;
+
+        
 
         seeDir = isRight ? Vector3.right : Vector3.left;
     }
