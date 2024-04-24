@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6499993453242869142}
   - component: {fileID: 6078435228986890932}
   m_Layer: 0
-  m_Name: Minotaur
+  m_Name: Minotaurs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,13 +181,44 @@ MonoBehaviour:
     rigidbody2D: {fileID: 0}
     animator: {fileID: 0}
   monEffectData:
-    prefabDieEffect: {fileID: 0}
-    prefabDamageTest: {fileID: 0}
+    prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
+    prefabDamageTest: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
   monState: 0
+  dashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5049813
+      value: 0.99904525
+      inSlope: -0.004004969
+      outSlope: -0.004004969
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27568316
+    - serializedVersion: 3
+      time: 1.0791626
+      value: 0.0070762634
+      inSlope: -2.6988416
+      outSlope: -2.6988416
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17829147
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   groundRayDis: 1.25
   findTargetDis: 5
-  checkYDis: 1
-  checkXDis: 2
   findTarget: 0
 --- !u!95 &6078435228986890932
 Animator:

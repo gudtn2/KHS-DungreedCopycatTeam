@@ -17,24 +17,22 @@ public class MonsterG2 : Test_Monster
 
     //움직임관련
     [SerializeField]
-    private float       groundRayDis;
-    private float       gravity = -9.8f;
-    private Vector3     vel     = Vector3.zero;
-    private Vector3     seeDir  = Vector3.zero;
-    private Color       colorDebugGround;
+    private AnimationCurve  dashCurve;
+    [SerializeField]
+    private float           groundRayDis;
+    private float           gravity = -9.8f;
+    private Vector3         vel     = Vector3.zero;
+    private Vector3         seeDir  = Vector3.zero;
+    private Color           colorDebugGround;
 
 
     // 거리
     [SerializeField]
     private float   findTargetDis;
     [SerializeField]
-    private float   checkYDis;
-    [SerializeField]
-    private float   checkXDis;
-    [SerializeField]
     private bool    findTarget;
-    [SerializeField]
-    private int     stateType = 0;
+    
+    private bool    isDashing = false;
 
     // 공격 관련
     private GameObject      attackCollider;
@@ -134,17 +132,11 @@ public class MonsterG2 : Test_Monster
         {
             vel.x = 0;
 
-            switch (stateType)
+            if(findTarget)
             {
-                case 0:
-                    break;
-                case 1:
-                    ChangeState(State.Attack);
-                    break;
-                case 2:
-                    ChangeState(State.Dash);
-                    break;
-
+                yield return new WaitForSeconds(2f);
+                UpdateSight();
+                ChangeState(State.Dash);
             }
 
             yield return null;
@@ -163,53 +155,50 @@ public class MonsterG2 : Test_Monster
             {
                 findTarget = true;
             }
-            else
-            {
-                stateType = 0;
-            }
         }
-
-        if(findTarget)
-        {
-            stateType = 1;
-
-            Vector2 targetPos = player.transform.position;
-
-            // y 범위 안에 있으면?
-            if (targetPos.y <= transform.position.y + checkYDis && targetPos.y >= transform.position.y - checkYDis)
-            {
-                // x축 범위 안
-                if(targetPos.x <= transform.position.x + checkXDis && targetPos.y >= transform.position.x - checkXDis)
-                {
-                    // Type2 상태 패턴
-                    stateType = 2;
-                }
-                // x축 범위 밖
-                else
-                {
-                    // Type1 상태 패턴
-                    stateType = 1;
-                }
-            }
-            else
-            {
-                // Type1 상태 패턴
-                stateType = 1;
-            }
-        }
-
-
     }
+    private IEnumerator Dash()
+    {
+        float time = 0;
+        float duration = 1;
 
+        float startSpeed = monData.moveSpeed * 2; // 처음 속도 저장
+
+        monData.animator.SetBool("IsDash", true);
+        while (isDashing)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / duration);
+            float curveValue = dashCurve.Evaluate(t);
+            vel.x = seeDir.x * startSpeed * curveValue;
+
+            if(duration <= time)
+            {
+                ChangeState(State.Attack);
+                isDashing = false;
+            }
+            yield return null;
+        }
+    }
     private IEnumerator Attack()
     {
-        while(true)
+        monData.animator.SetBool("IsDash", false);
+        yield return new WaitForSeconds(0.5f);
+        monData.animator.SetBool("IsAttack", true);
+        while (true)
         {
             vel.x = 0;
 
             yield return null;
         }
     }
+
+    public void CutAni()
+    {
+        monData.animator.SetBool("IsAttack", false);
+        ChangeState(State.Idle);
+    }
+
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
@@ -274,9 +263,5 @@ public class MonsterG2 : Test_Monster
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, findTargetDis);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position,new Vector3(50,checkYDis*2));
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position,new Vector3(checkXDis*2,checkYDis*2));
     }
 }
