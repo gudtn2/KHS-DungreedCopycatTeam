@@ -13,6 +13,8 @@ public class SpawnMonster : MonoBehaviour
     // 2: LittleGhost
     // 3: RedBigBat
     // 4: RedBat
+    // 5: BigWhiteSkel
+    // 6: Minotaur
 
     private PoolManager spawnPool;
 

@@ -32,6 +32,7 @@ public class MonsterFactory : MonoBehaviour
             mon.transform.position = transform.position;
             mon.transform.rotation = transform.rotation;
 
+            // 몬스터 추가의 경우 switch문 내에 추가 
             switch (number)
             {
                 case 0:
@@ -51,6 +52,9 @@ public class MonsterFactory : MonoBehaviour
                     break;
                 case 5:
                     mon.GetComponent<MonsterG1>().Setup(monPools[number]);
+                    break;
+                case 6:
+                    mon.GetComponent<MonsterG2>().Setup(monPools[number]);
                     break;
             }
 
