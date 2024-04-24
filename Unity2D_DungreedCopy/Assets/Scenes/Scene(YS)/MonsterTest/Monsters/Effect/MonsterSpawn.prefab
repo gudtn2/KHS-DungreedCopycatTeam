@@ -126,4 +126,6 @@ MonoBehaviour:
   - {fileID: 553965935317475635, guid: 38780e77a8df0534e834243dec4a70e3, type: 3}
   - {fileID: 7713911475635890338, guid: 7232401e4da25ef4dbbcf459d0cba33f, type: 3}
   - {fileID: 7713911475635890338, guid: e091b566fbaf9d84696dfc91f8f709f5, type: 3}
+  - {fileID: 87201123065554956, guid: 0eedb36e4d2f0b548aaa82bdab2b523f, type: 3}
+  - {fileID: 3538665800985673010, guid: d1e28acef27bd9948b29e74fd4ea68c5, type: 3}
   number: 0
