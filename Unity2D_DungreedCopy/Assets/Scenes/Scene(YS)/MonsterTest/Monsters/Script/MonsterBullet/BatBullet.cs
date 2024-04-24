@@ -74,6 +74,13 @@ public class BatBullet : MonoBehaviour
                 PlayerController.instance.TakeDamage(3);
             }
         }
+        else if (this.gameObject.name == "SkelArrow(Clone)")
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                PlayerController.instance.TakeDamage(5);
+            }
+        }
     }
 
 

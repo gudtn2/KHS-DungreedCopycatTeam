@@ -52,6 +52,9 @@ public class MonsterFactory : MonoBehaviour
                 case 5:
                     mon.GetComponent<MonsterG1>().Setup(monPools[number]);
                     break;
+                case 7:
+                    mon.GetComponent<MonsterG3>().Setup(monPools[number]);
+                    break;
             }
 
         }

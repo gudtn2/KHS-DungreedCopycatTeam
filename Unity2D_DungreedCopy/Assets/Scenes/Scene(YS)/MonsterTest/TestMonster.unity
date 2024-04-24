@@ -2278,7 +2278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabSpawn: {fileID: 2994802223210092910, guid: c70c9c3136968d847a926ca6cb68e30d, type: 3}
-  monNum: 5
+  monNum: 7
 --- !u!4 &11682117
 Transform:
   m_ObjectHideFlags: 0
@@ -7347,7 +7347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &658717422
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12434,7 +12434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1255719531
 BoxCollider2D:
   m_ObjectHideFlags: 0
