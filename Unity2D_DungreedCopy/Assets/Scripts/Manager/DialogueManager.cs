@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     private TextMeshProUGUI     textName;
     [SerializeField]        
     private TextMeshProUGUI     textDialogue;
+    public TextMeshProUGUI     endingDialogue;
     [SerializeField]        
     private GameObject          nextText;
     public Queue<string>        sentences;
@@ -70,6 +71,19 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         NextSentence();
     }
 
+    public void OnEnding(string[] lines)
+    {
+        openDialogue = true;
+        sentences.Clear();
+
+        foreach (string line in lines)
+        {
+            sentences.Enqueue(line);
+        }
+
+        NextSentenceEnding();
+    }
+
     public void NextSentence()
     {
         if(sentences.Count != 0)
@@ -89,12 +103,33 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    public void NextSentenceEnding()
+    {
+        if (sentences.Count != 0)
+        {
+            curSentence = sentences.Dequeue();
+
+            isTyping = true;
+            nextText.SetActive(false);
+            StartCoroutine(EndingTyping(curSentence));
+        }
+    }
+
     private IEnumerator Typing(string line)
     {
         textDialogue.text = "";
         foreach(char letter in line.ToCharArray())
         {
             textDialogue.text += letter;
+            yield return new WaitForSeconds(typingEffectWaitTime);
+        }
+    }
+    private IEnumerator EndingTyping(string line)
+    {
+        endingDialogue.text = "";
+        foreach (char letter in line.ToCharArray())
+        {
+            endingDialogue.text += letter;
             yield return new WaitForSeconds(typingEffectWaitTime);
         }
     }
@@ -107,7 +142,13 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             nextText.SetActive(true);
         }
 
-        if(openDialogue && !isTyping)
+        if (endingDialogue.text.Equals(curSentence))
+        {
+            isTyping = false;
+            nextText.SetActive(true);
+        }
+
+        if (openDialogue && !isTyping)
         {
             if(Input.GetKeyDown(KeyCode.F))
             {
