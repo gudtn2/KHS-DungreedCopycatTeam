@@ -17,6 +17,8 @@ public class TransformToBossDungeon : MonoBehaviour
     private PlayerController        player;
     private FadeEffectController    fade;
     private MapController           map;
+    public string[] sentences;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
@@ -31,16 +33,32 @@ public class TransformToBossDungeon : MonoBehaviour
         {
             if(Input.GetKeyDown(transferBossKey))
             {
-                // 변경할 씬 이름으로 변경
-                player.curSceneName = transferBossStageName;
+                if(player.curSceneName == "Original")
+                {
+                    // 변경할 씬 이름으로 변경
+                    player.curSceneName = transferBossStageName;
 
-                // dungeonName List정리
-                map.dungeonNames.Clear();
+                    // dungeonName List정리
+                    map.dungeonNames.Clear();
 
-                // 페이드아웃 효과
-                fade.OnFade(FadeState.FadeOut);
+                    // 페이드아웃 효과
+                    fade.OnFade(FadeState.FadeOut);
 
-                StartCoroutine(TranferBossStage());
+                    StartCoroutine(TranferBossStage());
+                }
+                else if(player.curSceneName == "SkelBoss")
+                {
+                    // 변경할 씬 이름으로 변경
+                    player.curSceneName = transferBossStageName;
+
+                    // dungeonName List정리
+                    map.dungeonNames.Clear();
+
+                    // 페이드아웃 효과
+                    fade.OnFade(FadeState.FadeOut);
+
+                    StartCoroutine(TranferEnding());
+                }
             }
         }
     }
@@ -64,5 +82,17 @@ public class TransformToBossDungeon : MonoBehaviour
     {
         yield return new WaitForSeconds(fade.fadeTime);
         SceneManager.LoadScene(transferBossStageName);
+    }
+    private IEnumerator TranferEnding()
+    {
+        yield return new WaitForSeconds(fade.fadeTime);
+        DialogueManager.instance.OnEnding(sentences);
+        yield return new WaitForSeconds(10f);
+        DialogueManager.instance.endingDialogue.text = "";
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
