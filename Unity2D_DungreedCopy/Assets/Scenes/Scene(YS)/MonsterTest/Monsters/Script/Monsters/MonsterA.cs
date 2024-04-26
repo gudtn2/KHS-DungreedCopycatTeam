@@ -52,6 +52,8 @@ public class MonsterA : Test_Monster
         monData.canvasHP.SetActive(false);
 
         bulletPool = new PoolManager(prefabBullet);
+
+        
     }
 
     private void OnEnable()
@@ -131,6 +133,9 @@ public class MonsterA : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
 
         // 적이 죽었음을 이벤트로 발생시킴
         if (EnemyDieEvent != null)

@@ -7,15 +7,17 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField]
     private GameObject[]    monPrefabs;
     private PoolManager[]   monPools;
+    private Transform       parent;
 
     [SerializeField]
     private int             number;     // 생성할 몬스터의 번혼
 
     private PoolManager     pool;       // Spawn Effect PoolManager
-    public void Setup(int num,PoolManager newPool)
+    public void Setup(int num,PoolManager newPool,Transform newParent)
     {
         this.pool = newPool;
         number = num;
+        parent = newParent;
 
         monPools = new PoolManager[monPrefabs.Length];
         for (int i = 0; i < monPrefabs.Length; ++i)
@@ -29,6 +31,7 @@ public class MonsterFactory : MonoBehaviour
         if(number >= 0 && number < monPrefabs.Length)
         {
             GameObject mon = monPools[number].ActivePoolItem();
+            if(parent != null) mon.transform.parent= parent;
             mon.transform.position = transform.position;
             mon.transform.rotation = transform.rotation;
 

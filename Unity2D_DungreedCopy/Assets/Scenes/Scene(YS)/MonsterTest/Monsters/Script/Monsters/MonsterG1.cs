@@ -91,6 +91,8 @@ public class MonsterG1 : Test_Monster
         }
         #endregion
 
+        CheckCeiling();
+
         // 바닥을 향해 레이 발사
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.95f, LayerMask.GetMask("Platform"));
         Debug.DrawRay(transform.position, Vector2.down * 0.95f, colorDebugGround);
@@ -139,37 +141,35 @@ public class MonsterG1 : Test_Monster
 
     private IEnumerator Chase()
     {
+
         monData.animator.SetBool("IsMove", true);
         while(true)
         {
-            // 타겟을 바라보도록
-            UpdateSight();
-
-            CheckWall();
-
-            CheckPosY();
-
+           
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
+
+            PlayerController player = PlayerController.instance;
+            Vector3 target = player.transform.position;
+
+            if (target.x <= transform.position.x + 0.5f && target.x >= transform.position.x - 0.5f)
+            {
+                monData.animator.SetBool("IsMove", false);
+                vel.x = 0;
+            }
+            else
+            {
+                monData.animator.SetBool("IsMove", true);
+                // 타겟을 바라보도록
+                UpdateSight();
+                CheckWall();
+            }
 
             //transform.Translate(seeDir * monData.moveSpeed * Time.deltaTime);
 
             yield return null;
         }
     }
-
-    private void CheckPosY()
-    {
-        if(PlayerController.instance.transform.position.y > transform.position.y +1)
-        {
-            if(monData.isGround && !Jumping)
-            {
-                vel.x = seeDir.x * monData.moveSpeed;
-                Jump();
-            }
-        }
-    }
-    
     private void CheckWall()
     {
         // Raycast 발사를 위한 시작점과 방향 설정
@@ -186,16 +186,35 @@ public class MonsterG1 : Test_Monster
         if (hit.collider != null)
         {
             vel.x = 0;
+
             if (monData.isGround && !Jumping)
             {
                 Jump();
             }
-            //else if (!monData.isGround) return;
         }
         else
         {
             // 타겟의 방향으로 이동
             vel.x = seeDir.x * monData.moveSpeed;
+        }
+    }
+
+    private void CheckCeiling()
+    {
+        // Raycast 발사
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, LayerMask.GetMask("Platform"));
+        Color rayColor = Color.red;
+        // 디버그를 위한 Ray 그리기
+        Debug.DrawRay(transform.position, Vector2.up * 1f, rayColor);
+
+        if (hit.collider != null)
+        {
+            vel.y = 0;
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
         }
     }
 
@@ -271,7 +290,6 @@ public class MonsterG1 : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
-        GiveCompensation(transform, 5);
 
         if (EnemyDieEvent != null)
         {
