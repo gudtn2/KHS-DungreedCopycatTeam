@@ -34,6 +34,7 @@ public class MapController : MonoBehaviour
         UpdateDungeonMapUI();
         MapUI.SetActive(MapOn);
         miniMap.SetActive(!PlayerController.instance.dontMovePlayer);
+        MinimapControl();
     }
     private void DontActivateDungeonMap()
     {
@@ -85,6 +86,18 @@ public class MapController : MonoBehaviour
                 dungeonMaps[i].SetActive(false);
             }
 
+        }
+    }
+
+    void MinimapControl()
+    {
+        if (PlayerController.instance.dontMovePlayer || PlayerController.instance.curDungeonName == "BossRoom" || PlayerController.instance.curDungeonName == "NextStage")
+        {
+            miniMap.SetActive(false);
+        }
+        else if (!PlayerController.instance.dontMovePlayer)
+        {
+            miniMap.SetActive(!PlayerController.instance.dontMovePlayer);
         }
     }
 

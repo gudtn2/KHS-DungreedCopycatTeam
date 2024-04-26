@@ -977,7 +977,7 @@ MonoBehaviour:
   fasterRate: 0.0025
   imageBossDieEffect: {fileID: 6243001896466694738}
   explosionEffectPrefab: {fileID: 3699184378972901191, guid: 6bb5f1a1c5bcf7241af930e7ce916da1, type: 3}
-  explosionEffectCount: 100
+  explosionEffectCount: 50
   diePiecePrefab: {fileID: 3066248250393582781, guid: 1b9cd17e622a8fa43938b5cbe1b9bca5, type: 3}
   camViewPos: {fileID: 6513474218051200541}
   isDie: 0
