@@ -2728,7 +2728,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: e7cc89c5fbd62b340b955e2130c32fa7, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -2786,6 +2786,25 @@ MonoBehaviour:
   - {fileID: 2041693708}
   - {fileID: 896855776}
   - {fileID: 1447261212}
+  minimapTexture:
+  - {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  - {fileID: 8400000, guid: 49a7f1a1038545647b0c4cf76d80f1c7, type: 2}
+  - {fileID: 8400000, guid: f8c402d65a5567242b0358094dcff6a9, type: 2}
+  - {fileID: 8400000, guid: c8fdbfb48a269444bbc8a6cc4974f1d0, type: 2}
+  - {fileID: 8400000, guid: de52e3ca791d89e4291bb0f464ce7bbf, type: 2}
+  - {fileID: 8400000, guid: ce3a1ca2825a0dd40be8f6592f152acf, type: 2}
+  - {fileID: 8400000, guid: fdea853ed0f3b1e4ea42a086ec5089f2, type: 2}
+  - {fileID: 8400000, guid: 51f678c7466a5df4db29a87b33afed44, type: 2}
+  - {fileID: 8400000, guid: a8588f23e2e654f4d9e715291957b1cc, type: 2}
+  - {fileID: 8400000, guid: e7cc89c5fbd62b340b955e2130c32fa7, type: 2}
+  - {fileID: 8400000, guid: 62143f38d3f83fb458bc38fe921a7463, type: 2}
+  - {fileID: 8400000, guid: d59f410990d52c444ae70271792b3ccd, type: 2}
+  - {fileID: 8400000, guid: 79a7f9872807add4cb36faf5ed27d146, type: 2}
+  - {fileID: 8400000, guid: 77da98269b32e774c8a41c4b36af5599, type: 2}
+  - {fileID: 8400000, guid: ec93bf83ef40320468e2c6b31423d166, type: 2}
+  - {fileID: 8400000, guid: ce539436e2c2d854884050b9fdac2243, type: 2}
+  - {fileID: 8400000, guid: 7f3a8bdc27803ca45a553f34ae839421, type: 2}
+  - {fileID: 8400000, guid: ac772d24c56eaf74dbad92849152596b, type: 2}
 --- !u!4 &282630693
 Transform:
   m_ObjectHideFlags: 0
@@ -4080,7 +4099,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: c8fdbfb48a269444bbc8a6cc4974f1d0, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -5374,6 +5393,7 @@ GameObject:
   - component: {fileID: 537931180}
   - component: {fileID: 537931182}
   - component: {fileID: 537931181}
+  - component: {fileID: 537931183}
   m_Layer: 5
   m_Name: Minimap Render
   m_TagString: Untagged
@@ -5399,7 +5419,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -38, y: -40}
-  m_SizeDelta: {x: 512, y: 256}
+  m_SizeDelta: {x: 256, y: 128}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &537931181
 MonoBehaviour:
@@ -5436,6 +5456,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537931179}
   m_CullTransparentMesh: 1
+--- !u!114 &537931183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537931179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4deef7f83c9854eb22778cc71d418b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &538460482
 GameObject:
   m_ObjectHideFlags: 0
@@ -6944,7 +6976,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 62143f38d3f83fb458bc38fe921a7463, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -12630,7 +12662,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 7f3a8bdc27803ca45a553f34ae839421, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -45461,7 +45493,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: a8588f23e2e654f4d9e715291957b1cc, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -46840,7 +46872,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: ce3a1ca2825a0dd40be8f6592f152acf, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -47550,7 +47582,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: f8c402d65a5567242b0358094dcff6a9, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -47633,7 +47665,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 49a7f1a1038545647b0c4cf76d80f1c7, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -48435,7 +48467,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: d59f410990d52c444ae70271792b3ccd, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -50682,7 +50714,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: ec93bf83ef40320468e2c6b31423d166, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -51702,7 +51734,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: ac772d24c56eaf74dbad92849152596b, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -52960,7 +52992,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 51f678c7466a5df4db29a87b33afed44, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -54936,7 +54968,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: de52e3ca791d89e4291bb0f464ce7bbf, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -55352,7 +55384,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: fdea853ed0f3b1e4ea42a086ec5089f2, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -93485,7 +93517,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 77da98269b32e774c8a41c4b36af5599, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -94977,7 +95009,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 79a7f9872807add4cb36faf5ed27d146, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -95436,7 +95468,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 94d3a0c50fe825d4fbfcd76741224670, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: ce539436e2c2d854884050b9fdac2243, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
