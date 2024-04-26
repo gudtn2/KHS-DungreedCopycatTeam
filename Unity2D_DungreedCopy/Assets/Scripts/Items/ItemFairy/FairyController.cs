@@ -13,11 +13,11 @@ public class FairyController : ItemBase
 
     private PoolManager fairyEffectPoolManager;
     private PoolManager fairyTextEffectPoolManager;
-
+    private PoolManager poolManager;
     private void Awake()
     {
-        fairyEffectPoolManager      = new PoolManager(fairyEffectPrefab);
-        fairyTextEffectPoolManager  = new PoolManager(fairyTextEffectPrefab);
+        fairyEffectPoolManager = new PoolManager(fairyEffectPrefab);
+        fairyTextEffectPoolManager = new PoolManager(fairyTextEffectPrefab);
     }
     private void OnApplicationQuit()
     {
@@ -30,7 +30,7 @@ public class FairyController : ItemBase
         entity.GetComponent<PlayerStats>().IncreaseHP(increaseHP);
         ActiveFairyEffect();
         ActiveTextEffect();
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 
     private void ActiveFairyEffect()

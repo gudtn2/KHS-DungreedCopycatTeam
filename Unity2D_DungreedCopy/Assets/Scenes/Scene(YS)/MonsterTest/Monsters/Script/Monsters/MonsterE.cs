@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterE : Test_Monster
 {
-    public static event System.Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
     public enum State
     {
         None,
@@ -28,7 +27,8 @@ public class MonsterE : Test_Monster
     [SerializeField]
     private float maxDis;
     private Vector2 point;
-    private int     wanderCount = 0;
+    private int wanderCount = 0;
+    private Vector2 dir;
 
 
     private PoolManager pool;
@@ -86,62 +86,67 @@ public class MonsterE : Test_Monster
                 ChangeState(State.Die);
             }
         }
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1f, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, dir * 1f,Color.red);
+
+        if(hit.collider != null)
+        {
+            monData.rigidbody2D.velocity = Vector2.zero;
+            Debug.Log("벽이다!!!");
+        }
     }
 
     private IEnumerator Idle()
     {
-        SetNewDestination();
-        ChangeState(State.Wander);
-
-        while (true)
+        float time = 0;
+        float dura = 0.5f;
+        while (time < dura)
         {
+            time += Time.deltaTime;
 
             yield return null;
         }
+        ChangeState(State.Wander);
     }
 
     private void SetNewDestination()
     {
-        Vector2 randomPoint = Vector2.zero;
-        bool pointIsValid = false;
+        Vector2 randomPoint = new Vector2(transform.position.x + Random.Range(-radius,radius),
+                                          transform.position.y + Random.Range(-radius, radius));
 
-        while (!pointIsValid)
-        {
-            randomPoint = new Vector2(Random.Range(-maxDis, maxDis), Random.Range(-maxDis, maxDis));
-            
-            RaycastHit2D hit = Physics2D.Raycast(point, Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Platform"));
-            
-            if(hit.collider == null)
-            {
-                pointIsValid = true;
-            }
-        }
-        point = randomPoint;
+        Vector2 newDir = randomPoint - (Vector2)transform.position;
+        dir = newDir.normalized;
     }
     private IEnumerator Wander()
     {
+        float time = 0;
+        float dura = Random.Range(0.5f, 2f);
+        SetNewDestination();
 
-        while(true)
+        while (time < dura)
         {
-            transform.position = Vector2.MoveTowards(transform.position, point, monData.moveSpeed * Time.deltaTime);
+            time += Time.deltaTime;
+
+            transform.Translate(dir * monData.moveSpeed * Time.deltaTime);
             
-            if(Vector2.Distance(transform.position,point) < range)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1f, LayerMask.GetMask("Platform"));
+            Debug.DrawRay(transform.position, dir * 1f, Color.red);
+
+            if (hit.collider != null)
+            {
+                ChangeState(State.Idle);
+            }
+
+            if (time >= dura)
             {
                 // Wander 횟수 증가
                 wanderCount++;
-
-                //3번 진행한 경우 Attack
-                if(wanderCount >= 3)
-                {
-                    ChangeState(State.Attack);
-                }
-                else
-                {
-                    ChangeState(State.Idle);
-                }
             }
             yield return null;
         }
+        if(wanderCount >= 3) ChangeState(State.Attack);
+        else                 ChangeState(State.Idle);
     }
 
     private IEnumerator Attack()
@@ -178,18 +183,13 @@ public class MonsterE : Test_Monster
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
 
-        if (EnemyDieEvent != null)
-        {
-            EnemyDieEvent(gameObject);
-        }
-        // 던전 내 킬 카운트 상승
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
+
         PlayerDungeonData.instance.countKill++;
-        // exp 플레이어에게 추가 => 차후 변수부분으로 정수값 수정
         PlayerDungeonData.instance.totalEXP += 100;
 
-        // 해당 몬스터 비활성화
         pool.DeactivePoolItem(this.gameObject);
-
         yield return null;
     }
 

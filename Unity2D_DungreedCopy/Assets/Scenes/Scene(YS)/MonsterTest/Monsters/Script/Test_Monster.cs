@@ -55,7 +55,7 @@ public abstract class Test_Monster : MonoBehaviour
         monData.capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         monData.rigidbody2D = GetComponent<Rigidbody2D>();
         monData.animator = GetComponent<Animator>();
-        monData.canvasHP = transform.GetChild(0).gameObject;
+        monData.canvasHP = transform.GetChild(1).gameObject;
         monData.hpBar = monData.canvasHP.GetComponentInChildren<HPBar>();
     }
 

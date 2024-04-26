@@ -14,10 +14,34 @@ public class DoorDungeon : MonoBehaviour
     private GameObject curTel;         // 현재  dungeon의 Tel
     public int enemiesCount;   // 남은 적의 수
 
+    [SerializeField]
+    private Transform fairyPos;
+    [SerializeField]
+    private Transform treasureBoxPos;
+    [SerializeField]
+    private GameObject fairyPrefab;
+    [SerializeField]
+    private GameObject treasureBoxPrefab;
+    private PoolManager treasurePool;
+
     private void Awake()
     {
         StartCoroutine(OpenTheDoor());
+        treasurePool = new PoolManager(treasureBoxPrefab);
     }
+    private void ActivateTreasureBox()
+    {
+        //GameObject treasureBox = Instantiate(treasureBoxPrefab, treasureBoxPos.position, treasureBoxPos.rotation, treasureBoxPos.parent);
+        GameObject treasureBox = treasurePool.ActivePoolItem();
+        treasureBox.transform.position = transform.position;
+        treasureBox.transform.rotation = Quaternion.identity;
+        treasureBox.GetComponent<CreateTresureBox>().Setup(treasurePool);
+    }
+    private void ActivateFairy()
+    {
+        GameObject fairy = Instantiate(fairyPrefab, fairyPos.position, fairyPos.rotation, fairyPos.parent);
+    }
+
     private void OnEnable()
     {
         // UI못켜게
@@ -56,22 +80,29 @@ public class DoorDungeon : MonoBehaviour
     {
         while (true)
         {
-            if(enemiesCount == 0)
+            yield return new WaitUntil(() => enemiesCount == 0); // enemiesCount가 0이 될 때까지 대기
+
+            int randomNumber = UnityEngine.Random.Range(0, 100);
+            if (randomNumber <= 5)
             {
-                for (int i = 0; i < doors.Length; ++i)
-                {
-                    // 문 여는 이미지
-                    doors[i].GetComponent<Animator>().SetTrigger("OpenTheDoor");
-
-                    // 콜라이더 비활성화
-                    doors[i].GetComponent<BoxCollider2D>().enabled = false;
-                    PlayerDungeonData.instance.isFighting = false;
-                }
-
+                ActivateTreasureBox();
             }
-            yield return null;
+            if (randomNumber <= 10)
+            {
+                ActivateFairy();
+            }
+
+            for (int i = 0; i < doors.Length; ++i)
+            {
+                // 문 여는 이미지
+                doors[i].GetComponent<Animator>().SetTrigger("OpenTheDoor");
+
+                // 콜라이더 비활성화
+                doors[i].GetComponent<BoxCollider2D>().enabled = false;
+                PlayerDungeonData.instance.isFighting = false;
+            }
+
+            yield break;
         }
     }
-
-
 }

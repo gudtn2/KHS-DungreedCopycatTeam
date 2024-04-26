@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class MonsterC : Test_Monster
 {
-    public static event Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
     public enum State
     {
         None,
@@ -150,18 +149,13 @@ public class MonsterC : Test_Monster
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
 
-        if (EnemyDieEvent != null)
-        {
-            EnemyDieEvent(gameObject);
-        }
-        // 던전 내 킬 카운트 상승
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
+
         PlayerDungeonData.instance.countKill++;
-        // exp 플레이어에게 추가 => 차후 변수부분으로 정수값 수정
         PlayerDungeonData.instance.totalEXP += 100;
 
-        // 해당 몬스터 비활성화
         pool.DeactivePoolItem(this.gameObject);
-
         yield return null;
     }
 

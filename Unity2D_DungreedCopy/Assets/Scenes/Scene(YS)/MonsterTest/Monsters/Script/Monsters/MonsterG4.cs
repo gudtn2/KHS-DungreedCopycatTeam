@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class MonsterG4 : Test_Monster
 {
-    public static event System.Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
+    
     public enum State
     {
         None,
@@ -33,10 +33,8 @@ public class MonsterG4 : Test_Monster
     [SerializeField]
     private float attackDis;
 
-    // 공격 관련
-
     private PoolManager pool;
-    public Animator ani;
+    public Animator swordAni;
     [SerializeField]
     public Transform swordPos;
 
@@ -60,6 +58,8 @@ public class MonsterG4 : Test_Monster
 
         base.Awake();
 
+        GameObject sword = swordPos.transform.GetChild(0).gameObject;
+        swordAni = sword.GetComponent<Animator>();
 
         InitValueSetting();
 
@@ -90,6 +90,8 @@ public class MonsterG4 : Test_Monster
             }
         }
         #endregion
+
+        CheckCeiling();
 
         // 바닥을 향해 레이 발사
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, LayerMask.GetMask("Platform"));
@@ -122,6 +124,25 @@ public class MonsterG4 : Test_Monster
 
     }
 
+    private void CheckCeiling()
+    {
+        // Raycast 발사
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, LayerMask.GetMask("Platform"));
+        Color rayColor = Color.red;
+        // 디버그를 위한 Ray 그리기
+        Debug.DrawRay(transform.position, Vector2.up * 1f, rayColor);
+
+        if (hit.collider != null)
+        {
+            vel.y = 0;
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+    }
+
     private IEnumerator Idle()
     {
         monData.animator.SetBool("IsMove", false);
@@ -142,12 +163,25 @@ public class MonsterG4 : Test_Monster
         monData.animator.SetBool("IsMove", true);
         while (true)
         {
-            CheckWall();
-
-            CheckPosY();
-            UpdateSight();
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
+
+            PlayerController player = PlayerController.instance;
+            Vector3 target = player.transform.position;
+
+            if (target.x <= transform.position.x + 0.5f && target.x >= transform.position.x - 0.5f)
+            {
+                monData.animator.SetBool("IsMove", false);
+                vel.x = 0;
+            }
+            else
+            {
+                monData.animator.SetBool("IsMove", true);
+                // 타겟을 바라보도록
+                UpdateSight();
+                CheckWall();
+                CheckPosY();
+            }
 
             //transform.Translate(seeDir * monData.moveSpeed * Time.deltaTime);
             yield return null;
@@ -202,29 +236,29 @@ public class MonsterG4 : Test_Monster
     }
     private IEnumerator Charge()
     {
+        float time = 0;
+        float duration = 0.3f;
+
         monData.animator.SetBool("IsMove", false);
-        ani.SetBool("IsCharge", true);
-        vel.x = 0;
-        yield return new WaitForSeconds(1.0f);
-        ani.SetBool("IsCharge", false);
+        swordAni.SetBool("IsCharge", true);
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            vel.x = 0;
+            yield return null;
+        }
+        swordAni.SetBool("IsCharge", false);
         ChangeState(State.Attack);
     }
 
     private IEnumerator Attack()
     {
-        ani.SetBool("IsAttack", true);
+        swordAni.SetBool("IsAttack", true);
 
-        yield return new WaitForSeconds(2.0f);
-        ani.SetBool("IsAttack", false);
+        yield return new WaitForSeconds(0.5f);
+        swordAni.SetBool("IsAttack", false);
         CalculateDisToTargetAndselectState();
     }
-
-    public void CutAni()
-    {
-        monData.animator.SetBool("IsAttack", false);
-        ChangeState(State.Idle);
-    }
-
     private void CalculateDisToTargetAndselectState()
     {
         PlayerController player = PlayerController.instance;
@@ -253,20 +287,15 @@ public class MonsterG4 : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
-        GiveCompensation(transform,5);
+        GiveCompensation(transform, 5);
 
-        if (EnemyDieEvent != null)
-        {
-            EnemyDieEvent(gameObject);
-        }
-        // 던전 내 킬 카운트 상승
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
+
         PlayerDungeonData.instance.countKill++;
-        // exp 플레이어에게 추가 => 차후 변수부분으로 정수값 수정
         PlayerDungeonData.instance.totalEXP += 100;
 
-        // 해당 몬스터 비활성화
         pool.DeactivePoolItem(this.gameObject);
-
         yield return null;
     }
 

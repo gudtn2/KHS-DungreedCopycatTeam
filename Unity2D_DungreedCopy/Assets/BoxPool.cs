@@ -6,14 +6,11 @@ public class BoxPool : MonoBehaviour
 {
     [SerializeField]
     private GameObject prefabItem;
-    private PoolManager itemPool;
-
-    private Transform itemSpqwnPos;
+    [SerializeField]
     private GameObject keyPrefab;
-
-    [SerializeField]
+    private PoolManager itemPool;
+    private Transform itemSpqwnPos;
     private bool onKey;
-    [SerializeField]
     public bool inputKey;
 
     private PoolManager poolManager;
@@ -25,21 +22,23 @@ public class BoxPool : MonoBehaviour
 
         ani = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
-
+        
+        keyPrefab.SetActive(false);
+        
         itemSpqwnPos = transform.GetChild(0).gameObject.GetComponent<Transform>();
-        keyPrefab = transform.GetChild(1).gameObject;
 
         itemPool = new PoolManager(prefabItem);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Platform")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
         {
-            rigidBody.bodyType = RigidbodyType2D.Static;
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.gravityScale = 0;
         }
 
-        if (collision.gameObject.tag == "Player" && !inputKey && rigidBody.bodyType == RigidbodyType2D.Static)
+        if (collision.gameObject.tag == "Player" && !inputKey)
         {
             onKey = true;
         }

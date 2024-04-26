@@ -32,6 +32,37 @@ public class GoldItemController : MonoBehaviour
     private void FixedUpdate()
     {
         AddGravity();
+        CheckWall();
+    }
+
+    private void CheckWall()
+    {
+        RaycastHit2D hitR = Physics2D.Raycast(transform.position, Vector2.right, circleCollider2D.radius, LayerMask.GetMask("Platform"));
+        RaycastHit2D hitL = Physics2D.Raycast(transform.position, Vector2.left, circleCollider2D.radius, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.right * circleCollider2D.radius, rayColor);
+        Debug.DrawRay(transform.position, Vector2.left * circleCollider2D.radius, rayColor);
+
+        if (hitR.collider != null)
+        {
+            rayColor = Color.green;
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
+        }
+        else
+        {
+            rayColor = Color.red;
+            rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y);
+        }
+
+        if (hitL.collider != null)
+        {
+            rayColor = Color.green;
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
+        }
+        else
+        {
+            rayColor = Color.red;
+            rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y);
+        }
     }
 
     private void AddGravity()
@@ -41,7 +72,7 @@ public class GoldItemController : MonoBehaviour
         // 땅에 닿은 경우만 멈추도록 설정하기 위해 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, circleCollider2D.radius, LayerMask.GetMask("Platform"));
         Debug.DrawRay(transform.position, Vector2.down * circleCollider2D.radius, rayColor);
-
+        
         if (hit.collider != null)
         {
             isGround = true;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterG1 : Test_Monster
 {
-    public static event System.Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
     public enum State
     {
         None,
@@ -33,7 +32,8 @@ public class MonsterG1 : Test_Monster
     // 공격 관련
     private GameObject      attackCollider;
     private BoxCollider2D   attackBoxCollider;
-    private bool            isAttacking;
+    private const float     attackCooldown = 3f; // 공격 쿨다운 시간
+    private float           lastAttackTime; // 마지막 공격 시간
 
     private PoolManager     pool;
 
@@ -57,7 +57,7 @@ public class MonsterG1 : Test_Monster
 
         base.Awake();
 
-        attackCollider = transform.GetChild(1).gameObject;
+        attackCollider = transform.GetChild(2).gameObject;
         attackBoxCollider = attackCollider.GetComponent<BoxCollider2D>();
         attackBoxCollider.enabled = false;
 
@@ -93,9 +93,11 @@ public class MonsterG1 : Test_Monster
         // ★
         CheckCeiling();
 
+        float rayDis = monData.capsuleCollider2D.size.y * 0.5f;
+
         // 바닥을 향해 레이 발사
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.95f, LayerMask.GetMask("Platform"));
-        Debug.DrawRay(transform.position, Vector2.down * 0.95f, colorDebugGround);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayDis, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.down * rayDis, colorDebugGround);
 
         if(hit.collider != null)
         {
@@ -229,9 +231,8 @@ public class MonsterG1 : Test_Monster
 
     private IEnumerator Attack()
     {
-        isAttacking = true;
         monData.animator.SetBool("IsAttack", true);
-        while (isAttacking)
+        while (true)
         {
             vel.x = 0;
 
@@ -248,6 +249,9 @@ public class MonsterG1 : Test_Monster
 
             yield return null;
         }
+        monData.animator.SetBool("IsAttack", false);
+        ChangeState(State.Idle);
+        lastAttackTime = Time.time;
     }
     public void EnableAttackCollider()
     {
@@ -260,9 +264,9 @@ public class MonsterG1 : Test_Monster
 
     public void CutAni()
     {
-        isAttacking = false;
         monData.animator.SetBool("IsAttack", false);
         ChangeState(State.Idle);
+        lastAttackTime = Time.time;
     }
 
     private void CalculateDisToTargetAndselectState()
@@ -275,7 +279,7 @@ public class MonsterG1 : Test_Monster
             float dis = Vector2.Distance(target, transform.position);
 
             // 쫒을수 있는 거리 내에 있으면
-            if (dis <= chaseDis&& dis > attackDis)
+            if (dis <= chaseDis && dis > attackDis)
             {
                 ChangeState(State.Chase);
             }
@@ -284,28 +288,26 @@ public class MonsterG1 : Test_Monster
             {
                 ChangeState(State.Idle);
             }
-            else if (dis <= attackDis)
+            else if (dis <= attackDis && Time.time >= lastAttackTime + attackCooldown)
             {
-                ChangeState(State.Attack);
+                if (Time.time >= lastAttackTime + attackCooldown)
+                    ChangeState(State.Attack);
+                else ChangeState(State.Chase);
             }
         }
     }
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
+        GiveCompensation(transform, 5);
 
-        if (EnemyDieEvent != null)
-        {
-            EnemyDieEvent(gameObject);
-        }
-        // 던전 내 킬 카운트 상승
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
+
         PlayerDungeonData.instance.countKill++;
-        // exp 플레이어에게 추가 => 차후 변수부분으로 정수값 수정
         PlayerDungeonData.instance.totalEXP += 100;
 
-        // 해당 몬스터 비활성화
         pool.DeactivePoolItem(this.gameObject);
-
         yield return null;
     }
 

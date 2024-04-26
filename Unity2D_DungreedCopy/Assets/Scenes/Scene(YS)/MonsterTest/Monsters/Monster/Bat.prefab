@@ -561,7 +561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monData:
     curHP: 0
-    maxHP: 0
+    maxHP: 20
     moveSpeed: 0
     jumpForce: 0
     isDie: 0
@@ -581,7 +581,7 @@ MonoBehaviour:
     prefabGold: {fileID: 8203628958282060129, guid: 89c5cf1906a3f5242b3f175863b9921b, type: 3}
   monState: 0
   prefabBullet: {fileID: 1669550054341409465, guid: afc12ffb3ecd24544bfbc3453101955b, type: 3}
-  radius: 0
+  radius: 5
   range: 0.1
   maxDis: 3
 --- !u!1 &7743726310540895320

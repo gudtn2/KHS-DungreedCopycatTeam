@@ -8,13 +8,21 @@ public class CreateTresureBox : MonoBehaviour
     private GameObject prefabTresureBox;
 
     private PoolManager tresureBoxPoolManager;
-    private void Awake()
+    private PoolManager poolManager;
+
+    public void Setup(PoolManager pool)
     {
+        this.poolManager = pool;
         tresureBoxPoolManager = new PoolManager(prefabTresureBox);
     }
     private void OnApplicationQuit()
     {
         tresureBoxPoolManager.DestroyObjcts();
+    }
+
+    private void Deactivate()
+    {
+        poolManager.DeactivePoolItem(this.gameObject);
     }
 
     public void CreateBox()
@@ -23,6 +31,7 @@ public class CreateTresureBox : MonoBehaviour
         box.transform.position = transform.position;
         box.transform.rotation = transform.rotation;
         box.GetComponent<BoxPool>().Setup(tresureBoxPoolManager);
-        Destroy(this.gameObject);
+        Deactivate();
+        //Destroy(this.gameObject);
     }
 }

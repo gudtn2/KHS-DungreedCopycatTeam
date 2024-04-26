@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 
 public class MonsterG5 : Test_Monster
 {
-    public static event System.Action<GameObject> EnemyDieEvent; // 적이 죽을 때 발생하는 이벤트
     public enum State
     {
         None,
@@ -87,6 +86,7 @@ public class MonsterG5 : Test_Monster
     private void FixedUpdate()
     {
         FindTarget();
+        CheckWall();
 
         #region Die
         if (monData.curHP <= 0 && !monData.isDie)
@@ -134,7 +134,24 @@ public class MonsterG5 : Test_Monster
         transform.position += vel * Time.deltaTime;
 
     }
+    private void CheckWall()
+    {
+        // Raycast 발사를 위한 시작점과 방향 설정
+        Vector3 rayOrigin = transform.position; // 캐릭터에서 시작
+        Vector3 rayDir = seeDir;                // 레이 방향 = 바라보는 방향
 
+        // Raycast 발사
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDir, 1f, LayerMask.GetMask("Platform"));
+
+        // 디버그를 위한 Ray 그리기
+        Debug.DrawRay(rayOrigin, rayDir * 1f, Color.red);
+
+        // Platform 충돌 확인
+        if (hit.collider != null)
+        {
+            vel.x = 0;
+        }
+    }
     private IEnumerator Idle()
     {
         while (true)
@@ -158,17 +175,8 @@ public class MonsterG5 : Test_Monster
         monData.animator.SetBool("IsMove", true);
         while (true)
         {
-            if (transform.position.x + 0.5f > player.transform.position.x && transform.position.x - 0.5f < player.transform.position.x)
-            {
-                vel.x = 0;
-                monData.animator.SetBool("IsMove", false);
-            }
-            else
-            {
-                monData.animator.SetBool("IsMove", true);
-                vel.x = seeDir.x * monData.moveSpeed;
-                UpdateSight();
-            }
+            vel.x = seeDir.x * monData.moveSpeed;
+            UpdateSight();
 
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
@@ -184,7 +192,7 @@ public class MonsterG5 : Test_Monster
         monData.animator.SetBool("IsMove", false);
         vel.x = 0;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         ChangeState(State.Attack);
     }
 
@@ -264,20 +272,15 @@ public class MonsterG5 : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
-
         GiveCompensation(transform, 5);
-        if (EnemyDieEvent != null)
-        {
-            EnemyDieEvent(gameObject);
-        }
-        // 던전 내 킬 카운트 상승
+
+        DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
+        dungeon.enemiesCount--;
+
         PlayerDungeonData.instance.countKill++;
-        // exp 플레이어에게 추가 => 차후 변수부분으로 정수값 수정
         PlayerDungeonData.instance.totalEXP += 100;
 
-        // 해당 몬스터 비활성화
         pool.DeactivePoolItem(this.gameObject);
-
         yield return null;
     }
     private void OnTriggerEnter2D(Collider2D collision)
