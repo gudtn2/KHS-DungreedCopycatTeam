@@ -37,7 +37,7 @@ public class Arrow : MonoBehaviour
 
                 HitEffect();
             }
-            else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform") && collision.gameObject.tag == "Platform")
             {
                 poolManager.DeactivePoolItem(this.gameObject);
             }

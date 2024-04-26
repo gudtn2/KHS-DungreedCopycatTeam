@@ -108,8 +108,8 @@ public class Movement2D : MonoBehaviour
 
     [HideInInspector]
     public Rigidbody2D              rigidbody;
-    [SerializeField]
-    private CapsuleCollider2D       capsulCollider2D;
+    [HideInInspector]
+    public CapsuleCollider2D        capsulCollider2D;
     private PlayerStats             playerStats;
 
 
@@ -288,7 +288,7 @@ public class Movement2D : MonoBehaviour
         Vector3 startingPos = transform.position;
         if (curPassingPlatform != null)
         {
-            StartCoroutine(DownJumpTo(0.25f,10));
+            StartCoroutine(StatePassingPlatformInDasing());
         }
         
         while (t <= 1.0f)
@@ -299,6 +299,23 @@ public class Movement2D : MonoBehaviour
         }
         playerStats.timer = 0;
         isDashing = false;
+    }
+
+    private IEnumerator StatePassingPlatformInDasing()
+    {
+        
+        if(curPassingPlatform != null)
+        {
+            CompositeCollider2D platformCollider = curPassingPlatform.GetComponent<CompositeCollider2D>();
+            
+            while(isDashing)
+            {
+                Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, true);
+                
+                yield return null;
+            }
+            Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, false);
+        }
     }
     //=====================================================================
     // YS: Player Effect Active

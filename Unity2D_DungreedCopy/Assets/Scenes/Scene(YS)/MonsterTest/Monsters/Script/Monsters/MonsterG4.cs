@@ -253,6 +253,7 @@ public class MonsterG4 : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
+        GiveCompensation(transform,5);
 
         if (EnemyDieEvent != null)
         {

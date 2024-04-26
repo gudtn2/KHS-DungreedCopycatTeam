@@ -148,6 +148,7 @@ public class MonsterD : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
+        GiveCompensation(transform, 5);
 
         // 적이 죽었음을 이벤트로 발생시킴
         if (EnemyDieEvent != null)

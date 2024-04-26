@@ -121,8 +121,11 @@ MonoBehaviour:
   monEffectData:
     prefabDieEffect: {fileID: 4014497000935873730, guid: 133625e02ccc2d44cbbf1d25e0511aac, type: 3}
     prefabDamageTest: {fileID: 42865594816796796, guid: 3b43053409920e24faf13f215fa53188, type: 3}
+    prefabGold: {fileID: 8203628958282060129, guid: 89c5cf1906a3f5242b3f175863b9921b, type: 3}
   monState: 0
   prefabBullet: {fileID: 7743223488068427115, guid: d842852908755c54c819bfb5be9e6014, type: 3}
+  explosionCount: 0
+  fullCharge: 0
   bulletPos: {fileID: 3354532247432132845}
 --- !u!50 &3842260366145770883
 Rigidbody2D:
@@ -252,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  isChase: 0
 --- !u!1 &3907469211200205302
 GameObject:
   m_ObjectHideFlags: 0

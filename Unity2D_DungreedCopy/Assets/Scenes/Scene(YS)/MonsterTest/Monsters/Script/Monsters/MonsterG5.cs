@@ -31,7 +31,7 @@ public class MonsterG5 : Test_Monster
     private bool findTarget;
     // 포물선 운동에 사용할 각도
     private const float launchAngle = 45f;
-    private bool        isAttack;
+    private bool isAttack;
 
     // 거리
     [SerializeField]
@@ -119,7 +119,7 @@ public class MonsterG5 : Test_Monster
         // isGround상태에 따른 y값 변환
         if (!monData.isGround)
         {
-            vel.y += gravity   * Time.deltaTime;
+            vel.y += gravity * Time.deltaTime;
         }
         else if (monData.isGround && !Jumping)
         {
@@ -153,12 +153,22 @@ public class MonsterG5 : Test_Monster
 
     private IEnumerator Chase()
     {
+        PlayerController player = PlayerController.instance;
+
         monData.animator.SetBool("IsMove", true);
         while (true)
         {
-            UpdateSight();
-
-            vel.x = seeDir.x * monData.moveSpeed;
+            if (transform.position.x + 0.5f > player.transform.position.x && transform.position.x - 0.5f < player.transform.position.x)
+            {
+                vel.x = 0;
+                monData.animator.SetBool("IsMove", false);
+            }
+            else
+            {
+                monData.animator.SetBool("IsMove", true);
+                vel.x = seeDir.x * monData.moveSpeed;
+                UpdateSight();
+            }
 
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
@@ -188,13 +198,13 @@ public class MonsterG5 : Test_Monster
         Jump();
         while (true)
         {
-            if(vel.y < 0)
+            if (vel.y < 0)
             {
                 monData.animator.SetBool("IsJumpAttack", false);
                 monData.animator.SetBool("IsFall", true);
             }
 
-            if( vel.y == 0)
+            if (vel.y == 0)
             {
                 // 공격 후 공격 쿨다운 시작
                 lastAttackTime = Time.time;
@@ -207,7 +217,7 @@ public class MonsterG5 : Test_Monster
     private void Jump()
     {
         vel.y = monData.jumpForce;
-        vel.x = seeDir.x * (monData.moveSpeed *2f);
+        vel.x = seeDir.x * (monData.moveSpeed * 2f);
         Jumping = true;
     }
     public void CutAni()
@@ -244,18 +254,17 @@ public class MonsterG5 : Test_Monster
 
             if (dis <= attackDis)
             {
-                if(Time.time >= lastAttackTime + attackCooldown)
+                if (Time.time >= lastAttackTime + attackCooldown)
                     ChangeState(State.Charge);
                 else
                     ChangeState(State.Chase);
-
             }
         }
     }
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
-
+        GiveCompensation(transform, 5);
         if (EnemyDieEvent != null)
         {
             EnemyDieEvent(gameObject);
@@ -270,7 +279,6 @@ public class MonsterG5 : Test_Monster
 
         yield return null;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 무기 공격시 무기의 정보 받아와 상호작용
@@ -288,7 +296,7 @@ public class MonsterG5 : Test_Monster
             TakeAttack(player.DashATK, Color.blue);
         }
 
-        if(isAttack && collision.gameObject.tag == "Player")
+        if (isAttack && collision.gameObject.tag == "Player")
         {
             PlayerController.instance.TakeDamage(5);
         }

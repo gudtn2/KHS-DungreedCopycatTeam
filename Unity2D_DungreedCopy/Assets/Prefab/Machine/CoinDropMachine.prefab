@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4487590530f821f4b98736022f28f4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minItemCount: 1
-  maxItemCount: 2
+  minItemCount: 0
+  maxItemCount: 5
   SpawnItemPrefab: {fileID: 250773811953849525, guid: 157db56b740aee340aa21b6415c00235, type: 3}

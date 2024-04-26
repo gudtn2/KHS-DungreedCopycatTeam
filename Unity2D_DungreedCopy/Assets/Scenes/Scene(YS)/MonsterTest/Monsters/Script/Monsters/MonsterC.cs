@@ -148,8 +148,9 @@ public class MonsterC : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
+        GiveCompensation(transform, 5);
 
-        if(EnemyDieEvent != null)
+        if (EnemyDieEvent != null)
         {
             EnemyDieEvent(gameObject);
         }

@@ -176,6 +176,7 @@ public class MonsterE : Test_Monster
     private IEnumerator Die()
     {
         ActivateDieEffect(transform);
+        GiveCompensation(transform, 5);
 
         if (EnemyDieEvent != null)
         {

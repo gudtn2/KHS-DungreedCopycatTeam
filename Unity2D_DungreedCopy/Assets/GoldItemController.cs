@@ -7,19 +7,20 @@ public class GoldItemController : MonoBehaviour
     public int             GoldValue;
     [SerializeField]
     private GameObject      textGoldPrefab;
+    private Color           rayColor;
+    private bool            isGround;
 
-    private PoolManager     textGoldpoolManager;
-    private Rigidbody2D     rigid;
-    private PoolManager     poolManager;
-    private PlayerStats     playerStats;
+    private Rigidbody2D         rigid;
+    private PoolManager         poolManager;
+    private PoolManager         textGoldpoolManager;
+    private CircleCollider2D    circleCollider2D;
 
     public void Setup(PoolManager newPool,Vector3 dir)
     {
         this.poolManager = newPool;
 
-        playerStats = FindObjectOfType<PlayerStats>();
-        
-        rigid = GetComponent<Rigidbody2D>();
+        rigid               = GetComponent<Rigidbody2D>();
+        circleCollider2D    = GetComponent<CircleCollider2D>();
 
         rigid.velocity = new Vector3(dir.x, dir.y, 0);
     }
@@ -28,18 +29,47 @@ public class GoldItemController : MonoBehaviour
     {
         textGoldpoolManager = new PoolManager(textGoldPrefab);
     }
+    private void FixedUpdate()
+    {
+        AddGravity();
+    }
+
+    private void AddGravity()
+    {
+        // 코인의 아래 방향으로 Ray를 쏨
+        // collider로 하면 collider에 닿는 모든 부위를 검사하기 때문에 낙하시
+        // 땅에 닿은 경우만 멈추도록 설정하기 위해 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, circleCollider2D.radius, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.down * circleCollider2D.radius, rayColor);
+
+        if (hit.collider != null)
+        {
+            isGround = true;
+            rayColor = Color.green;
+        }
+        else
+        {
+            isGround = false;
+            rayColor = Color.red;
+        }
+
+        if (isGround)
+        {
+            rigid.velocity = Vector2.zero;
+            rigid.gravityScale = 0;
+        }
+        else
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y);
+            rigid.gravityScale = 1;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Platform") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("PassingPlatform"))
-        {
-            rigid.bodyType = RigidbodyType2D.Static;
-        }
-        
         if (collision.gameObject.name == "Player")
         {
             // 플레이어에게 Bullion의 가치만큼 GOLD지급
-            playerStats.TakeGold(GoldValue);
+            PlayerStats.instance.TakeGold(GoldValue);
 
             // Bullion Prefab 비활성화
             poolManager.DeactivePoolItem(gameObject);
