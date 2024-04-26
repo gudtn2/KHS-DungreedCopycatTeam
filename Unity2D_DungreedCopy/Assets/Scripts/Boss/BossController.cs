@@ -27,6 +27,7 @@ public class BossController : MonoBehaviour
     private void Start()
     {
         player.playerMeetsBoss = true;
+        PlayerDungeonData.instance.isFighting = true;
 
         StartCoroutine(FadeInBossSprite());
 
@@ -57,6 +58,7 @@ public class BossController : MonoBehaviour
                 yield return new WaitForSeconds(2);
                 player.playerMeetsBoss = false;
                 isAbleToAttack = true;
+                PlayerDungeonData.instance.isFighting = false;
                 StartCoroutine(GameObject.FindObjectOfType<UIBossIntroduce>().OffIntroduceBoss(1, 0));
             }
         }
