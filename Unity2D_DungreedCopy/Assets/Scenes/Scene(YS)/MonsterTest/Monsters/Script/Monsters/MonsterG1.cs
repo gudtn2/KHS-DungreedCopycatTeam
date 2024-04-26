@@ -90,7 +90,7 @@ public class MonsterG1 : Test_Monster
             }
         }
         #endregion
-
+        // ★
         CheckCeiling();
 
         // 바닥을 향해 레이 발사
@@ -139,6 +139,7 @@ public class MonsterG1 : Test_Monster
         }
     }
 
+    // ★
     private IEnumerator Chase()
     {
 
@@ -170,6 +171,8 @@ public class MonsterG1 : Test_Monster
             yield return null;
         }
     }
+
+    
     private void CheckWall()
     {
         // Raycast 발사를 위한 시작점과 방향 설정
@@ -198,7 +201,7 @@ public class MonsterG1 : Test_Monster
             vel.x = seeDir.x * monData.moveSpeed;
         }
     }
-
+    // ★
     private void CheckCeiling()
     {
         // Raycast 발사
