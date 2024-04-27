@@ -57233,8 +57233,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: "\uBC29\uB791\uC790 \uCE74\uBE14\uB85C\uBE44\uB098"
   sentences:
-  - "\uC624!! \uB098\uC758 \uC0DD\uBA85\uC758 \uC740\uC778"
-  - 
+  - "\uC5B4.... \uADF8\uB300\uB294 \uB204\uAD6C\uC778\uAC00?..."
+  - "\uD574\uACE8\uBB34\uB9AC\uB4E4\uC5D0\uAC8C \uB04C\uB824\uC628 \uB4A4\uB85C \uAE30\uC5B5\uC774
+    \uC5C6\uAD70... \uC544\uBB34\uCABC\uB85D \uAD6C\uD574\uC918\uC11C \uACE0\uB9D9\uB124!!
+    \uB9C8\uC744\uC5D0\uC11C \uBD05\uC138!! "
   fKey: 102
   keyObj: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
   onKey: 0
