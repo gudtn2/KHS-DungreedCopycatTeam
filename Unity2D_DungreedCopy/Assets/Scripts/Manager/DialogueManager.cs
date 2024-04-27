@@ -190,6 +190,10 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
                 abillityAnimator.gameObject.SetActive(true);
                 abillityAnimator.Play("AbilityShow");
             }
+            else if(curNPCName == "방랑자 카블로비나")
+            {
+                NPCManager.instance.meetKablovinaInDungeon = true;
+            }
         }
         
     }

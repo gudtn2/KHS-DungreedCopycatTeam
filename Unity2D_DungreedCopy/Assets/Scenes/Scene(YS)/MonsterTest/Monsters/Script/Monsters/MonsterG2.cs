@@ -35,6 +35,7 @@ public class MonsterG2 : Test_Monster
     [SerializeField]
     private bool    collideToPlayer = false;
     private bool    disableToDash = false;
+    private bool    isWall = false;
 
 
     // 공격 관련
@@ -64,7 +65,7 @@ public class MonsterG2 : Test_Monster
 
         base.Awake();
 
-        attackCollider  = transform.GetChild(1).gameObject;
+        attackCollider  = transform.GetChild(2).gameObject;
         attackBoxCollider = attackCollider.GetComponent<BoxCollider2D>();
         attackBoxCollider.enabled = false;
 
@@ -88,6 +89,7 @@ public class MonsterG2 : Test_Monster
     {
         CalaulateDisToTarget();
         ChangeThrustPos();
+        CheckWall();
         #region Die
         if (monData.curHP <= 0 && !monData.isDie)
         {
@@ -132,11 +134,28 @@ public class MonsterG2 : Test_Monster
         transform.position += vel * Time.deltaTime;
         
     }
+    private void CheckWall()
+    {
+        Color rayColor = Color.white;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, seeDir, 2, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, seeDir * 2, rayColor);
 
+        if(hit.collider!= null)
+        {
+            isWall = true;
+            rayColor = Color.green;
+        }
+        else
+        {
+            isWall = false;
+            rayColor = Color.red;
+        }
+    }
+
+    // 플레이어가 대시 공격시 위치하는 위치
     private void ChangeThrustPos()
     {
         if (seeDir == Vector3.left)
-        //if (monData.spriteRenderer.flipX)
         {
             thrustPos = new Vector3(transform.position.x - 1.5f, transform.position.y - 0.7f);
         }
@@ -214,12 +233,19 @@ public class MonsterG2 : Test_Monster
             float t = Mathf.Clamp01(time / duration);
             float curveValue = dashCurve.Evaluate(t);
 
-            vel.x = seeDir.x * startSpeed * curveValue;
+
+            if(isWall)
+            {
+                vel.x = 0;
+                ChangeState(State.Attack);
+            }
+            else vel.x = seeDir.x * startSpeed * curveValue;
+
+
 
             if (collideToPlayer)
             {
                 PlayerController.instance.dontMovePlayer = true;
-
             }
 
             if (duration <= time)

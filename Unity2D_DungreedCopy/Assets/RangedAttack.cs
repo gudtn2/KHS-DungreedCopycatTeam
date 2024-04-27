@@ -52,10 +52,17 @@ public class RangedAttack: MonoBehaviour
     void Fire()
     {
         GameObject arrow = arrowpoolManager.ActivePoolItem();
-        arrow.transform.position = arrowSpawn.position;
-        arrow.transform.rotation = transform.rotation;
-        Rigidbody2D rigidbody = arrow.GetComponent<Rigidbody2D>();
-        rigidbody.velocity = transform.right * arrowSpeed;
-        arrow.GetComponent<Arrow>().Setup(arrowpoolManager);
+        if (arrow != null)
+        {
+            arrow.transform.position = arrowSpawn.position;
+            arrow.transform.rotation = transform.rotation;
+            Rigidbody2D rigidbody = arrow.GetComponent<Rigidbody2D>();
+            rigidbody.velocity = transform.right * arrowSpeed;
+            arrow.GetComponent<Arrow>().Setup(arrowpoolManager);
+        }
+        else
+        {
+            Debug.LogWarning("Failed to get arrow from the object pool.");
+        }
     }
 }

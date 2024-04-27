@@ -79,6 +79,6 @@ public class BreakableObject : MonoBehaviour
         GameObject coinMachine = coinMachinePoolManager.ActivePoolItem();
         coinMachine.transform.position = transform.position;
         coinMachine.transform.rotation = transform.rotation;
-        coinMachine.GetComponent<ItemSpawnManager>().Setup(piecesPoolManager,1);
+        coinMachine.GetComponent<ItemSpawnManager>().Setup(piecesPoolManager,2);
     }
 }

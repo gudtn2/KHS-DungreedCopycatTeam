@@ -6,13 +6,12 @@ using UnityEngine;
 public class DoorDungeon : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] doors;                                     // 던전에 있는 문
-    public List<GameObject> curMapEnemies = new List<GameObject>();    // 현재하는 dungeon에 있는 enemies List
+    private GameObject[]    doors;                                     // 던전에 있는 문
     [SerializeField]
-    private bool exsistTel;      // Tel이 현재 dungeon에 존재하는지 여부                     
+    private bool            exsistTel;      // Tel이 현재 dungeon에 존재하는지 여부                     
     [SerializeField]
-    private GameObject curTel;         // 현재  dungeon의 Tel
-    public int enemiesCount;   // 남은 적의 수
+    private GameObject      curTel;         // 현재  dungeon의 Tel
+    public int              enemiesCount;   // 남은 적의 수
 
     [SerializeField]
     private Transform fairyPos;
@@ -27,19 +26,26 @@ public class DoorDungeon : MonoBehaviour
     private void Awake()
     {
         StartCoroutine(OpenTheDoor());
-        treasurePool = new PoolManager(treasureBoxPrefab);
+
+        if(treasureBoxPrefab!=null)
+            treasurePool = new PoolManager(treasureBoxPrefab);
     }
     private void ActivateTreasureBox()
     {
-        //GameObject treasureBox = Instantiate(treasureBoxPrefab, treasureBoxPos.position, treasureBoxPos.rotation, treasureBoxPos.parent);
-        GameObject treasureBox = treasurePool.ActivePoolItem();
-        treasureBox.transform.position = transform.position;
-        treasureBox.transform.rotation = Quaternion.identity;
-        treasureBox.GetComponent<CreateTresureBox>().Setup(treasurePool);
+        if(treasureBoxPrefab!=null)
+        {
+            GameObject treasureBox = treasurePool.ActivePoolItem();
+            treasureBox.transform.position = transform.position;
+            treasureBox.transform.rotation = Quaternion.identity;
+            treasureBox.GetComponent<CreateTresureBox>().Setup(treasurePool);
+        }
     }
     private void ActivateFairy()
     {
-        GameObject fairy = Instantiate(fairyPrefab, fairyPos.position, fairyPos.rotation, fairyPos.parent);
+        if(fairyPrefab != null)
+        {
+            GameObject fairy = Instantiate(fairyPrefab, fairyPos.position, fairyPos.rotation, fairyPos.parent);
+        }
     }
 
     private void OnEnable()
@@ -49,7 +55,7 @@ public class DoorDungeon : MonoBehaviour
 
         // 활성화 되자마자 문 잠그기
         CloseTheDoor();
-
+    
         // dungeon에 Teleport가 존재하면
         if (exsistTel)
         {
@@ -57,8 +63,8 @@ public class DoorDungeon : MonoBehaviour
             curTel.SetActive(false);
         }
         else
-        {
-            curTel.SetActive(true);
+        {   
+            if(curTel != null) curTel.SetActive(true);
         }
     }
     private void CloseTheDoor()
@@ -83,13 +89,18 @@ public class DoorDungeon : MonoBehaviour
             yield return new WaitUntil(() => enemiesCount == 0); // enemiesCount가 0이 될 때까지 대기
 
             int randomNumber = UnityEngine.Random.Range(0, 100);
-            if (randomNumber <= 5)
+            if (randomNumber <= 24 && treasureBoxPos != null)
             {
                 ActivateTreasureBox();
             }
-            if (randomNumber <= 10)
+            if (randomNumber <= 49 && fairyPos != null)
             {
                 ActivateFairy();
+            }
+
+            if(curTel!= null)
+            {
+                curTel.SetActive(true);
             }
 
             for (int i = 0; i < doors.Length; ++i)

@@ -93,7 +93,6 @@ public class MonsterE : Test_Monster
         if(hit.collider != null)
         {
             monData.rigidbody2D.velocity = Vector2.zero;
-            Debug.Log("∫Æ¿Ã¥Ÿ!!!");
         }
     }
 

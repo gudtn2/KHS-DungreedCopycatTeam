@@ -79,19 +79,20 @@ public class Swing : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             GameObject swing = swingPoolManager.ActivePoolItem();
-            swing.transform.position = SwingPos.position;
-            swing.transform.rotation = transform.rotation;
-            swing.GetComponent<EffectPool>().Setup(swingPoolManager);
-            if (swingWeapon == true)
+            if(swing != null)
             {
-                sword.SwordPosition();
+                swing.transform.position = SwingPos.position;
+                swing.transform.rotation = transform.rotation;
+                swing.GetComponent<EffectPool>().Setup(swingPoolManager);
+                
+                if (swingWeapon)
+                    sword.SwordPosition();
+                else
+                    spearMove.AttackMove();
+
+                AudioManager.Instance.PlaySFX("Swing");
+                StartCoroutine(PlayerController.instance.AbleToAttack());
             }
-            else
-            {
-                spearMove.AttackMove();
-            }
-            AudioManager.Instance.PlaySFX("Swing");
-            StartCoroutine(PlayerController.instance.AbleToAttack());
         }
     }
 }
