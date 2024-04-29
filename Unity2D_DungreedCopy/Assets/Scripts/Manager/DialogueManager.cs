@@ -169,6 +169,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         if(npc.inputKey)
         {
             ani.Play("Hide");
+
             for (int i = 0; i < buttonsAnimators.Length; ++i)
             {
                 buttonsAnimators[i].Play("HideBottons");
@@ -193,6 +194,8 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             else if(curNPCName == "방랑자 카블로비나")
             {
                 NPCManager.instance.meetKablovinaInDungeon = true;
+                npc.inputKey = false;
+                PlayerController.instance.dontMovePlayer = false;
             }
         }
         
