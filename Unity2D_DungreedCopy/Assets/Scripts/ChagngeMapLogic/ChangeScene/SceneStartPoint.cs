@@ -40,7 +40,6 @@ public class SceneStartPoint : MonoBehaviour
                                                      mainCam.transform.position.z);
             player.transform.position = this.transform.position;
             
-
             if(player.curDungeonName == dungeonName)
             {
                 if(!map.dungeonNames.Contains(dungeonName))

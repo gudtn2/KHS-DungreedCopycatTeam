@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public bool bossOpentheStele = false;
     [Header("플레이어가 움직일 수 있는지")]
     public bool dontMovePlayer = false;
+    [Header("플레이어가 음식을 먹었는지")]
+    public bool eatFood = false;
+
 
     [Header("플레이어 공격 제어")]
     public bool     canAttack;          // 플레이어가 공격을 할 수 있는지 여부

@@ -36,7 +36,17 @@ public class BatBullet : MonoBehaviour
         {
             if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
             {
-                isExplosion = true;
+
+                if(this.gameObject.name == "BansheeBullet(Clone)")
+                {
+                    if (hit.collider.CompareTag("Player"))
+                        isExplosion = true;
+                }
+                else
+                {
+                    if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
+                        isExplosion = true;
+                }
             }
         }
 

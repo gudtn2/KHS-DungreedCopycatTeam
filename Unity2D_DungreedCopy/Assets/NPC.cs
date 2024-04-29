@@ -5,43 +5,43 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [Header("NPC의 DATA")]
-    public string   name;
+    public string name;
     public string[] sentences;
 
     [Header("F키 관련 변수")]
     [SerializeField]
-    private KeyCode     fKey = KeyCode.F;
+    private KeyCode fKey = KeyCode.F;
     [SerializeField]
-    private GameObject  keyObj; // F키 오브젝트
+    private GameObject keyObj; // F키 오브젝트
     [SerializeField]
-    private bool        onKey;
+    private bool onKey;
     [SerializeField]
-    public bool         inputKey;
+    public bool inputKey;
 
     private void Update()
     {
-        if(Input.GetKeyDown(fKey) && onKey)
+        if (Input.GetKeyDown(fKey) && onKey)
         {
             inputKey = true;
             onKey = false;
 
             PlayerController.instance.dontMovePlayer = true;
 
-            DialogueManager.instance.OnDialogue(sentences, name);
+            DialogueManager.instance.OnDialogue(sentences, name, this.gameObject);
         }
-        
+
         keyObj.SetActive(onKey);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Player" && !inputKey)
+        if (collision.gameObject.name == "Player" && !inputKey)
         {
             onKey = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player"&& !inputKey)
+        if (collision.gameObject.name == "Player" && !inputKey)
         {
             onKey = false;
         }

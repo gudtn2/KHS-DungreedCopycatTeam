@@ -102,9 +102,11 @@ public class MonsterG3 : Test_Monster
         }
         #endregion
 
+        float rayDis = monData.capsuleCollider2D.size.y * 0.5f; 
+
         // 바닥을 향해 레이 발사
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.95f, LayerMask.GetMask("Platform"));
-        Debug.DrawRay(transform.position, Vector2.down * 0.95f, colorDebugGround);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayDis, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.down * rayDis, colorDebugGround);
 
         if (hit.collider != null)
         {

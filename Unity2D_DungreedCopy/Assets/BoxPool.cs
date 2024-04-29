@@ -19,12 +19,15 @@ public class BoxPool : MonoBehaviour
     public void Setup(PoolManager poolManager)
     {
         this.poolManager = poolManager;
+    }
 
+    private void Awake()
+    {
         ani = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
-        
+
         keyPrefab.SetActive(false);
-        
+
         itemSpqwnPos = transform.GetChild(0).gameObject.GetComponent<Transform>();
 
         itemPool = new PoolManager(prefabItem);

@@ -50,9 +50,7 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: d9f70f314d77ae94c9ad52d4c946ada0, type: 2}
   - {fileID: 11400000, guid: 84ed6b7d4dd441d469a54352b8238272, type: 2}
-  - {fileID: 11400000, guid: 7dd052ad1eba01d4ebd8d91042dd1a02, type: 2}
-  - {fileID: 11400000, guid: d4590addbbc85ba438e5f5180c369c67, type: 2}
-  - {fileID: 11400000, guid: 150a9d3852a350243b576f15adcbf248, type: 2}
+  - {fileID: 11400000, guid: 84a7d7adfa5c8784e9cdd576a178ddb4, type: 2}
   inventory: {fileID: 11400000, guid: 7606e85f0aa31b24299944347d1375e8, type: 2}
   randomNum: 0
 --- !u!212 &2571393441749079422

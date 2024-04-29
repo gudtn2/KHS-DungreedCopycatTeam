@@ -9,58 +9,70 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     public static DialogueManager instance;
 
     [SerializeField]
-    private TextMeshProUGUI     textName;
-    [SerializeField]        
-    private TextMeshProUGUI     textDialogue;
-    public TextMeshProUGUI     endingDialogue;
-    [SerializeField]        
-    private GameObject          nextText;
-    public Queue<string>        sentences;
+    private TextMeshProUGUI textName;
+    [SerializeField]
+    private TextMeshProUGUI textDialogue;
+    public TextMeshProUGUI endingDialogue;
+    [SerializeField]
+    private GameObject nextText;
+    public Queue<string> sentences;
 
-    private string              curSentence;
-    private string              curNPCName;
+    private string curSentence;
+    private string curNPCName;
 
     [SerializeField]
-    private float               typingEffectWaitTime;
+    private float typingEffectWaitTime;
     [SerializeField]
-    private bool                isTyping;
-    public bool                 openDialogue;
-    private Animator            ani;
+    private bool isTyping;
+    public bool openDialogue;
+    private Animator ani;
     [SerializeField]
-    private Animator[]          buttonsAnimators;
+    private Animator[] buttonsAnimators;
 
     [Header("Ability UI")]
     [SerializeField]
-    private Animator            abillityAnimator;
+    private Animator abillityAnimator;
 
     [Header("Shop UI")]
     [SerializeField]
-    private Animator            shopAnimator;
+    private Animator shopAnimator;
     [SerializeField]
-    private Animator            invenAnimator;
-    public bool                 onShop;
+    private Animator invenAnimator;
+    public bool onShop;
+
+    [SerializeField]
+    private GameObject foodEffect;
+    [SerializeField]
+    private GameObject food;
+    private PoolManager foodEffectPool;
+    private PoolManager foodPool;
 
     private NPC npc;
+    private SpriteRenderer npcSpriteRenderer;
 
     private void Awake()
     {
         instance = this;
+
+        foodPool = new PoolManager(food);
+        foodEffectPool = new PoolManager(foodEffect);
     }
 
     private void Start()
     {
         sentences = new Queue<string>();
         ani = GetComponent<Animator>();
-        npc = FindObjectOfType<NPC>();
     }
 
 
-    public void OnDialogue(string[] lines, string name)
+    public void OnDialogue(string[] lines, string name, GameObject npcObj)
     {
         openDialogue = true;
         sentences.Clear();
         textName.text = name;
         curNPCName = name;
+        npc = npcObj.GetComponent<NPC>();
+        npcSpriteRenderer = npcObj.GetComponent<SpriteRenderer>();
 
         foreach (string line in lines)
         {
@@ -86,13 +98,13 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
     public void NextSentence()
     {
-        if(sentences.Count != 0)
+        if (sentences.Count != 0)
         {
             curSentence = sentences.Dequeue();
 
             isTyping = true;
             nextText.SetActive(false);
-            StartCoroutine(Typing(curSentence)); 
+            StartCoroutine(Typing(curSentence));
         }
         else
         {
@@ -118,7 +130,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     private IEnumerator Typing(string line)
     {
         textDialogue.text = "";
-        foreach(char letter in line.ToCharArray())
+        foreach (char letter in line.ToCharArray())
         {
             textDialogue.text += letter;
             yield return new WaitForSeconds(typingEffectWaitTime);
@@ -136,7 +148,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        if(textDialogue.text.Equals(curSentence))
+        if (textDialogue.text.Equals(curSentence))
         {
             isTyping = false;
             nextText.SetActive(true);
@@ -150,7 +162,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
         if (openDialogue && !isTyping)
         {
-            if(Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 NextSentence();
             }
@@ -158,7 +170,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(!isTyping)
+        if (!isTyping)
         {
             NextSentence();
         }
@@ -166,7 +178,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
     public void OnEnterButton()
     {
-        if(npc.inputKey)
+        if (npc.inputKey)
         {
             ani.Play("Hide");
 
@@ -176,7 +188,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             }
             openDialogue = false;
 
-            if(curNPCName == "크록")
+            if (curNPCName == "크록")
             {
                 Debug.Log("크록UI");
                 shopAnimator.gameObject.SetActive(true);
@@ -191,14 +203,63 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
                 abillityAnimator.gameObject.SetActive(true);
                 abillityAnimator.Play("AbilityShow");
             }
-            else if(curNPCName == "방랑자 카블로비나")
+            else if (curNPCName == "방랑자카블로비나")
             {
                 NPCManager.instance.meetKablovinaInDungeon = true;
                 npc.inputKey = false;
+                StartCoroutine(UIEffectManager.instance.UIFade(npcSpriteRenderer, 1, 0));
                 PlayerController.instance.dontMovePlayer = false;
             }
+            else if (curNPCName == "호레리카")
+            {
+                if (!PlayerController.instance.eatFood)
+                {
+                    npc.inputKey = false;
+                    PlayerController.instance.dontMovePlayer = false;
+                    if (PlayerStats.instance.GOLD >= 300)
+                    {
+                        PlayerStats.instance.GOLD -= 300;
+                        Debug.Log("300골드를 소모한 식사");
+                        PlayerStats.instance.IncreaseHP(50);
+                        PlayerEatFoodEffect();
+                        PlayerEatFood();
+                    }
+                    else
+                    {
+                        Debug.Log("구매 불가");
+                        StartCoroutine(DeactivateTextNoGold());
+                    }
+                }
+                else
+                {
+                    npc.inputKey = false;
+                    PlayerController.instance.dontMovePlayer = false;
+                }
+            }
         }
-        
+
+    }
+    private IEnumerator DeactivateTextNoGold()
+    {
+        UIManager.instance.UpdateTextNoGold(true);
+        yield return new WaitForSeconds(1.5f);
+        UIManager.instance.UpdateTextNoGold(false);
+    }
+
+    private void PlayerEatFoodEffect()
+    {
+        GameObject foodEffect = foodEffectPool.ActivePoolItem();
+        foodEffect.transform.position = PlayerController.instance.transform.position;
+        foodEffect.transform.rotation = Quaternion.identity;
+        foodEffect.GetComponent<EffectPool>().Setup(foodEffectPool);
+    }
+
+    private void PlayerEatFood()
+    {
+        GameObject food = foodPool.ActivePoolItem();
+        food.transform.position = PlayerController.instance.transform.position;
+        food.transform.rotation = Quaternion.identity;
+        food.GetComponent<Food>().Setup(foodPool);
     }
 
     public void OnExitButton()

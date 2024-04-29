@@ -348,17 +348,12 @@ public class Movement2D : MonoBehaviour
         doubleJumpDustEffect.GetComponent<EffectPool>().Setup(doubleJumpDustPoolManager);
     }
 
-    private void ActiveDieEffect()
+    private IEnumerator ActiveDieEffect()
     {
         GameObject dieEffect = dieEffectPoolManager.ActivePoolItem();
         dieEffect.transform.position = transform.position;
         dieEffect.transform.rotation = transform.rotation;
         dieEffect.GetComponent<EffectPool>().Setup(dieEffectPoolManager);
-
-        StartCoroutine(ActiveDieEffect2());
-    }
-    private IEnumerator ActiveDieEffect2()
-    {
         yield return new WaitForSeconds(0.5f);
         GameObject dieEffect2 = dieEffect2PoolManager.ActivePoolItem();
         dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
@@ -384,7 +379,7 @@ public class Movement2D : MonoBehaviour
         dieUI.SetActive(true); 
 
         // dieEffect È°¼ºÈ­
-        ActiveDieEffect();
+        StartCoroutine(ActiveDieEffect());
     }
 
 
