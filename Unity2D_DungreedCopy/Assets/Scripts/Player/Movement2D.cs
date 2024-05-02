@@ -8,132 +8,131 @@ public class Movement2D : MonoBehaviour
 {
     [Header("MoveX,Jump")]
     [SerializeField]
-    private float           moveSpeed = 3.0f;
-    [SerializeField]        
-    private float           jumpForce = 8.0f;
-    [SerializeField]        
-    private float           downJumpForce;
-    [SerializeField]        
-    private float           lowGravity = 1.0f;      // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
-    [SerializeField]        
-    private float           highGravity = 1.5f;     // 일반적으로 적용되는 점프 
-    public bool             isJump = false;         // Jump상태 채크
-    public bool             isdownJump = false;     // Jump상태 채크
-    public bool             isWalk = false;         // Walk상태 채크
+    private float moveSpeed = 3.0f;
     [SerializeField]
-    private int             playerLayer, platformLayer;
+    private float jumpForce = 8.0f;
     [SerializeField]
-    private float           downJumpTime;
+    private float downJumpForce;
+    [SerializeField]
+    private float lowGravity = 1.0f;      // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
+    [SerializeField]
+    private float highGravity = 1.5f;     // 일반적으로 적용되는 점프 
+    public bool isJump = false;         // Jump상태 채크
+    public bool isdownJump = false;     // Jump상태 채크
+    public bool isWalk = false;         // Walk상태 채크
+    [SerializeField]
+    private float downJumpTime;
 
 
     [Header("DoubleJump")]
-    public bool             haveDoubleJump;
+    public bool haveDoubleJump;
     [SerializeField]
-    private int             haveDoubleJump_MaxJumpCount = 2;
+    private int haveDoubleJump_MaxJumpCount = 2;
     [SerializeField]
-    private int             normalState_MaxJumpCount = 1;
+    private int normalState_MaxJumpCount = 1;
     [SerializeField]
-    private int             curJumpCount;
+    private int curJumpCount;
 
     [Header("Checking Slope")]
     [SerializeField]
-    private float           dis;
+    private float dis;
     [SerializeField]
-    private float           angle;
+    private float angle;
     [SerializeField]
-    private float           maxAngle;   // YS: 최대 각도를 설정해 이 각도 이상으로는 못올라가게 설정할 수 있음
+    private float maxAngle;   // YS: 최대 각도를 설정해 이 각도 이상으로는 못올라가게 설정할 수 있음
     [SerializeField]
-    private bool            isSlope = false;
+    private bool isSlope = false;
     [SerializeField]
-    private Vector2         prep;
-    
+    private Vector2 prep;
+
     [Header("Checking Ground")]
     [SerializeField]
-    private LayerMask       collisionLayer;
-    public bool             isGrounded;
+    private LayerMask collisionLayer;
+    public bool isGrounded;
     [SerializeField]
-    private Transform       footPos;
+    private Transform footPos;
     [SerializeField]
-    private float           checkRadius;
-    
+    private float checkRadius;
+    private bool isDownJump;
+
     [Header("Dash")]
-    public bool             isDashing = false;
-    public float            dashDis = 3.0f;
+    public bool isDashing = false;
+    public float dashDis = 3.0f;
     [SerializeField]
-    private float           dashSpeed = 20.0f;
-    public float            ghostDelay;
+    private float dashSpeed = 20.0f;
+    public float ghostDelay;
     [SerializeField]
-    private float           ghostDelaySeconds = 1.0f;
+    private float ghostDelaySeconds = 1.0f;
     [SerializeField]
-    private GameObject      dashPrefab;
+    private GameObject dashPrefab;
     [SerializeField]
-    public Vector3          dashDir;
-    private PoolManager     dashPoolManager;
-    
+    public Vector3 dashDir;
+    private PoolManager dashPoolManager;
+
     [Header("Dash Count")]
-    public int              maxDashCount = 3;
-    public int              curDashCount;
-    public float            dashCountChargeDelayTime = 5.0f;
+    public int maxDashCount = 3;
+    public int curDashCount;
+    public float dashCountChargeDelayTime = 5.0f;
 
     [Header("DustEffect")]
-    private PoolManager     dustPoolManager;
+    private PoolManager dustPoolManager;
     [SerializeField]
-    private GameObject      dustPrefab;
+    private GameObject dustPrefab;
     [SerializeField]
-    private bool            isSpawningDust = false;
-    
+    private bool isSpawningDust = false;
+
     [Header("JumpEffect")]
-    private PoolManager     jumpDustPoolManager;
+    private PoolManager jumpDustPoolManager;
     [SerializeField]
-    private GameObject      jumpDustPrefab;
+    private GameObject jumpDustPrefab;
 
     [Header("DoubleJumpEffect")]
-    private PoolManager     doubleJumpDustPoolManager;
+    private PoolManager doubleJumpDustPoolManager;
     [SerializeField]
-    private GameObject      doubleJumpDustPrefab;
+    private GameObject doubleJumpDustPrefab;
 
     [Header("DieEffect")]
-    private PoolManager     dieEffectPoolManager;
-    private PoolManager     dieEffect2PoolManager;
+    private PoolManager dieEffectPoolManager;
+    private PoolManager dieEffect2PoolManager;
     [SerializeField]
-    private GameObject      dieEffect2Prefab;
+    private GameObject dieEffect2Prefab;
     [SerializeField]
-    private GameObject      dieEffectPrefab;
+    private GameObject dieEffectPrefab;
     [SerializeField]
-    private GameObject      dieUI;
+    private GameObject dieUI;
 
-    public GameObject       curPassingPlatform;
+    public GameObject curPassingPlatform;
 
-    public bool             isLongJump { set; get; } = false;
+    public bool isLongJump { set; get; } = false;
 
     [HideInInspector]
-    public Rigidbody2D              rigidbody;
+    public Rigidbody2D rigidbody;
     [HideInInspector]
-    public CapsuleCollider2D        capsulCollider2D;
-    private PlayerStats             playerStats;
+    public CapsuleCollider2D capsulCollider2D;
+    private PlayerStats playerStats;
 
 
     private void Awake()
     {
-        rigidbody           = GetComponent<Rigidbody2D>();
-        capsulCollider2D    = GetComponent<CapsuleCollider2D>();
-        playerStats         = GetComponent<PlayerStats>();
-        
-        dashPoolManager             = new PoolManager(dashPrefab);
-        dustPoolManager             = new PoolManager(dustPrefab);
-        jumpDustPoolManager         = new PoolManager(jumpDustPrefab);
-        doubleJumpDustPoolManager   = new PoolManager(doubleJumpDustPrefab);
-        dieEffectPoolManager        = new PoolManager(dieEffectPrefab);
-        dieEffect2PoolManager       = new PoolManager(dieEffect2Prefab);
+        rigidbody = GetComponent<Rigidbody2D>();
+        capsulCollider2D = GetComponent<CapsuleCollider2D>();
+        playerStats = GetComponent<PlayerStats>();
+
+        dashPoolManager = new PoolManager(dashPrefab);
+        dustPoolManager = new PoolManager(dustPrefab);
+        jumpDustPoolManager = new PoolManager(jumpDustPrefab);
+        doubleJumpDustPoolManager = new PoolManager(doubleJumpDustPrefab);
+        dieEffectPoolManager = new PoolManager(dieEffectPrefab);
+        dieEffect2PoolManager = new PoolManager(dieEffect2Prefab);
     }
     private void Start()
     {
-        ghostDelaySeconds   = ghostDelay;
+        ghostDelaySeconds = ghostDelay;
 
         // YS: Dash변수 초기화
-        curDashCount        = maxDashCount;
+        curDashCount = maxDashCount;
     }
-    
+
     private void OnApplicationQuit()
     {
         dashPoolManager.DestroyObjcts();
@@ -145,7 +144,7 @@ public class Movement2D : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        RaycastHit2D hit        = Physics2D.Raycast(this.transform.position, Vector2.down, dis, collisionLayer);
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.down, dis, collisionLayer);
         CheckSlope(hit);
 
         GroundCheckAndJumpType();
@@ -153,6 +152,20 @@ public class Movement2D : MonoBehaviour
         if (isDashing)
         {
             ActiveDashEffect();
+        }
+
+        // 현재 위치에서 반지름을 가진 원을 그리고, 해당 원 내부에 있는 오브젝트를 검출
+        Color rayColor = Color.red;
+        RaycastHit2D hitPassing = Physics2D.Raycast(transform.position,Vector2.down,1,collisionLayer);
+        Debug.DrawRay(transform.position, Vector2.down * 1, rayColor);
+
+        if (hitPassing.collider != null && hitPassing.collider.CompareTag("PassingPlatform"))
+        {
+            curPassingPlatform = hitPassing.collider.gameObject; // 충돌한 오브젝트를 curPassingPlatform에 저장
+        }
+        else
+        {
+            curPassingPlatform = null; // 검출된 오브젝트가 없으면 curPassingPlatform을 null로 설정
         }
     }
     public void MoveTo(float x)
@@ -181,29 +194,29 @@ public class Movement2D : MonoBehaviour
             isJump = true;
             isWalk = false;
 
-            if(haveDoubleJump == true && curJumpCount < 1 && Input.GetKeyDown(KeyCode.Space))
+            if (haveDoubleJump == true && curJumpCount < 1 && Input.GetKeyDown(KeyCode.Space))
             {
                 ActiveDoubleJumpDustEffect();
             }
 
-            if(isGrounded)
+            if (isGrounded)
             {
                 ActiveJumpDustEffect();
             }
 
             return true;
-            
+
         }
         return false;
     }
 
-    public IEnumerator DownJumpTo(float time,float speed)
+    public IEnumerator DownJumpTo(float time, float speed)
     {
         CompositeCollider2D platformCollider = curPassingPlatform.GetComponent<CompositeCollider2D>();
 
         Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, true);
         float elapsedTime = 0f;
-
+        isDownJump = true;
         while (elapsedTime < time)
         {
             // 적절한 속도로 아래로 이동
@@ -218,7 +231,7 @@ public class Movement2D : MonoBehaviour
 
     private void CheckSlope(RaycastHit2D hit)
     {
-        if(hit)
+        if (hit)
         {
             // YS: Vector2.Perpendicular(Vector2 A)는 값에서 "반시계 방향"으로 90도 회전한
             //     벡터값을 반환한다.
@@ -228,8 +241,8 @@ public class Movement2D : MonoBehaviour
             angle = Vector2.Angle(hit.normal, Vector2.up);
 
             // YS: 각도가 0이 아님으로 경사일때
-            if(angle != 0) isSlope = true;
-            else           isSlope = false;
+            if (angle != 0) isSlope = true;
+            else isSlope = false;
 
             Debug.DrawLine(hit.point, hit.point + hit.normal, Color.green);
             Debug.DrawLine(hit.point, hit.point + prep, Color.red);
@@ -238,7 +251,7 @@ public class Movement2D : MonoBehaviour
     private void GroundCheckAndJumpType()
     {
         isGrounded = Physics2D.OverlapCircle(footPos.position, checkRadius, collisionLayer);
-        
+
         if (isGrounded == true && rigidbody.velocity.y <= 0)
         {
             isJump = false;
@@ -270,7 +283,7 @@ public class Movement2D : MonoBehaviour
         dashDir = mousePos - transform.position;
         Vector3 moveTarget = transform.position + Vector3.ClampMagnitude(dashDir, dashDis);
 
-        if(playerStats.DC > 0)
+        if (playerStats.DC > 0)
         {
             StartCoroutine(DashTo(moveTarget));
             playerStats.UseDC();
@@ -290,7 +303,7 @@ public class Movement2D : MonoBehaviour
         {
             StartCoroutine(StatePassingPlatformInDasing());
         }
-        
+
         while (t <= 1.0f)
         {
             t += step;
@@ -303,15 +316,20 @@ public class Movement2D : MonoBehaviour
 
     private IEnumerator StatePassingPlatformInDasing()
     {
-        
-        if(curPassingPlatform != null)
+
+        if (curPassingPlatform != null)
         {
             CompositeCollider2D platformCollider = curPassingPlatform.GetComponent<CompositeCollider2D>();
-            
-            while(isDashing)
+
+            while (isDashing)
             {
                 Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, true);
-                
+
+                if(curPassingPlatform == null)
+                {
+                    Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, false);
+                }
+
                 yield return null;
             }
             Physics2D.IgnoreCollision(capsulCollider2D, platformCollider, false);
@@ -326,7 +344,7 @@ public class Movement2D : MonoBehaviour
         while (rigidbody.velocity.x != 0 && !isJump)
         {
             GameObject dustEffect = dustPoolManager.ActivePoolItem();
-            dustEffect.transform.position = transform.position + new Vector3(0,-0.25f,-1f);
+            dustEffect.transform.position = transform.position + new Vector3(0, -0.25f, -1f);
             dustEffect.transform.rotation = transform.rotation;
             dustEffect.GetComponent<EffectPool>().Setup(dustPoolManager);
             yield return new WaitForSeconds(0.3f);
@@ -358,9 +376,9 @@ public class Movement2D : MonoBehaviour
         GameObject dieEffect2 = dieEffect2PoolManager.ActivePoolItem();
         dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
         dieEffect2.transform.rotation = transform.rotation;
-        dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager) ;
-        PlayerController.instance.spriteRenderer.color = new Color(1,1,1, 0);
-        PlayerController.instance.weaponRenderer.color = new Color(1,1,1, 0);
+        dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager);
+        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
+        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
     }
 
 
@@ -376,7 +394,7 @@ public class Movement2D : MonoBehaviour
         PlayerDungeonData.instance.totalTime = PlayerDungeonData.instance.deathTime - PlayerDungeonData.instance.enterTime;
 
         // GameOverUI 활성화
-        dieUI.SetActive(true); 
+        dieUI.SetActive(true);
 
         // dieEffect 활성화
         StartCoroutine(ActiveDieEffect());
@@ -399,23 +417,6 @@ public class Movement2D : MonoBehaviour
             Sprite curSprite = GetComponent<SpriteRenderer>().sprite;
             ghostEffect.GetComponent<SpriteRenderer>().sprite = curSprite;
             ghostDelaySeconds = ghostDelay;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("PassingPlatform"))
-        {
-            curPassingPlatform = collision.gameObject;
-            Debug.Log(curPassingPlatform);
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("PassingPlatform"))
-        {
-            curPassingPlatform = null;
-            Debug.Log(curPassingPlatform);
         }
     }
 

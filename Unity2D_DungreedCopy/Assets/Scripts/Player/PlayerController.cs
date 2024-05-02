@@ -193,11 +193,13 @@ public class PlayerController : MonoBehaviour
         {
             movement.isLongJump = false;
         }
+
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (movement.curPassingPlatform != null)
             {
-                StartCoroutine(movement.DownJumpTo(0.5f,3));
+
+                StartCoroutine(movement.DownJumpTo(0.3f,4));
             }
         }
     }

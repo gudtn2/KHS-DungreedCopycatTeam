@@ -9047,8 +9047,6 @@ MonoBehaviour:
   isJump: 0
   isdownJump: 0
   isWalk: 0
-  playerLayer: 0
-  platformLayer: 0
   downJumpTime: 0.4
   haveDoubleJump: 1
   haveDoubleJump_MaxJumpCount: 2
@@ -9064,7 +9062,7 @@ MonoBehaviour:
     m_Bits: 64
   isGrounded: 0
   footPos: {fileID: 454742672}
-  checkRadius: 0.1
+  checkRadius: 0.12
   isDashing: 0
   dashDis: 5
   dashSpeed: 30
