@@ -108,6 +108,10 @@ public class UIManager : MonoBehaviour
     {
         textNoGold.SetActive(onText);
     }
+    public void ChangeTextNoGold( string newText)
+    {
+        textNoGold.GetComponent<TextMeshProUGUI>().text = newText.ToString();
+    }
 
     private void UpdateTextGold()
     {

@@ -10,6 +10,7 @@ public class MonstterData
     public float maxHP;         // 최대 체력
     public float moveSpeed;     // 움직임 속도
     public float jumpForce;     // 점프 힘
+    public float ATK;     // 공격력
 
     public bool isDie;         // 죽었는지?          => DieEffect 실행 위함
     public bool isGround;      // 땅인지?            => Trigger로 몬스터의 Collider을 붙일것이기에 땅과 맡닿아있는지 확인/ 점프

@@ -104,7 +104,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 709684633
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 08a29738b8f8ef242a4674fc0912b4f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -192,7 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 709684633
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 81b22371cd688cc41a52d45ea5305923, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -278,10 +278,11 @@ MonoBehaviour:
   - "\uC548\uB155 \uB09C \uD06C\uB85D\uC774\uC57C "
   - "\uB098\uC5D0\uAC8C \uBB3C\uAC74\uB4E4\uC774 \uC788\uB294\uB370, \uD55C\uBC88
     \uBCFC\uB798?"
-  fKey: 102
+  visitedSentences:
+  - "\uB610 \uB108\uB0D0? \uC5BC\uB978 \uC0AC\uAC00\uB77C!"
   keyObj: {fileID: 1685531605326481219}
-  onKey: 0
   inputKey: 0
+  visitedCount: 0
 --- !u!1001 &658309891221685662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -352,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4472024528284066219, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4472024528284066219, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
       propertyPath: m_SortingLayerID

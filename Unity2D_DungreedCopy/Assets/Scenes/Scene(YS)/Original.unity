@@ -8922,6 +8922,10 @@ PrefabInstance:
       value: Key_F
       objectReference: {fileID: 0}
     - target: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -10751,6 +10755,10 @@ PrefabInstance:
     - target: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
       propertyPath: m_Name
       value: Key_F
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181711767687185117, guid: d62346c1e6e2b3f4cb522bce4cca7556, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18046,7 +18054,7 @@ GameObject:
   m_Component:
   - component: {fileID: 850032058}
   - component: {fileID: 850032059}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55539,9 +55547,9 @@ GameObject:
   - component: {fileID: 1180218447}
   - component: {fileID: 1180218446}
   - component: {fileID: 1180218445}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: NPC_Inn
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55688,9 +55696,7 @@ MonoBehaviour:
   - "\uC9C0\uD558 \uAC10\uC625\uC744 \uD0D0\uD5D8\uD558\uB290\uB77C \uD5C8\uAE30\uC9C0\uC2DC\uC8E0?
     500\uACE8\uB4DC\uB9CC \uC8FC\uC2DC\uBA74 \uB9DB\uC788\uB294 \uC74C\uC2DD\uC744
     \uCC28\uB824\uB4DC\uB9B4\uAC8C\uC694!!"
-  fKey: 102
   keyObj: {fileID: 435601109}
-  onKey: 0
   inputKey: 0
 --- !u!114 &1180218447
 MonoBehaviour:
@@ -59608,9 +59614,9 @@ GameObject:
   - component: {fileID: 1518967449}
   - component: {fileID: 1518967450}
   - component: {fileID: 1518967451}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: NPC_Commander0
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59722,9 +59728,7 @@ MonoBehaviour:
   - "\uD574\uACE8\uBB34\uB9AC\uB4E4\uC5D0\uAC8C \uB04C\uB824\uC628 \uB4A4\uB85C \uAE30\uC5B5\uC774
     \uC5C6\uAD70... \uC544\uBB34\uCABC\uB85D \uAD6C\uD574\uC918\uC11C \uACE0\uB9D9\uB124!!
     \uB9C8\uC744\uC5D0\uC11C \uBD05\uC138!! "
-  fKey: 102
   keyObj: {fileID: 539249337}
-  onKey: 0
   inputKey: 0
 --- !u!114 &1518967450
 MonoBehaviour:
@@ -65647,7 +65651,7 @@ GameObject:
   - component: {fileID: 1863898365}
   m_Layer: 6
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

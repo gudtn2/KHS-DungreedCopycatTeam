@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,12 +16,12 @@ public class MonsterG1 : Test_Monster
 
     //움직임관련
     [SerializeField]
-    private float       jumpForce;
-    private float       gravity = -9.8f;
-    private Vector3     vel     = Vector3.zero;
-    private Vector3     seeDir  = Vector3.zero;
-    private bool        Jumping;
-    private Color       colorDebugGround;
+    private float jumpForce;
+    private float gravity = -9.8f;
+    private Vector3 vel = Vector3.zero;
+    private Vector3 seeDir = Vector3.zero;
+    private bool Jumping;
+    private Color colorDebugGround;
 
     // 거리
     [SerializeField]
@@ -30,12 +30,12 @@ public class MonsterG1 : Test_Monster
     private float attackDis;
 
     // 공격 관련
-    private GameObject      attackCollider;
-    private BoxCollider2D   attackBoxCollider;
-    private const float     attackCooldown = 3f; // 공격 쿨다운 시간
-    private float           lastAttackTime; // 마지막 공격 시간
+    private GameObject attackCollider;
+    private BoxCollider2D attackBoxCollider;
+    private const float attackCooldown = 3f; // 공격 쿨다운 시간
+    private float lastAttackTime; // 마지막 공격 시간
 
-    private PoolManager     pool;
+    private PoolManager pool;
 
     public override void InitValueSetting()
     {
@@ -99,7 +99,7 @@ public class MonsterG1 : Test_Monster
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayDis, LayerMask.GetMask("Platform"));
         Debug.DrawRay(transform.position, Vector2.down * rayDis, colorDebugGround);
 
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
             monData.isGround = true;
             colorDebugGround = Color.green;
@@ -109,12 +109,12 @@ public class MonsterG1 : Test_Monster
             monData.isGround = false;
             colorDebugGround = Color.red;
         }
-        
-        if(!monData.isGround)
+
+        if (!monData.isGround)
         {
             vel.y += gravity * Time.deltaTime;
         }
-        else if(monData.isGround && !Jumping)
+        else if (monData.isGround && !Jumping)
         {
             vel.y = 0;
         }
@@ -123,7 +123,7 @@ public class MonsterG1 : Test_Monster
             Jumping = false;
         }
         transform.position += vel * Time.deltaTime;
-        
+
     }
 
     private IEnumerator Idle()
@@ -146,27 +146,19 @@ public class MonsterG1 : Test_Monster
     {
 
         monData.animator.SetBool("IsMove", true);
-        while(true)
+        while (true)
         {
-           
+
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
 
             PlayerController player = PlayerController.instance;
             Vector3 target = player.transform.position;
 
-            if (target.x <= transform.position.x + 0.5f && target.x >= transform.position.x - 0.5f)
-            {
-                monData.animator.SetBool("IsMove", false);
-                vel.x = 0;
-            }
-            else
-            {
-                monData.animator.SetBool("IsMove", true);
-                // 타겟을 바라보도록
-                UpdateSight();
-                CheckWall();
-            }
+            monData.animator.SetBool("IsMove", true);
+            // 타겟을 바라보도록
+            UpdateSight();
+            CheckWall();
 
             //transform.Translate(seeDir * monData.moveSpeed * Time.deltaTime);
 
@@ -174,7 +166,7 @@ public class MonsterG1 : Test_Monster
         }
     }
 
-    
+
     private void CheckWall()
     {
         // Raycast 발사를 위한 시작점과 방향 설정
@@ -237,7 +229,7 @@ public class MonsterG1 : Test_Monster
             vel.x = 0;
 
             // 왼쪽 바라보고 있을 때
-            if(monData.spriteRenderer.flipX)
+            if (monData.spriteRenderer.flipX)
             {
                 attackCollider.transform.localPosition = new Vector2(-1.5f, attackCollider.transform.localPosition.y);
             }

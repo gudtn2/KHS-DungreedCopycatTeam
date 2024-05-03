@@ -130,5 +130,6 @@ public class GameOverUI : MonoBehaviour
         title.SetActive(false);
         PlayerController.instance.curSceneName = transferSceneName;
         SceneManager.LoadScene(transferSceneName);
+        PlayerDungeonData.instance.isFighting = false;
     }
 }

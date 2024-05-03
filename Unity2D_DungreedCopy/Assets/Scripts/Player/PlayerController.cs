@@ -21,10 +21,13 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("플레이어 공격 제어")]
-    public bool     canAttack;          // 플레이어가 공격을 할 수 있는지 여부
+    public bool canAttack;          // 플레이어가 공격을 할 수 있는지 여부
+
+    public NPC curNPC;
 
     [Header("방향")]
     public float lastMoveDirX;
+    private Vector3 seeDir;
     public Vector3 mousePos;
 
     [Header("피격")]
@@ -48,7 +51,7 @@ public class PlayerController : MonoBehaviour
     [Header("현재 맵 이름")]
     public string curSceneName;
     public string curDungeonName;
-    public int    curDungeonNum;
+    public int curDungeonNum;
     [SerializeField]
     private Transform startPos;
 
@@ -64,7 +67,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private UIManager UIManager;
-    private NPC       npc;
 
     private void Awake()
     {
@@ -80,7 +82,6 @@ public class PlayerController : MonoBehaviour
             playerStats = GetComponent<PlayerStats>();
             capsulCollider2D = GetComponent<CapsuleCollider2D>();
 
-            npc = FindObjectOfType<NPC>();
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
             transform.position = startPos.position;
@@ -104,9 +105,11 @@ public class PlayerController : MonoBehaviour
     {
         DontMovePlayer(dontMovePlayer);
 
+
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ChangeAnimation();
+        CheckNPC();
 
         if (dontMovePlayer == false)
         {
@@ -124,7 +127,7 @@ public class PlayerController : MonoBehaviour
                 capsulCollider2D.offset = new Vector2(0, 0.1f);
                 capsulCollider2D.size = Vector2.one;
             }
-        }      
+        }
 
 
         if (movement.isDashing) return;
@@ -135,13 +138,13 @@ public class PlayerController : MonoBehaviour
         //########################################################################################
         weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(PlayerStats.instance.MaxHP);
             StartCoroutine(HurtRoutine());
             StartCoroutine(BlinkPlayer());
 
-            if(isDie)
+            if (isDie)
             {
                 StartCoroutine(movement.Die());
             }
@@ -150,6 +153,19 @@ public class PlayerController : MonoBehaviour
         //########################################################################################
         //########################################################################################
 
+    }
+
+    private void CheckNPC()
+    {
+        seeDir = new Vector3(lastMoveDirX, 0).normalized;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, seeDir, 2, LayerMask.GetMask("NPC"));
+        Debug.DrawRay(transform.position, seeDir * 2, Color.red);
+
+        if(hit.collider != null)
+        {
+            curNPC = hit.collider.gameObject.GetComponent<NPC>();
+        }
     }
 
 
@@ -199,7 +215,7 @@ public class PlayerController : MonoBehaviour
             if (movement.curPassingPlatform != null)
             {
 
-                StartCoroutine(movement.DownJumpTo(0.3f,4));
+                StartCoroutine(movement.DownJumpTo(0.3f, 4));
             }
         }
     }
@@ -222,12 +238,12 @@ public class PlayerController : MonoBehaviour
     private void DontMovePlayer(bool value)
     {
         // 멈춤과 동시에 공중에 있는 경우
-        if(value && !movement.isGrounded)
+        if (value && !movement.isGrounded)
         {
             movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
         }
         // 멈춤과 동시에 땅에 있는 경우
-        else if(value && movement.isGrounded)
+        else if (value && movement.isGrounded)
         {
             movement.rigidbody.velocity = Vector2.zero;
         }
@@ -249,23 +265,21 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float mon_Att)
     {
-        if(!isDie)
-        {
-            bool die = playerStats.DecreaseHP(mon_Att);
+        bool die = playerStats.DecreaseHP(mon_Att);
 
-            if (die)
+        if (die)
+        {
+            isDie = true;
+            StopCoroutine(movement.Die());
+            StartCoroutine(movement.Die());
+        }
+        else
+        {
+            if (!isHurt)
             {
-                isDie = true;
-                StartCoroutine(movement.Die());
-            }
-            else
-            {
-                if (!isHurt)
-                {
-                    isHurt = true;
-                    StartCoroutine(BlinkPlayer());
-                    StartCoroutine(HurtRoutine());
-                }
+                isHurt = true;
+                StartCoroutine(BlinkPlayer());
+                StartCoroutine(HurtRoutine());
             }
         }
     }
@@ -290,11 +304,7 @@ public class PlayerController : MonoBehaviour
     //======================================================================================
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Monster" && !isHurt)
-        {
-            TakeDamage(20f);
-        }
-        else if (collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
+        if (collision.gameObject.tag == "ItemFairy" && playerStats.HP < playerStats.MaxHP)
         {
             collision.GetComponent<ItemBase>().Use(this.gameObject);
         }
@@ -330,11 +340,11 @@ public class PlayerController : MonoBehaviour
             ani.SetBool("IsDie", true);
 
 
-            if(!movement.isGrounded)
+            if (!movement.isGrounded)
             {
-                movement.rigidbody.velocity = new Vector2(0,movement.rigidbody.velocity.y);
+                movement.rigidbody.velocity = new Vector2(0, movement.rigidbody.velocity.y);
             }
-            else if(movement.isGrounded)
+            else if (movement.isGrounded)
             {
                 movement.rigidbody.velocity = Vector2.zero;
             }

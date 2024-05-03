@@ -5,29 +5,37 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [Header("NPC의 DATA")]
-    public string name;
+    public string   name;
     public string[] sentences;
 
-    [Header("F키 관련 변수")]
     [SerializeField]
-    private KeyCode fKey = KeyCode.F;
-    [SerializeField]
-    private GameObject keyObj; // F키 오브젝트
-    [SerializeField]
-    private bool onKey;
-    [SerializeField]
-    public bool inputKey;
+    private GameObject  keyObj;             // F키 오브젝트
+    private KeyCode     fKey = KeyCode.F;
+    private bool        onKey;              // 키가 화면상에 보이는지 확인하는 변수 
+    public bool         inputKey;           // 키를 눌렀는지 확인하기 위한 변수
 
     private void Update()
     {
-        if (Input.GetKeyDown(fKey) && onKey)
+        if (Input.GetKeyDown(fKey) && onKey && !inputKey)
         {
+            DialogueManager dialogue = DialogueManager.instance;
+            
             inputKey = true;
             onKey = false;
 
             PlayerController.instance.dontMovePlayer = true;
 
-            DialogueManager.instance.OnDialogue(sentences, name, this.gameObject);
+            if (dialogue != null)
+            {
+                dialogue.gameObject.SetActive(true);
+                dialogue.OnDialogue(sentences, name);
+            }
+            else
+            {
+                dialogue = GameObject.Find("MainCanvas").transform.GetChild(5).GetComponent<DialogueManager>();
+                dialogue.gameObject.SetActive(true);
+                dialogue.OnDialogue(sentences, name);
+            }
         }
 
         keyObj.SetActive(onKey);
@@ -44,6 +52,7 @@ public class NPC : MonoBehaviour
         if (collision.gameObject.name == "Player" && !inputKey)
         {
             onKey = false;
+            inputKey = false;
         }
     }
 

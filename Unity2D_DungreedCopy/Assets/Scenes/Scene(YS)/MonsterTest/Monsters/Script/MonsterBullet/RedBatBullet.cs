@@ -62,7 +62,7 @@ public class RedBatBullet : MonoBehaviour
             // 물체에 부딪히지 않은 상태 
             else if (shoot == false)
             {
-                rigid.velocity = bulletPos.transform.right * 5;
+                rigid.velocity = bulletPos.transform.right * inputSpeed;
                 shoot = true;
             }
         }
@@ -70,7 +70,7 @@ public class RedBatBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !PlayerController.instance.isDie)
         {
             PlayerController.instance.TakeDamage(10);
         }

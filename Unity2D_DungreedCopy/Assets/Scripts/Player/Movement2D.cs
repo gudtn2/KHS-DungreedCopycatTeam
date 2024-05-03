@@ -12,11 +12,9 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private float jumpForce = 8.0f;
     [SerializeField]
-    private float downJumpForce;
+    private float lowGravity;           // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
     [SerializeField]
-    private float lowGravity = 1.0f;      // 점프키를 오래 누르고 있을때 적용되는 낮은 중력
-    [SerializeField]
-    private float highGravity = 1.5f;     // 일반적으로 적용되는 점프 
+    private float highGravity;          // 일반적으로 적용되는 점프 
     public bool isJump = false;         // Jump상태 채크
     public bool isdownJump = false;     // Jump상태 채크
     public bool isWalk = false;         // Walk상태 채크
@@ -368,6 +366,8 @@ public class Movement2D : MonoBehaviour
 
     private IEnumerator ActiveDieEffect()
     {
+        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
+        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
         GameObject dieEffect = dieEffectPoolManager.ActivePoolItem();
         dieEffect.transform.position = transform.position;
         dieEffect.transform.rotation = transform.rotation;
@@ -377,8 +377,6 @@ public class Movement2D : MonoBehaviour
         dieEffect2.transform.position = transform.position + new Vector3(0, 1.6f);
         dieEffect2.transform.rotation = transform.rotation;
         dieEffect2.GetComponent<EffectPool>().Setup(dieEffect2PoolManager);
-        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 0);
-        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 0);
     }
 
 
@@ -390,7 +388,7 @@ public class Movement2D : MonoBehaviour
 
         // 플레이어가 사망한지 1초 뒤
         yield return new WaitForSeconds(1);
-
+        
         PlayerDungeonData.instance.totalTime = PlayerDungeonData.instance.deathTime - PlayerDungeonData.instance.enterTime;
 
         // GameOverUI 활성화

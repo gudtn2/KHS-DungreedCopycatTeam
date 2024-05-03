@@ -51,6 +51,7 @@ public class MonsterG2 : Test_Monster
         monData.capsuleCollider2D.isTrigger = true;
 
         monData.maxHP = 50;
+        monData.ATK   = 10;
         monData.moveSpeed = 3;
         monData.isDie = false;
         monData.isGround = false;
@@ -326,7 +327,9 @@ public class MonsterG2 : Test_Monster
         if(isDashing && collision.gameObject.tag == "Player")
         {
             collideToPlayer = true;
-            PlayerController.instance.TakeDamage(15);
+            
+            if(!PlayerController.instance.isDie)
+                PlayerController.instance.TakeDamage(15);
         }
     }
     private void OnTriggerStay2D(Collider2D collision)

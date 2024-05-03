@@ -208,7 +208,7 @@ public class MonsterC : Test_Monster
         else if(collision.gameObject.tag == "Player" && attacking)
         {
             if (!PlayerController.instance.isDie)
-                PlayerController.instance.TakeDamage(5);
+                PlayerController.instance.TakeDamage(monData.ATK);
         }
     }
 

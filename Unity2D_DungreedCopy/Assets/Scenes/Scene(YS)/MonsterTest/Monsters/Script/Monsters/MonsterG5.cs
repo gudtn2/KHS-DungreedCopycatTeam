@@ -50,6 +50,7 @@ public class MonsterG5 : Test_Monster
         monData.capsuleCollider2D.isTrigger = true;
 
         monData.maxHP = 50;
+        monData.ATK   = 5;
         monData.moveSpeed = 4.5f;
         monData.jumpForce = 4;
         monData.isDie = false;
@@ -302,7 +303,8 @@ public class MonsterG5 : Test_Monster
 
         if (isAttack && collision.gameObject.tag == "Player")
         {
-            PlayerController.instance.TakeDamage(5);
+            if (!PlayerController.instance.isDie)
+                PlayerController.instance.TakeDamage(monData.ATK);
         }
     }
 

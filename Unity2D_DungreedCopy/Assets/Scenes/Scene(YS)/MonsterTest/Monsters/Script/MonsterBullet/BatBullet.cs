@@ -34,18 +34,18 @@ public class BatBullet : MonoBehaviour
 
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
+            if (this.gameObject.name == "BansheeBullet(Clone)")
             {
-
-                if(this.gameObject.name == "BansheeBullet(Clone)")
+                if (hit.collider.CompareTag("Player"))
                 {
-                    if (hit.collider.CompareTag("Player"))
-                        isExplosion = true;
+                    isExplosion = true;
                 }
-                else
+            }
+            else
+            {
+                if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
                 {
-                    if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Platform"))
-                        isExplosion = true;
+                    isExplosion = true;
                 }
             }
         }
@@ -63,32 +63,35 @@ public class BatBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (this.gameObject.name == "BatBullet(Clone)")
+        if (!PlayerController.instance.isDie)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (this.gameObject.name == "BatBullet(Clone)")
             {
-                PlayerController.instance.TakeDamage(10);
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    PlayerController.instance.TakeDamage(10);
+                }
             }
-        }
-        else if (this.gameObject.name == "BansheeBullet(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
+            else if (this.gameObject.name == "BansheeBullet(Clone)")
             {
-                PlayerController.instance.TakeDamage(5);
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    PlayerController.instance.TakeDamage(5);
+                }
             }
-        }
-        else if (this.gameObject.name == "SmallBatBullet(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
+            else if (this.gameObject.name == "SmallBatBullet(Clone)")
             {
-                PlayerController.instance.TakeDamage(3);
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    PlayerController.instance.TakeDamage(3);
+                }
             }
-        }
-        else if (this.gameObject.name == "SkelArrow(Clone)")
-        {
-            if (collision.gameObject.CompareTag("Player"))
+            else if (this.gameObject.name == "SkelArrow(Clone)")
             {
-                PlayerController.instance.TakeDamage(5);
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    PlayerController.instance.TakeDamage(5);
+                }
             }
         }
     }
@@ -103,13 +106,13 @@ public class BatBullet : MonoBehaviour
 
     private IEnumerator DeactivateEffectRoutain()
     {
-        float time      = 0f;
-        float duration  = 3f;
-        while(!isExplosion)
+        float time = 0f;
+        float duration = 3f;
+        while (!isExplosion)
         {
             time += Time.deltaTime;
 
-            if(time >= duration)
+            if (time >= duration)
             {
                 DeactivateEffect();
             }

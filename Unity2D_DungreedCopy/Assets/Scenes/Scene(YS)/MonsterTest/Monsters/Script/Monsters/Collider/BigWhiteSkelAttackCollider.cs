@@ -10,7 +10,8 @@ public class BigWhiteSkelAttackCollider : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.instance.TakeDamage(15);
+            if(!PlayerController.instance.isDie)
+                PlayerController.instance.TakeDamage(10);
         }
     }
 }

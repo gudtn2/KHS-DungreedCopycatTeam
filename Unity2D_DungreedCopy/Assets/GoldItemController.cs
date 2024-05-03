@@ -33,6 +33,19 @@ public class GoldItemController : MonoBehaviour
     {
         AddGravity();
         CheckWall();
+        CheckCeiling();
+    }
+
+    private void CheckCeiling()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, circleCollider2D.radius, LayerMask.GetMask("Platform"));
+        Debug.DrawRay(transform.position, Vector2.up * circleCollider2D.radius, rayColor);
+        if (hit.collider != null)
+        {
+            rayColor = Color.green;
+            rigid.velocity = new Vector2(0, 0);
+            rigid.gravityScale = 2;
+        }
     }
 
     private void CheckWall()
@@ -92,7 +105,7 @@ public class GoldItemController : MonoBehaviour
         else
         {
             rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y);
-            rigid.gravityScale = 1;
+            rigid.gravityScale = 2;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

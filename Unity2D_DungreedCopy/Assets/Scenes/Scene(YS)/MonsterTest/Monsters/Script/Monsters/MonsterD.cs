@@ -24,7 +24,6 @@ public class MonsterD : Test_Monster
     #endregion
 
     private PoolManager pool;
-    public GameObject bulletPos;
 
 
     public override void InitValueSetting()
@@ -120,6 +119,9 @@ public class MonsterD : Test_Monster
 
         monData.animator.SetBool("IsAttack", true);
 
+        // 플레이어의 위치를 가져옴
+        Vector3 playerDirection = PlayerController.instance.transform.position - transform.position;
+
         for (int index = 0; index < roundNum; index++)
         {
             yield return new WaitForSeconds(0.05f);
@@ -131,7 +133,12 @@ public class MonsterD : Test_Monster
             Vector3 dirVec = new Vector3(Mathf.Cos(Mathf.PI * 2 * index / roundNum) * 1.8f, Mathf.Sin(Mathf.PI * 2 * index / roundNum) * 1.8f);
             bullet.transform.position = transform.position + dirVec;
             //rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse); 
-            bullet.GetComponent<RedBatBullet>().Setup(bulletPool, bulletPos, this.gameObject);
+
+            // 플레이어 방향으로 총알 회전 설정
+            float angle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg/* 180 / PI */;
+            bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+            bullet.GetComponent<RedBatBullet>().Setup(bulletPool, bullet, this.gameObject);
 
             Debug.Log(dirVec);
             if (index >= roundNum - 1)

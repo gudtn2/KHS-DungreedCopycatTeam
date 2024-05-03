@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class VillageStartPoint : MonoBehaviour
 {
-    public string startPoint;
-    public GameObject targetObj;
+    [SerializeField]
+    private string startPoint;     // 시작 지점
+    public GameObject targetObj;      // bound오브젝트
 
     private void OnEnable()
     {
@@ -14,37 +15,32 @@ public class VillageStartPoint : MonoBehaviour
         FadeEffectController fade = FadeEffectController.instance;
         MainCameraController cam = MainCameraController.instance;
 
-        if (startPoint == player.curSceneName)
-        {
+        //PlayerStats.instance.ResetAllStat();
+
+        if (data != null)
             data.ResetDungeonData();
+        else return;
 
-            player.transform.position = transform.position;
+        player.transform.position = transform.position;
 
-            player.isDie = false;
-            player.ani.SetBool("IsDie", false);
+        player.isDie = false;
+        player.ani.SetBool("IsDie", false);
 
-            if (player.spriteRenderer.color == Color.white) return;
-            else
-            {
-                player.spriteRenderer.color = new Color(1, 1, 1, 1);
-                player.weaponRenderer.color = new Color(1, 1, 1, 1);
-            }
+        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
+        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
 
-            PlayerStats.instance.ResetAllStat();
+        FadeEffectController.instance.OnFade(FadeState.FadeIn);
 
-            fade.OnFade(FadeState.FadeIn);
+        if (targetObj != null)
+        {
+            BoxCollider2D targetBound = targetObj.GetComponent<BoxCollider2D>();
 
-            if (targetObj != null)
-            {
-                BoxCollider2D targetBound = targetObj.GetComponent<BoxCollider2D>();
-
-                // 바운드 재설정
-                cam.SetBound(targetBound);
-            }
-            else
-            {
-                Debug.LogWarning("Target object with the specified name not found.");
-            }
+            // 바운드 재설정
+            cam.SetBound(targetBound);
+        }
+        else
+        {
+            Debug.LogWarning("Target object with the specified name not found.");
         }
     }
 }
