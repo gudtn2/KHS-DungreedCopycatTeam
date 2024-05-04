@@ -107,7 +107,19 @@ public class UIManager : MonoBehaviour
     public void UpdateTextNoGold(bool onText)
     {
         textNoGold.SetActive(onText);
+
+        if(onText)
+        {
+            StartCoroutine(RoutainTextnoGold());
+        }
     }
+
+    private IEnumerator RoutainTextnoGold()
+    {
+        yield return new WaitForSeconds(1.5f);
+        textNoGold.SetActive(false); ;
+    }
+
     public void ChangeTextNoGold( string newText)
     {
         textNoGold.GetComponent<TextMeshProUGUI>().text = newText.ToString();

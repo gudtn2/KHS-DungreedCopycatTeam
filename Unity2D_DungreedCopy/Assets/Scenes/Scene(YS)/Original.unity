@@ -55696,8 +55696,11 @@ MonoBehaviour:
   - "\uC9C0\uD558 \uAC10\uC625\uC744 \uD0D0\uD5D8\uD558\uB290\uB77C \uD5C8\uAE30\uC9C0\uC2DC\uC8E0?
     500\uACE8\uB4DC\uB9CC \uC8FC\uC2DC\uBA74 \uB9DB\uC788\uB294 \uC74C\uC2DD\uC744
     \uCC28\uB824\uB4DC\uB9B4\uAC8C\uC694!!"
+  visitedSentences:
+  - "\uC8C4\uC1A1\uD574\uC694... \uC7AC\uB8CC\uAC00 \uB2E4 \uB5A8\uC5B4\uC84C\uB124\uC694\u3160\u3160"
   keyObj: {fileID: 435601109}
   inputKey: 0
+  visited: 0
 --- !u!114 &1180218447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59722,14 +59725,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b340845e025a94bb5d73157c5d6eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "\uBC29\uB791\uC790\uCE74\uBE14\uB85C\uBE44\uB098"
+  name: "\uBC29\uB791\uC790 \uCE74\uBE14\uB85C\uBE44\uB098"
   sentences:
   - "\uC5B4.... \uADF8\uB300\uB294 \uB204\uAD6C\uC778\uAC00?..."
   - "\uD574\uACE8\uBB34\uB9AC\uB4E4\uC5D0\uAC8C \uB04C\uB824\uC628 \uB4A4\uB85C \uAE30\uC5B5\uC774
     \uC5C6\uAD70... \uC544\uBB34\uCABC\uB85D \uAD6C\uD574\uC918\uC11C \uACE0\uB9D9\uB124!!
     \uB9C8\uC744\uC5D0\uC11C \uBD05\uC138!! "
+  visitedSentences: []
   keyObj: {fileID: 539249337}
   inputKey: 0
+  visited: 0
 --- !u!114 &1518967450
 MonoBehaviour:
   m_ObjectHideFlags: 0

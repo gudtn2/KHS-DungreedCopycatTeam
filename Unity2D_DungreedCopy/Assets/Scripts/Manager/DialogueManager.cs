@@ -39,13 +39,23 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private Animator invenAnimator;
     public bool onShop;
+    
+    [SerializeField]
+    private GameObject  effect;
+    private PoolManager effectPool;
+
     private NPC npc;
+    private SpriteRenderer npcSpriteRenderer;
 
     private void Awake()
     {
         instance = this;
+        effectPool = new PoolManager(effect);
+    }
 
-        npc = FindObjectOfType<NPC>();
+    private void OnApplicationQuit()
+    {
+        effectPool.DestroyObjcts();
     }
 
     private void OnEnable()
@@ -55,12 +65,14 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     }
 
 
-    public void OnDialogue(string[] lines, string name)
+    public void OnDialogue(string[] lines, string name,NPC newNPC)
     {
         openDialogue = true;
-        //sentences.Clear();
+        sentences.Clear();
         textName.text = name;
         curNPCName = name;
+        npc                 = newNPC;
+        npcSpriteRenderer   = newNPC.gameObject.GetComponent<SpriteRenderer>(); 
 
         foreach (string line in lines)
         {
@@ -168,13 +180,14 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
         // 숨기는 애니메이션 재생
         ani.Play("Hide");
-        npc.inputKey = false;
         // 버튼 사라지는 애니메이션 재생
         for (int i = 0; i < buttonsAnimators.Length; ++i)
         {
             buttonsAnimators[i].Play("HideBottons");
         }
+        npc.inputKey = false;
         openDialogue = false;
+        PlayerController.instance.dontMovePlayer = false;
 
         if (curNPCName == "크록")
         {
@@ -191,7 +204,53 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
             abillityAnimator.gameObject.SetActive(true);
             abillityAnimator.Play("AbilityShow");
         }
-        StartCoroutine(DeactivateThis());
+        else if(curNPCName == "방랑자 카블로비나")
+        {
+            // 점점 사라지게
+            StartCoroutine(UIEffectManager.instance.UIFade(npcSpriteRenderer,1,0));
+            
+            // 마을에 나타나게 활성화
+            NPCManager.instance.meetKablovinaInDungeon = true;
+        }
+        else if (curNPCName == "호레리카")
+        {
+            if (!npc.visited)
+            {
+                PlayerStats info = PlayerStats.instance;
+
+                // 골드가 300 이상이고 현재 HP가 maxHP의 반이하일때
+                if (info.HP <= info.MaxHP * 0.5f && info.GOLD >= 300)
+                {
+                    // 이팩트 생성
+                    GameObject effect = effectPool.ActivePoolItem();
+                    effect.transform.position = PlayerController.instance.transform.position;
+                    effect.transform.rotation = Quaternion.identity;
+                    effect.GetComponent<EffectPool>().Setup(effectPool);
+
+                    // 골드 소모
+                    info.GOLD -= 300;
+
+                    // 체력 회복
+                    info.HP += 50;
+
+                    // 방문 여부 활성화
+                    npc.visited = true;
+                }
+                else if (info.HP > info.MaxHP * 0.5f)
+                {
+                    string line = "HP가 충분합니다.";
+                    UIManager.instance.UpdateTextNoGold(true);
+                    UIManager.instance.ChangeTextNoGold(line);
+                }
+                else if (info.GOLD < 300)
+                {
+                    string line = "골드가 부족합니다.";
+                    UIManager.instance.UpdateTextNoGold(true);
+                    UIManager.instance.ChangeTextNoGold(line);
+                }
+            }
+            else return;
+        }
     }
     public void OnExitButton()
     {
@@ -203,12 +262,5 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         openDialogue = false;
         npc.inputKey = false;
         PlayerController.instance.dontMovePlayer = false;
-        StartCoroutine(DeactivateThis());
-    }
-
-    public IEnumerator DeactivateThis()
-    {
-        yield return new WaitForSeconds(0.5f);
-        this.gameObject.SetActive(false);
     }
 }

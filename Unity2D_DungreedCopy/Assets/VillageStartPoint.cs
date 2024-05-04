@@ -15,7 +15,7 @@ public class VillageStartPoint : MonoBehaviour
         FadeEffectController fade = FadeEffectController.instance;
         MainCameraController cam = MainCameraController.instance;
 
-        //PlayerStats.instance.ResetAllStat();
+        PlayerStats.instance.ResetAllStat();
 
         if (data != null)
             data.ResetDungeonData();

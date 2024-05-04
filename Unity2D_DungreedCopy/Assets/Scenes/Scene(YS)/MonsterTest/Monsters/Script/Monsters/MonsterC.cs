@@ -34,6 +34,7 @@ public class MonsterC : Test_Monster
         monData.capsuleCollider2D.isTrigger = true;
 
         monData.maxHP = 20;
+        monData.ATK = 5;
         monData.moveSpeed = 2;
         monData.isDie = false;
         monData.isGround = false;

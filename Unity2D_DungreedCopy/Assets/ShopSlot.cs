@@ -69,15 +69,10 @@ public class ShopSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, 
             else
             {
                 Debug.Log("구매 불가");
-                StartCoroutine(DeactivateTextNoGold());
+                string line = "골드가 부족합니다.";
+                UIManager.instance.UpdateTextNoGold(true);
+                UIManager.instance.ChangeTextNoGold(line);
             }
         }
-    }
-
-    private IEnumerator DeactivateTextNoGold()
-    {
-        UIManager.instance.UpdateTextNoGold(true);
-        yield return new WaitForSeconds(1.5f);
-        UIManager.instance.UpdateTextNoGold(false);
     }
 }

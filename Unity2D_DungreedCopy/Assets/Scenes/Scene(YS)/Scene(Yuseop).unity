@@ -8987,6 +8987,7 @@ MonoBehaviour:
   dontMovePlayer: 0
   eatFood: 0
   canAttack: 1
+  curNPC: {fileID: 0}
   lastMoveDirX: 0
   mousePos: {x: 0, y: 0, z: 0}
   isHurt: 0
@@ -19552,8 +19553,7 @@ MonoBehaviour:
   shopAnimator: {fileID: 1810020600}
   invenAnimator: {fileID: 10862051610646976}
   onShop: 0
-  foodEffect: {fileID: 2378783894916329658, guid: 18e0ca29488ba2a4c98d99856b8a89ee, type: 3}
-  food: {fileID: 5604022816604869917, guid: 3c810a99db587db43a65b69a31c0a329, type: 3}
+  effect: {fileID: 2378783894916329658, guid: 18e0ca29488ba2a4c98d99856b8a89ee, type: 3}
 --- !u!1 &1849978380
 GameObject:
   m_ObjectHideFlags: 0
