@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
             playerStats = GetComponent<PlayerStats>();
             capsulCollider2D = GetComponent<CapsuleCollider2D>();
+            weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
@@ -136,7 +137,6 @@ public class PlayerController : MonoBehaviour
         //########################################################################################
         // ¡å ½ÇÇè¿ë
         //########################################################################################
-        weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
         if (Input.GetKeyDown(KeyCode.K))
         {

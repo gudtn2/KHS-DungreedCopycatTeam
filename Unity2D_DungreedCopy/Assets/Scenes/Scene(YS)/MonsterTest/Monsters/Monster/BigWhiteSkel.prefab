@@ -634,6 +634,7 @@ MonoBehaviour:
     maxHP: 0
     moveSpeed: 0
     jumpForce: 0
+    ATK: 0
     isDie: 0
     isGround: 0
     canAttack: 0

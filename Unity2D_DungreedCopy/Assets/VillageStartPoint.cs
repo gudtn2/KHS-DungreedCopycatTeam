@@ -14,8 +14,10 @@ public class VillageStartPoint : MonoBehaviour
         PlayerDungeonData data = PlayerDungeonData.instance;
         FadeEffectController fade = FadeEffectController.instance;
         MainCameraController cam = MainCameraController.instance;
-
-        PlayerStats.instance.ResetAllStat();
+        PlayerStats stats = PlayerStats.instance;
+        
+        if(stats != null)
+            stats.ResetAllStat();
 
         if (data != null)
             data.ResetDungeonData();
@@ -26,8 +28,13 @@ public class VillageStartPoint : MonoBehaviour
         player.isDie = false;
         player.ani.SetBool("IsDie", false);
 
-        PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
-        PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
+        //PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
+        //PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
+        if(player!= null)
+        {
+            player.spriteRenderer.color = new Color(1, 1, 1, 1);
+            player.weaponRenderer.color = new Color(1, 1, 1, 1);
+        }
 
         FadeEffectController.instance.OnFade(FadeState.FadeIn);
 

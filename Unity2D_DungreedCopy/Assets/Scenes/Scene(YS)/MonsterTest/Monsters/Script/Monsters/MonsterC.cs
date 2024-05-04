@@ -120,7 +120,7 @@ public class MonsterC : Test_Monster
         float time = 0f;            // 경과 시간
 
         Vector3 target = PlayerController.instance.transform.position;
-        Vector3 dir = target - transform.position;
+        Vector3 dir = (target - transform.position).normalized;
 
         monData.animator.SetBool("IsAttack", true);
 
@@ -129,12 +129,22 @@ public class MonsterC : Test_Monster
         while (true)
         {
             // 코루틴 들어올때 받아온 플레이어의 방향으로 원래속도의 1.5배의 속도로 쫒아간다.
-            transform.position += dir * monData.moveSpeed * 1.2f * Time.deltaTime;
+            transform.position += dir *( monData.moveSpeed * 3) * Time.deltaTime;
 
             // 경과 시간 업데이트
             time += Time.deltaTime;
 
-            
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1, LayerMask.GetMask("Platform"));
+            Debug.DrawRay(transform.position, dir * 1, Color.red);
+
+            if(hit.collider != null && hit.collider.CompareTag("Platform"))
+            {
+                canAttack = false;
+                attacking = false;
+                monData.animator.SetBool("IsAttack", false);
+                CalculateDisToTargetAndselectState();
+            }
+
             if(time > attackDuration)
             {
                 canAttack = false;
@@ -204,7 +214,6 @@ public class MonsterC : Test_Monster
 
             TakeAttack(player.DashATK, Color.blue);
         }
-
         // LittleGhost가 공격중인 상태에서 Player와 부딪히면?
         else if(collision.gameObject.tag == "Player" && attacking)
         {

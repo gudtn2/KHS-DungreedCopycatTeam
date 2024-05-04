@@ -112,7 +112,7 @@ public class MonsterG1 : Test_Monster
 
         if (!monData.isGround)
         {
-            vel.y += gravity * Time.deltaTime;
+            vel.y += (gravity * 2) * Time.deltaTime;
         }
         else if (monData.isGround && !Jumping)
         {
@@ -148,16 +148,16 @@ public class MonsterG1 : Test_Monster
         monData.animator.SetBool("IsMove", true);
         while (true)
         {
-
             // 거리에 따른 상태 변화
             CalculateDisToTargetAndselectState();
 
             PlayerController player = PlayerController.instance;
             Vector3 target = player.transform.position;
 
-            monData.animator.SetBool("IsMove", true);
             // 타겟을 바라보도록
             UpdateSight();
+
+            // 벽이 있는지
             CheckWall();
 
             //transform.Translate(seeDir * monData.moveSpeed * Time.deltaTime);
@@ -204,7 +204,7 @@ public class MonsterG1 : Test_Monster
         // 디버그를 위한 Ray 그리기
         Debug.DrawRay(transform.position, Vector2.up * 1f, rayColor);
 
-        if (hit.collider != null)
+        if (hit.collider != null && hit.collider.CompareTag("Platform"))
         {
             vel.y = 0;
             rayColor = Color.green;
