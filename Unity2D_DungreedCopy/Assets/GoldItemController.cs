@@ -83,7 +83,7 @@ public class GoldItemController : MonoBehaviour
         // 코인의 아래 방향으로 Ray를 쏨
         // collider로 하면 collider에 닿는 모든 부위를 검사하기 때문에 낙하시
         // 땅에 닿은 경우만 멈추도록 설정하기 위해 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, circleCollider2D.radius, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, circleCollider2D.radius*2, LayerMask.GetMask("Platform"));
         Debug.DrawRay(transform.position, Vector2.down * circleCollider2D.radius, rayColor);
         
         if (hit.collider != null)
@@ -100,7 +100,7 @@ public class GoldItemController : MonoBehaviour
         if (isGround)
         {
             rigid.velocity = Vector2.zero;
-            rigid.gravityScale = 0;
+            rigid.bodyType = RigidbodyType2D.Kinematic;
         }
         else
         {

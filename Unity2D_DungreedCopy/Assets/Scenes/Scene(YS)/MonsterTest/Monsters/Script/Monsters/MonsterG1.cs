@@ -93,7 +93,7 @@ public class MonsterG1 : Test_Monster
         // ★
         CheckCeiling();
 
-        float rayDis = monData.capsuleCollider2D.size.y * 0.5f;
+        float rayDis = monData.capsuleCollider2D.size.y * 0.6f;
 
         // 바닥을 향해 레이 발사
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayDis, LayerMask.GetMask("Platform"));
