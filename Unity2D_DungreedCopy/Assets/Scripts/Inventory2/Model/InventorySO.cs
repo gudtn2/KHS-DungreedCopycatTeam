@@ -14,6 +14,8 @@ public class InventorySO : ScriptableObject
 
     [SerializeField]
     private InventoryItem FirstItem;
+    [SerializeField]
+    private InventoryItem SecondItem;
 
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
@@ -25,6 +27,7 @@ public class InventorySO : ScriptableObject
             inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
         inventoryItems.Insert(15, FirstItem);
+        inventoryItems.Insert(16, SecondItem);
     }
 
     public int AddItem(ItemSO item, int quantity, List<ItemParameter> itemState = null)

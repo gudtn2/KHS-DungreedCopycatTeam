@@ -61,6 +61,9 @@ MonoBehaviour:
   - quantity: 1
     item: {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
     itemState: []
+  - quantity: 1
+    item: {fileID: 11400000, guid: 84a7d7adfa5c8784e9cdd576a178ddb4, type: 2}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
     itemState: []
@@ -68,4 +71,8 @@ MonoBehaviour:
   FirstItem:
     quantity: 1
     item: {fileID: 11400000, guid: 344154adb7c37c5428226265855eacaf, type: 2}
+    itemState: []
+  SecondItem:
+    quantity: 1
+    item: {fileID: 11400000, guid: 84a7d7adfa5c8784e9cdd576a178ddb4, type: 2}
     itemState: []

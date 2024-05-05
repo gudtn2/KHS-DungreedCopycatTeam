@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VillageStartPoint : MonoBehaviour
 {
     [SerializeField]
-    private string startPoint;     // 시작 지점
-    public GameObject targetObj;      // bound오브젝트
+    private string startPoint;          // 시작 지점
+    [SerializeField]
+    private InventorySO inventory;
+    public GameObject targetObj;        // bound오브젝트
 
     private void OnEnable()
     {
@@ -15,9 +18,11 @@ public class VillageStartPoint : MonoBehaviour
         FadeEffectController fade = FadeEffectController.instance;
         MainCameraController cam = MainCameraController.instance;
         PlayerStats stats = PlayerStats.instance;
-        
+
         if(stats != null)
             stats.ResetAllStat();
+
+        inventory.Initialize();
 
         if (data != null)
             data.ResetDungeonData();

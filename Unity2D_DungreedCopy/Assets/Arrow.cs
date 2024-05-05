@@ -40,6 +40,7 @@ public class Arrow : MonoBehaviour
             else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform") && collision.gameObject.tag == "Platform")
             {
                 poolManager.DeactivePoolItem(this.gameObject);
+                HitEffect();
             }
         }
         else if(ispierce)

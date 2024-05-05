@@ -34,7 +34,7 @@ public class MonsterG4 : Test_Monster
     private float attackDis;
 
     private PoolManager pool;
-    public Animator swordAni;
+    private Animator swordAni;
     [SerializeField]
     public Transform swordPos;
 
@@ -110,13 +110,14 @@ public class MonsterG4 : Test_Monster
 
         if (!monData.isGround)
         {
-            vel.y += gravity * Time.deltaTime;
+            vel.y += (gravity * 2) * Time.deltaTime;
         }
         else if (monData.isGround && !Jumping)
         {
             vel.y = 0;
         }
-        else if (monData.isGround)
+        
+        if (monData.isGround)
         {
             Jumping = false;
         }
@@ -127,14 +128,14 @@ public class MonsterG4 : Test_Monster
     private void CheckCeiling()
     {
         // Raycast 발사
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, monData.capsuleCollider2D.size.y *0.5f, LayerMask.GetMask("Platform"));
         Color rayColor = Color.red;
         // 디버그를 위한 Ray 그리기
-        Debug.DrawRay(transform.position, Vector2.up * 1f, rayColor);
+        Debug.DrawRay(transform.position, Vector2.up * (monData.capsuleCollider2D.size.y * 0.5f), rayColor);
 
         if (hit.collider != null)
         {
-            vel.y = 0;
+            vel.y -= gravity *2;
             rayColor = Color.green;
         }
         else
@@ -253,10 +254,12 @@ public class MonsterG4 : Test_Monster
 
     private IEnumerator Attack()
     {
+        monData.animator.SetBool("IsMove", false);
         swordAni.SetBool("IsAttack", true);
 
         yield return new WaitForSeconds(0.5f);
         swordAni.SetBool("IsAttack", false);
+        yield return new WaitForSeconds(1f);
         CalculateDisToTargetAndselectState();
     }
     private void CalculateDisToTargetAndselectState()
