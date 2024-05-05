@@ -11,10 +11,7 @@ public class VillageStartPoint : MonoBehaviour
     private InventorySO     inventory;
     public GameObject       targetObj;        // bound오브젝트
     [SerializeField]
-    private GameObject[]    slots;                  // 슬롯들
-    private GameObject[]    slotsChild;             // 슬롯의 자식                             
-    private Image[]         slotsGrandChildImage;   // 아이템 이미지                                       
-
+    private UIInventoryPage inventoryUI;
     private void OnEnable()
     {
         PlayerController player = PlayerController.instance;
@@ -26,6 +23,7 @@ public class VillageStartPoint : MonoBehaviour
         if(stats != null)
             stats.ResetAllStat();
 
+        inventoryUI.ResetAllItems();
         inventory.Initialize();
 
         if (data != null)

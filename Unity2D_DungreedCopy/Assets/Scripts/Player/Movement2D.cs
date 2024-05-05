@@ -99,6 +99,7 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private GameObject dieUI;
 
+
     public GameObject curPassingPlatform;
 
     public bool isLongJump { set; get; } = false;
