@@ -23,24 +23,33 @@ public class VillageStartPoint : MonoBehaviour
         if(stats != null)
             stats.ResetAllStat();
 
-        inventoryUI.ResetAllItems();
+        if(inventoryUI == null)
+        {
+            GameObject canvas = GameObject.Find("MainCanvas");
+            inventoryUI = canvas.transform.GetChild(10).gameObject.GetComponent<UIInventoryPage>();
+            inventoryUI.ResetAllItems();
+        }
+        else inventoryUI.ResetAllItems();
+
         inventory.Initialize();
 
         if (data != null)
             data.ResetDungeonData();
         else return;
 
-        player.transform.position = transform.position;
-
-        player.isDie = false;
-        player.ani.SetBool("IsDie", false);
 
         //PlayerController.instance.spriteRenderer.color = new Color(1, 1, 1, 1);
         //PlayerController.instance.weaponRenderer.color = new Color(1, 1, 1, 1);
         if(player!= null)
         {
+            player.transform.position = transform.position;
+
+            player.dontMovePlayer = false;
+            player.isDie = false;
+            player.ani.SetBool("IsDie", false);
             player.spriteRenderer.color = new Color(1, 1, 1, 1);
             player.weaponRenderer.color = new Color(1, 1, 1, 1);
+
         }
 
         FadeEffectController.instance.OnFade(FadeState.FadeIn);

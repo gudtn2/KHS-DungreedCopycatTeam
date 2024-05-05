@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
             capsulCollider2D = GetComponent<CapsuleCollider2D>();
             weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
+
             dungeonPortalController = FindObjectOfType<DungeonPortalController>();
 
             transform.position = startPos.position;
@@ -149,6 +150,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(movement.Die());
             }
         }
+
+        weaponRenderer = weaponDatabase.GetComponentInChildren<SpriteRenderer>();
 
         //########################################################################################
         //########################################################################################
