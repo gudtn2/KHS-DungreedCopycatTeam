@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class VillageStartPoint : MonoBehaviour
 {
     [SerializeField]
-    private string startPoint;          // 시작 지점
+    private string          startPoint;       // 시작 지점
     [SerializeField]
-    private InventorySO inventory;
-    public GameObject targetObj;        // bound오브젝트
+    private InventorySO     inventory;
+    public GameObject       targetObj;        // bound오브젝트
+    [SerializeField]
+    private GameObject[]    slots;                  // 슬롯들
+    private GameObject[]    slotsChild;             // 슬롯의 자식                             
+    private Image[]         slotsGrandChildImage;   // 아이템 이미지                                       
 
     private void OnEnable()
     {
