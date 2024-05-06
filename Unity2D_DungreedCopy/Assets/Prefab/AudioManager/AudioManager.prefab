@@ -326,5 +326,15 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
   - name: Arrow
     clip: {fileID: 8300000, guid: d9419ba0bfac1e84a95418ac5851caf6, type: 3}
+  - name: Portal
+    clip: {fileID: 8300000, guid: b7f8695cf65a4f24eb37544298821146, type: 3}
+  - name: Coin
+    clip: {fileID: 8300000, guid: c5cb2ac29e89dbf43a9b644caaad45e6, type: 3}
+  - name: EnemyDie
+    clip: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
+  - name: BossAtk
+    clip: {fileID: 8300000, guid: 1682be7bc3123409d91a7dcea2cd1f29, type: 3}
+  - name: Hit2
+    clip: {fileID: 8300000, guid: 2b21ef916f6943c439b71a7c74568878, type: 3}
   musicSource: {fileID: 4311246655261699052}
   sfxSource: {fileID: 7054110409587724922}
