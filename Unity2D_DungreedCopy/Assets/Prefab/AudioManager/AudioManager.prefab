@@ -307,6 +307,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9fcd727ac0a07a04ca442df5195c4f3b, type: 3}
   - name: Dungeon
     clip: {fileID: 8300000, guid: f3d27346e504f5a41b13d4be85b41873, type: 3}
+  - name: Boss
+    clip: {fileID: 8300000, guid: 501af9bd2b8d3134e91121a77fc60830, type: 3}
   sfxSounds:
   - name: Swing
     clip: {fileID: 8300000, guid: 88b1cbe3caa3fee4b8b103b5edd7aba9, type: 3}
@@ -336,5 +338,15 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1682be7bc3123409d91a7dcea2cd1f29, type: 3}
   - name: Hit2
     clip: {fileID: 8300000, guid: 2b21ef916f6943c439b71a7c74568878, type: 3}
+  - name: Banshee
+    clip: {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
+  - name: Heal
+    clip: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
+  - name: Buy
+    clip: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
+  - name: Bat
+    clip: {fileID: 8300000, guid: c118d1cdc5f634c28bfb87ef52703522, type: 3}
+  - name: Inventory
+    clip: {fileID: 8300000, guid: 914a4a2a124d040df96bf13308aadc2e, type: 3}
   musicSource: {fileID: 4311246655261699052}
   sfxSource: {fileID: 7054110409587724922}

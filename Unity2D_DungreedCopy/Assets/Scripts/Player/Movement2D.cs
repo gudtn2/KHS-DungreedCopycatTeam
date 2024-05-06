@@ -340,8 +340,10 @@ public class Movement2D : MonoBehaviour
     private IEnumerator ActiveDustEffect()
     {
         isSpawningDust = true;
+
         while (rigidbody.velocity.x != 0 && !isJump)
         {
+            AudioManager.Instance.PlaySFX("Step");
             GameObject dustEffect = dustPoolManager.ActivePoolItem();
             dustEffect.transform.position = transform.position + new Vector3(0, -0.25f, -1f);
             dustEffect.transform.rotation = transform.rotation;
