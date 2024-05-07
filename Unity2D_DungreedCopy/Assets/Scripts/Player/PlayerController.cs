@@ -217,7 +217,6 @@ public class PlayerController : MonoBehaviour
         {
             if (movement.curPassingPlatform != null)
             {
-
                 StartCoroutine(movement.DownJumpTo(0.3f, 4));
             }
         }
@@ -285,6 +284,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(HurtRoutine());
             }
         }
+        AudioManager.Instance.PlaySFX("Hit");
+        MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
     }
     private IEnumerator HurtRoutine()
     {

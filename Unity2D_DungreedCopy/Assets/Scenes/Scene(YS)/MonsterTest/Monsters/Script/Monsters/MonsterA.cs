@@ -111,7 +111,7 @@ public class MonsterA : Test_Monster
         Vector3 downDir = Quaternion.Euler(0, 0, -15) * dir;
             
         monData.animator.SetBool("IsAttack", true);
-
+        AudioManager.Instance.PlaySFX("Bat");
         for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(0.3f);
@@ -131,6 +131,8 @@ public class MonsterA : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+        AudioManager.Instance.PlaySFX("EnemyDie");
+
 
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;

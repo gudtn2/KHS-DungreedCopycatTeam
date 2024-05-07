@@ -62,6 +62,7 @@ public class ShopSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, 
             {
                 Debug.Log("±¸¸Å!");
                 inventory.AddItem(item, 1);
+                AudioManager.Instance.PlaySFX("Buy");
                 PlayerStats.instance.gold -= item.Gold;
                 this.gameObject.SetActive(false);
             }

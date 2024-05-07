@@ -35,12 +35,12 @@ public class TeleportController : MonoBehaviour
 
     private void Update()
     {
-
         if(onKey && Input.GetKeyDown(fKey))
         {
             mapController.MapOn = true;
             inputKey = true;
             onKey = false;
+            PlayerController.instance.dontMovePlayer = true;
 
             mapController.startTeleport = this.gameObject;
         }
@@ -78,6 +78,8 @@ public class TeleportController : MonoBehaviour
 
         // 페이드 아웃 효과 시작
         FadeEffectController.instance.OnFade(FadeState.FadeOut);
+
+        AudioManager.Instance.PlaySFX("ClosePortal");
 
         // ＠
         StartCoroutine(mapController.ChangePosPlayer());

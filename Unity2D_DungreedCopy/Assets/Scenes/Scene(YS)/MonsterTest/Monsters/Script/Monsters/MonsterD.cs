@@ -121,7 +121,7 @@ public class MonsterD : Test_Monster
 
         // 플레이어의 위치를 가져옴
         Vector3 playerDirection = PlayerController.instance.transform.position - transform.position;
-
+        AudioManager.Instance.PlaySFX("Bat");
         for (int index = 0; index < roundNum; index++)
         {
             yield return new WaitForSeconds(0.05f);
@@ -154,6 +154,8 @@ public class MonsterD : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+        AudioManager.Instance.PlaySFX("EnemyDie");
+
 
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;

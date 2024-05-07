@@ -119,6 +119,8 @@ public class GoldItemController : MonoBehaviour
             poolManager.DeactivePoolItem(gameObject);
 
             ActivateGoldText();
+
+            AudioManager.Instance.PlaySFX("Coin");
         }
     }
     private void ActivateGoldText()

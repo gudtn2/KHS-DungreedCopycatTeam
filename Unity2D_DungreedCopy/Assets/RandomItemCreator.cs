@@ -40,7 +40,7 @@ public class RandomItemCreator : MonoBehaviour
 
         if(collision.gameObject.name == "Player")
         {
-            Debug.Log("aaa");
+            AudioManager.Instance.PlaySFX("TakeItem");
             inventory.AddItem(items[randomNum], 1);
             UIManager.instance.OnAcquiredItem(items[randomNum].Name, spriteRenderer.sprite);
             DeactivateEffect();

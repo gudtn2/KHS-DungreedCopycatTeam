@@ -62,6 +62,8 @@ public class BreakableObject : MonoBehaviour
     {
         PoolPieces();
 
+        AudioManager.Instance.PlaySFX("WoodCrash");
+
         PoolCoinMachine();
 
         Destroy(this.gameObject);

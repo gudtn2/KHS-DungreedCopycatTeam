@@ -292,6 +292,8 @@ public class MonsterG4 : Test_Monster
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
 
+        AudioManager.Instance.PlaySFX("EnemyDie");
+
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;
 
