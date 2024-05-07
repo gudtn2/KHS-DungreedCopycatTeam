@@ -248,6 +248,7 @@ public class MonsterG1 : Test_Monster
     public void EnableAttackCollider()
     {
         attackBoxCollider.enabled = true;
+        AudioManager.Instance.PlaySFX("Claw");
     }
     public void DisableAttackCollider()
     {
@@ -292,6 +293,7 @@ public class MonsterG1 : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+        AudioManager.Instance.PlaySFX("EnemyDie");
 
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;

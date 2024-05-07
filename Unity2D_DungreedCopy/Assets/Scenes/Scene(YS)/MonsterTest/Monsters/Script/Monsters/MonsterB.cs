@@ -105,7 +105,11 @@ public class MonsterB : Test_Monster
     {
         int     count = 12;                 // 발사체 생성 개수
         float   intervalAngle = 360/count;  // 발사체간 각도
+        
         monData.animator.SetBool("IsAttack", true);
+
+        AudioManager.Instance.PlaySFX("Banshee");
+
         for (int i = 0; i < count; ++i)
         {
             float angle = intervalAngle * i;
@@ -123,6 +127,8 @@ public class MonsterB : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+        AudioManager.Instance.PlaySFX("EnemyDie");
+
 
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;

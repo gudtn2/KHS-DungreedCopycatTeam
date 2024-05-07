@@ -24,9 +24,10 @@ public class SceneStartPoint : MonoBehaviour
 
     private void Start()
     {
-        
         if (startPoint == player.curSceneName)
         {
+            AudioManager.Instance.PlayMusic("Dungeon");
+
             fade.OnFade(FadeState.FadeIn);
             player.curDungeonName      = dungeonName;
 

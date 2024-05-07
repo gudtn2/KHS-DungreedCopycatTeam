@@ -133,6 +133,7 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         foreach (char letter in line.ToCharArray())
         {
             textDialogue.text += letter;
+            AudioManager.Instance.PlaySFX("Text");
             yield return new WaitForSeconds(typingEffectWaitTime);
         }
     }
@@ -187,7 +188,6 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         }
         npc.inputKey = false;
         openDialogue = false;
-        PlayerController.instance.dontMovePlayer = false;
 
         if (curNPCName == "크록")
         {
@@ -208,12 +208,14 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
         {
             // 점점 사라지게
             StartCoroutine(UIEffectManager.instance.UIFade(npcSpriteRenderer,1,0));
-            
+            PlayerController.instance.dontMovePlayer = false;
             // 마을에 나타나게 활성화
             NPCManager.instance.meetKablovinaInDungeon = true;
         }
         else if (curNPCName == "호레리카")
         {
+            PlayerController.instance.dontMovePlayer = false;
+
             if (!npc.visited)
             {
                 PlayerStats info = PlayerStats.instance;
@@ -232,6 +234,8 @@ public class DialogueManager : MonoBehaviour, IPointerDownHandler
 
                     // 체력 회복
                     info.HP += 50;
+
+                    AudioManager.Instance.PlaySFX("Heal");
 
                     // 방문 여부 활성화
                     npc.visited = true;

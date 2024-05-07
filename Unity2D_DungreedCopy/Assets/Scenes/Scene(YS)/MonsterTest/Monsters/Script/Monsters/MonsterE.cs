@@ -150,6 +150,7 @@ public class MonsterE : Test_Monster
 
     private IEnumerator Attack()
     {
+        AudioManager.Instance.PlaySFX("Bat");
         monData.animator.SetBool("IsAttack", true);
 
         yield return null;
@@ -181,6 +182,7 @@ public class MonsterE : Test_Monster
     {
         ActivateDieEffect(transform);
         GiveCompensation(transform, 5);
+        AudioManager.Instance.PlaySFX("EnemyDie");
 
         DoorDungeon dungeon = transform.parent.gameObject.GetComponent<DoorDungeon>();
         dungeon.enemiesCount--;

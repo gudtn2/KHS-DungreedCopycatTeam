@@ -27,6 +27,7 @@ public class FairyController : ItemBase
 
     public override void Use(GameObject entity)
     {
+        AudioManager.Instance.PlaySFX("Heal");
         entity.GetComponent<PlayerStats>().IncreaseHP(increaseHP);
         ActiveFairyEffect();
         ActiveTextEffect();

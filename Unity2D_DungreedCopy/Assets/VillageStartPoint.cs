@@ -14,6 +14,9 @@ public class VillageStartPoint : MonoBehaviour
     private UIInventoryPage inventoryUI;
     private void OnEnable()
     {
+        AudioManager.Instance.OnMusic();
+        AudioManager.Instance.PlayMusic("Theme");
+
         PlayerController player = PlayerController.instance;
         PlayerDungeonData data = PlayerDungeonData.instance;
         FadeEffectController fade = FadeEffectController.instance;

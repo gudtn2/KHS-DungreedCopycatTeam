@@ -292,6 +292,7 @@ public class Movement2D : MonoBehaviour
     {
         isDashing = true;
         curDashCount--;
+        AudioManager.Instance.PlaySFX("Dash");
 
         float dis = Vector3.Distance(transform.position, moveTarget);
         float step = (dashSpeed / dis) * Time.fixedDeltaTime;
@@ -354,6 +355,7 @@ public class Movement2D : MonoBehaviour
     }
     public void ActiveJumpDustEffect()
     {
+        AudioManager.Instance.PlaySFX("Jump");
         GameObject jumpDustEffect = jumpDustPoolManager.ActivePoolItem();
         jumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
         jumpDustEffect.transform.rotation = transform.rotation;
@@ -361,6 +363,7 @@ public class Movement2D : MonoBehaviour
     }
     public void ActiveDoubleJumpDustEffect()
     {
+        AudioManager.Instance.PlaySFX("Jump");
         GameObject doubleJumpDustEffect = doubleJumpDustPoolManager.ActivePoolItem();
         doubleJumpDustEffect.transform.position = transform.position + new Vector3(0, -0.25f, 0);
         doubleJumpDustEffect.transform.rotation = transform.rotation;
@@ -386,6 +389,9 @@ public class Movement2D : MonoBehaviour
 
     public IEnumerator Die()
     {
+        AudioManager.Instance.PlaySFX("Fail");
+        AudioManager.Instance.OffMusic();
+
         // 플레이어가 죽은 시간 기록
         PlayerDungeonData.instance.deathTime = Time.time;
 
