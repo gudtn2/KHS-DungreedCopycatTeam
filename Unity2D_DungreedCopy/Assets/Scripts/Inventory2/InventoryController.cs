@@ -123,6 +123,7 @@ public class InventoryController : MonoBehaviour
             if(inventoryUI.isActiveAndEnabled == false)
             {
                 inventoryUI.Show();
+                AudioManager.Instance.PlaySFX("Inventory");
                 foreach (var item in inventoryData.GetCurrentInventoryState())
                 {
                     inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
