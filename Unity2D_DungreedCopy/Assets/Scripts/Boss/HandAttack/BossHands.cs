@@ -25,6 +25,7 @@ public class BossHands : MonoBehaviour
     public void ActivateLaser()
     {
         laserPrefab.SetActive(true);
+        AudioManager.Instance.PlaySFX("BossAtk");
     }
     public void DeactivateLaser()
     {

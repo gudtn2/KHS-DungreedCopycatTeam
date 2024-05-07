@@ -55,6 +55,7 @@ public class BossController : MonoBehaviour
 
             if(i == spritesBoss.Length-1)
             {
+                AudioManager.Instance.PlaySFX("Boss");
                 yield return new WaitForSeconds(2);
                 player.playerMeetsBoss = false;
                 isAbleToAttack = true;
