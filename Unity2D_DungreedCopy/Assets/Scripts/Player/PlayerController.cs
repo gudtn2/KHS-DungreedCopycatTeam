@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
     private DungeonPortalController dungeonPortalController;
 
+    private AudioManager audioManager;
+
     [SerializeField]
     private UIManager UIManager;
 
@@ -91,6 +93,8 @@ public class PlayerController : MonoBehaviour
             curSceneName = SceneManager.GetActiveScene().name;
 
             instance = this;
+
+            audioManager = AudioManager.Instance;
         }
         else
         {
@@ -235,6 +239,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(dashKey) && movement.isDashing == false)
         {
             movement.PlayDash();
+            audioManager.PlaySFX("Dash");
         }
     }
 
@@ -281,10 +286,13 @@ public class PlayerController : MonoBehaviour
             if (!isHurt)
             {
                 isHurt = true;
+                audioManager.PlaySFX("Hit2");
                 StartCoroutine(BlinkPlayer());
                 StartCoroutine(HurtRoutine());
             }
         }
+        AudioManager.Instance.PlaySFX("Hit");
+        MainCameraController.instance.OnShakeCamByPos(0.1f, 0.1f);
     }
     private IEnumerator HurtRoutine()
     {
