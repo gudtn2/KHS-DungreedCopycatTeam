@@ -198,6 +198,8 @@ public class BossPattern : MonoBehaviour
             mainCam.OnShakeCamByPos(0.05f, 0.1f);
             Time.timeScale += fasterRate;
 
+            AudioManager.Instance.PlaySFX("EnemyDie");
+
             if (i >= explosionEffectCount)
             {
                 SpawnDiePiece();
