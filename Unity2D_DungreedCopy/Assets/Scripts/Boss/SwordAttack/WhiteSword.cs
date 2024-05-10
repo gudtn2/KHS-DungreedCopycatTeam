@@ -56,7 +56,7 @@ public class WhiteSword : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Player")
+        if(collision.gameObject.name == "Player" && !PlayerController.instance.isDie)
         {
             PlayerController.instance.TakeDamage(swordAtt);
         }

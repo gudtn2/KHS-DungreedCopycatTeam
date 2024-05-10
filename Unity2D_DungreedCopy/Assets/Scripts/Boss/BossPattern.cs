@@ -95,6 +95,11 @@ public class BossPattern : MonoBehaviour
 
     private void OnEnable()
     {
+        StartCoroutine(AutoChangeToIdle());
+    }
+    private IEnumerator AutoChangeToIdle()
+    {
+        yield return new WaitForSeconds(4f);
         ChangeBossState(BossState.Idle);    
     }
     private void OnDisable()
@@ -156,9 +161,7 @@ public class BossPattern : MonoBehaviour
 
     private IEnumerator Idle()
     {
-        yield return new WaitForSeconds(5f);
-        // 실험용 코드
-        //ChangeBossState(BossState.SwordAttack);
+        yield return new WaitForSeconds(1f);
 
         //실제 사용할 코드
         StartCoroutine("AutoChangeBossAttack");
